@@ -313,6 +313,26 @@ PrefabInstance:
       propertyPath: enemyTag
       value: NPCBlue
       objectReference: {fileID: 0}
+    - target: {fileID: 1008367317676867172, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008367317676867172, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: range
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008367317676867172, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: fireRate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983754566053141056, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: m_Name
+      value: Barrel
+      objectReference: {fileID: 0}
     - target: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
         type: 3}
       propertyPath: m_Name
@@ -382,6 +402,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 787986391237924701, guid: f1f91b3f26aea564cb376f4408e8b501,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 787986391237924701, guid: f1f91b3f26aea564cb376f4408e8b501,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5726731593887544428, guid: f1f91b3f26aea564cb376f4408e8b501,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -390,7 +420,7 @@ PrefabInstance:
     - target: {fileID: 5726731593887544428, guid: f1f91b3f26aea564cb376f4408e8b501,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 5.71
       objectReference: {fileID: 0}
     - target: {fileID: 5726731593887544428, guid: f1f91b3f26aea564cb376f4408e8b501,
         type: 3}

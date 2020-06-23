@@ -1,49 +1,45 @@
 ﻿
-using System;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Pass target from turret to bullet
-    // Start is called before the first frame update
-    
-    private Transform target;
+    public Transform bulletSpawn;
     public float speed = 70f;
-
+    public float TTL = 3f; // time to live in sec
+    Transform targetTransform;
+    
     public GameObject impactEffect;
-    public void SetTarget(Transform _target)
-    {
-        target = _target;
-    }
+    Rigidbody m_Rigidbody;
 
+    private void Start()
+    {
+
+        m_Rigidbody = GetComponent<Rigidbody>();
+    }
+    public void SetTargetTransform(Transform target)
+    {
+        targetTransform = target;
+    }
     void HitTarget()
     {
-        //Debug.Log("weve been hit!");
-        GameObject effectInstance = (GameObject) Instantiate(impactEffect, transform.position, transform.rotation);
-        Destroy(effectInstance, 2f);
+        
+        GameObject effectInstance = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
+        Destroy(effectInstance, 0.5f);
         Destroy(gameObject);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (target == null)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        m_Rigidbody.velocity = transform.forward * speed;
 
-        Vector3 dir = target.position - transform.position;
-        
-        float distanceThisFrame = speed * Time.deltaTime;
-
-        if (dir.magnitude <= distanceThisFrame)
-        {
+        if (Vector3.Distance(targetTransform.position, transform.position) <= speed * Time.deltaTime)
             HitTarget();
-            return;
-        }
 
-        transform.Translate(dir.normalized * distanceThisFrame, Space.World); // move the bullet relative to world space
-
+        if (TTL > 0)
+            TTL -= Time.deltaTime;
+        else
+            Destroy(gameObject); 
     }
+    
 }

@@ -15,8 +15,10 @@ public class TurretAI : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject enemy;
     public GameObject turretHead;
-    public Transform target;
-    public Transform firePoint; // use an empty game object as reference for fire point so bullet does not spawn within turret
+    public Transform bulletSpawnTransform; // use an empty game object as reference for fire point so bullet does not spawn within turret
+
+
+    Transform targetTransform;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,9 +39,9 @@ public class TurretAI : MonoBehaviour
 
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
         if (gameObject.transform.parent != null)
-            team = GetComponentInParent<TurretConstructor>().team; // On turret enable, set appropriate team and targeting info
+            team = GetComponentInParent<TurretConstructor>().team; // On turret enable, check if its a child, and if there's a TurretConstructor in the parent.
         else
-            Debug.Log(gameObject.name + " IS AN ORPHAN!");
+            Debug.Log(gameObject.name + " IS AN ORPHAN!"); // if no TurretConstructor in the parent, then the turret is not connected to a base.
 
         if (team == "Blue")
         {
@@ -60,13 +62,12 @@ public class TurretAI : MonoBehaviour
     }
     void Shoot()
     {
-        GameObject bulletObj = (GameObject) Instantiate(bulletPrefab, firePoint.position, gameObject.transform.rotation); // Instantiaite
-        //bulletObj.GetComponent<NewBullet>().bulletSpawn = firePoint; // Set the bullet spawn transform to store orientation data of the turret
-        bulletObj.GetComponent<Transform>().rotation = gameObject.transform.rotation;
+        GameObject bulletObj = (GameObject) Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
+        bulletObj.transform.rotation = turretHead.transform.rotation;
         Bullet bulletCS = bulletObj.GetComponent<Bullet>();
         if (bulletCS != null)
         {
-            bulletCS.SetTarget(target);
+            bulletCS.SetTargetTransform(this.targetTransform);
         }
         //Debug.Log("Shoot!");
     }
@@ -87,7 +88,6 @@ public class TurretAI : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
             if (distanceToEnemy < shortestDistance)
             {
@@ -98,24 +98,24 @@ public class TurretAI : MonoBehaviour
 
         if (nearestEnemy != null && shortestDistance <= range)
         {
-            target = nearestEnemy.transform;
+            targetTransform = nearestEnemy.transform;
         } else
         {
-            target = null;
+            targetTransform = null;
         }
     }
 
     void Update()
     {
-        // No clue how this shit works
-        if (target == null)
+        if (targetTransform == null)
             return;
 
-        //Target Lock On
-            Vector3 dir = target.position - transform.position; // get the vector direction from the current position
-            Quaternion lookRotation = Quaternion.LookRotation(dir);
-            Vector3 rotationValues = Quaternion.Lerp(turretHead.transform.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles; // head transform current is the start, the new rotation is the finish
-            turretHead.transform.rotation = Quaternion.Euler(0f, rotationValues.y, 0f); // only rotate around Y axis because otherwise the whole thing will rotate
+        // angles to rotate 
+
+        Vector3 dir = targetTransform.position - turretHead.transform.position; // get the difference between points
+        Quaternion rotation = Quaternion.LookRotation(dir); // have unity calculate quaternion based on this difference
+        turretHead.transform.rotation = Quaternion.Lerp(turretHead.transform.rotation, rotation, turnSpeed * Time.deltaTime); // interpolate from current rotation to the one facing the target
+
         if (fireCooldown <= 0f)
         {
             Shoot();

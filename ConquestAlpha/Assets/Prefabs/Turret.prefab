@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4732638067644192281}
   - component: {fileID: 5513041551443797314}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,12 +357,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6f2e5068ef3684893233b9eae555ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 
   turnSpeed: 2.4
   range: 25
   fireRate: 1
-  bulletPrefab: {fileID: 8100319062944539236, guid: 1623006df7f90614dbb36e16e69b1225,
+  enemyTag: 
+  bulletPrefab: {fileID: 1667101032445687302, guid: 6917b53378aed7a4aa34a620de9b3d24,
     type: 3}
   enemy: {fileID: 0}
   turretHead: {fileID: 834493848498547325}
-  target: {fileID: 0}
-  firePoint: {fileID: 5750513204547384312}
+  bulletSpawnTransform: {fileID: 5750513204547384312}
