@@ -13,19 +13,57 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-
         m_Rigidbody = GetComponent<Rigidbody>();
     }
     public void SetTargetTransform(Transform target)
     {
         targetTransform = target;
     }
-    void HitTarget()
+
+    void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.tag == "Wall")
+        {
+            //Debug.Log("Congrats you shot a wall...");
+            DestroyBullet();
+            return;
+        }
+        if (collision.gameObject.tag == "Floor")
+        {
+            //Debug.Log("Congrats you shot the floor...");
+            DestroyBullet();
+            return;
+        }
+            
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            //Debug.Log("Congrats you shot a wall...");
+            DestroyBullet();
+            return;
+        }
+        if (collision.gameObject.tag == "Floor")
+        {
+            //Debug.Log("Congrats you shot the floor...");
+            DestroyBullet();
+            return;
+        }
+
+    }
+
+    void DestroyBullet()
+    {
         GameObject effectInstance = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
         Destroy(effectInstance, 0.5f);
         Destroy(gameObject);
+    }
+    void HitTarget()
+    {
+        Debug.Log("A bullet hit it's target!");
+        DestroyBullet();
     }
 
     // Update is called once per frame

@@ -13,7 +13,7 @@ public class TurretConstructor : MonoBehaviour
     public GameObject turretPlate3;
     public GameObject turretPlate4;
     public float buildProgress = 0; // seconds
-    public float buildTime = 5f; //seconds
+    public float completionTime = 5f; //seconds
     public float buildPercent; // percentage
     public bool isDocked;
     public string team;
@@ -59,15 +59,15 @@ public class TurretConstructor : MonoBehaviour
         {
             // Debug.Log("Player is docked");
             // Check if build progress is under 100%
-            if (buildProgress < buildTime)
+            if (buildProgress < completionTime)
             {
                 buildProgress += Time.deltaTime; // Count total number of seconds the player has been in the dock zone
                 
             }
-            this.buildPercent = ((buildProgress) / (buildTime)) * 100; // Convert
-            if (buildProgress > buildTime)
+            this.buildPercent = ((buildProgress) / (completionTime)) * 100; // Convert
+            if (buildProgress > completionTime)
             {
-                buildProgress = buildTime;
+                buildProgress = completionTime;
                 buildPercent = 100;
             }
             
@@ -80,13 +80,42 @@ public class TurretConstructor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player has un-docked " );
+            Debug.Log("Player has un-docked ");
             isDocked = false;
         }
+
+        if (buildPercent >= 0 && buildPercent < 25)
+        {
+            buildProgress = 0;
+            buildPercent = 0;
+        }
+        else
+
+        if (buildPercent > 25 && buildPercent < 50)
+        {
+            buildProgress = 0.25f * completionTime;
+            buildPercent = 25;
+        }
+        else
+
+        if (buildPercent > 50 && buildPercent < 75)
+        {
+            buildProgress = 0.5f * completionTime;
+            buildPercent = 50;
+        }
+        else
+
+        if (buildPercent > 75 && buildPercent < 100)
+        {
+            buildProgress = 0.75f * completionTime;
+            buildPercent = 75;
+        }
+        else
+            return;
     }
     void BuildTurret(int idx)
     {
-        if (!built[idx])
+        if (!built[idx]) // if not built currently
         {
             Debug.Log("Turret"+ idx + "built");
             GameObject currentTurret = buildQueue.Dequeue();

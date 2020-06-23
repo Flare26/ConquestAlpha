@@ -10,6 +10,8 @@ TagManager:
   - NPCBlue
   - Wall
   - BulletSpawn
+  - Bullet
+  - Floor
   layers:
   - Default
   - TransparentFX

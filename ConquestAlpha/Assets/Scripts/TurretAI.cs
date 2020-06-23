@@ -17,9 +17,12 @@ public class TurretAI : MonoBehaviour
     public GameObject turretHead;
     public Transform bulletSpawnTransform; // use an empty game object as reference for fire point so bullet does not spawn within turret
 
-
     Transform targetTransform;
     // Start is called before the first frame update
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(turretHead.transform.position, range);
+    }
     void Start()
     {
         Transform [] childs = gameObject.GetComponentsInChildren<Transform>();
@@ -32,12 +35,9 @@ public class TurretAI : MonoBehaviour
         }
         
     }
-
     private void OnEnable()
     {
-        // This is called when the turret is "Built"
-
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        InvokeRepeating("UpdateTarget", 0f, 0.25f); // This is called when the turret is "Built"
         if (gameObject.transform.parent != null)
             team = GetComponentInParent<TurretConstructor>().team; // On turret enable, check if its a child, and if there's a TurretConstructor in the parent.
         else
@@ -53,12 +53,10 @@ public class TurretAI : MonoBehaviour
         }
 
     }
-
     private void OnDisable()
     {
         team = "neutral"; // On turret disable, set back to neutral and reset targeting information
         enemyTag = null;
-        CancelInvoke(); // Cancels the invoke repeating called when the turret is enabled
     }
     void Shoot()
     {
@@ -72,35 +70,36 @@ public class TurretAI : MonoBehaviour
         //Debug.Log("Shoot!");
     }
 
-    public void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(turretHead.transform.position, range);
-    }
     void UpdateTarget()
     {
+        // Called by invokerepeating in onenable method
         // If the enemy tag has not been set, the turret has not been built & assigned a team yet. Return.
         if (enemyTag == null)
             return;
  
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float shortestDistance = float.MaxValue;
+        float shortestDistance = float.MaxValue; // The shortest distance starts at infinity
         GameObject nearestEnemy = null;
 
         foreach (GameObject enemy in enemies)
         {
+            // Out of all enemies, find the one with the shortest distance to the turret base
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
             if (distanceToEnemy < shortestDistance)
             {
                 shortestDistance = distanceToEnemy;
                 nearestEnemy = enemy;
             }
-        } // end foreach
+        } // end foreach and we now have the true nearest enemy to this turret stored in nearestEnemy. Now check to see if the enemy fufills our range requirement.
 
-        if (nearestEnemy != null && shortestDistance <= range)
+        if ( nearestEnemy != null && shortestDistance <= range && !Physics.Raycast(turretHead.transform.position, nearestEnemy.transform.position, range * 2))
         {
-            targetTransform = nearestEnemy.transform;
+            //
+            //if nearest enemy is not null, and it's within our range, and the raycast does not hit a collider (false)
+            targetTransform = nearestEnemy.transform; // store the transform of our nearest target.
         } else
         {
+            // If the nearestEnemy is behind a collider or outside of our range, set the transform to null. See first 3 lines of Update()
             targetTransform = null;
         }
     }
