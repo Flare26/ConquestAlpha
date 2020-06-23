@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 1273f986646eecf4ba67c6ab55c36d2e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - turretPlate1: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+      type: 3}
+  - turretPlate2: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+      type: 3}
+  - turretPlate3: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+      type: 3}
+  - turretPlate4: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

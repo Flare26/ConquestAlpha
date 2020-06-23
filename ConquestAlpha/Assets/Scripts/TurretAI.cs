@@ -39,9 +39,9 @@ public class TurretAI : MonoBehaviour
     {
         InvokeRepeating("UpdateTarget", 0f, 0.25f); // This is called when the turret is "Built"
         if (gameObject.transform.parent != null)
-            team = GetComponentInParent<TurretConstructor>().team; // On turret enable, check if its a child, and if there's a TurretConstructor in the parent.
+            team = GetComponentInParent<TurretBuilder>().team; // On turret enable, check if its a child, and if there's a TurretBuilder in the parent.
         else
-            Debug.Log(gameObject.name + " IS AN ORPHAN!"); // if no TurretConstructor in the parent, then the turret is not connected to a base.
+            Debug.Log(gameObject.name + " IS AN ORPHAN!"); // if no TurretBuilder in the parent, then the turret is not connected to a base.
 
         if (team == "Blue")
         {

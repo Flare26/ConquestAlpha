@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 
-  turnSpeed: 2.4
+  turnSpeed: 4.2
   range: 25
   fireRate: 1
   enemyTag: 
