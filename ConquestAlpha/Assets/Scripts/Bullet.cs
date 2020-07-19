@@ -4,9 +4,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public Transform bulletSpawn;
-    public float speed = 70f;
+    public float speed = 70f;// Chosen default
     public float TTL = 3f; // time to live in sec
     Transform targetTransform;
+    public int dmg;
     
     public GameObject impactEffect;
     Rigidbody m_Rigidbody;
@@ -54,25 +55,27 @@ public class Bullet : MonoBehaviour
 
     }
 
-    void DestroyBullet()
+
+    public void HitTarget()
     {
+        //Debug.Log("A bullet hit it's target!");
+        DestroyBullet();
+    }
+
+    private void DestroyBullet()
+    {
+        // Call Hit Target, not Destroy bullet please! :)
         GameObject effectInstance = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
         Destroy(effectInstance, 0.5f);
         Destroy(gameObject);
     }
-    void HitTarget()
-    {
-        Debug.Log("A bullet hit it's target!");
-        DestroyBullet();
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
         m_Rigidbody.velocity = transform.forward * speed;
 
-        if (Vector3.Distance(targetTransform.position, transform.position) <= speed * Time.deltaTime)
-            HitTarget();
+        //if (Vector3.Distance(targetTransform.position, transform.position) <= speed * Time.deltaTime)
+           // HitTarget();
 
         if (TTL > 0)
             TTL -= Time.deltaTime;

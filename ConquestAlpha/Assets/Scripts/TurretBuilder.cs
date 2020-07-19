@@ -12,19 +12,21 @@ public class TurretBuilder : MonoBehaviour
     public GameObject turretPlate2;
     public GameObject turretPlate3;
     public GameObject turretPlate4;
-    public float buildProgress = 0; // seconds
-    public float completionTime = 5f; //seconds
+    private GameObject owner;
+    public string ownerName;
+    public float secsBuilt = 0; // seconds
+    public float buildTime = 5f; //seconds
     public float buildPercent; // percentage
     public bool isDocked;
-    public string team;
+    //public string team;
     Queue<GameObject> buildQueue;
     bool[] built;
     Transform[] allChildren;
-
+    public Team m_Team;
     // Start is called before the first frame update
     void Start()
     {
-        team = "neutral";
+        m_Team = Team.Neutral;
         built = new bool [] {false, false, false, false};
         buildQueue = new Queue<GameObject>();
         allChildren = GetComponentsInChildren<Transform>();
@@ -41,16 +43,21 @@ public class TurretBuilder : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+       
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player has docked");
+            Debug.Log("Player has docked somwehere");
+            ownerName = other.gameObject.name;
+            if (m_Team == Team.Neutral)
+                m_Team = other.GetComponent<ThirdpersonCharController>().m_Team;
+            
+
+
             isDocked = true;
             // If build percent is 0 at the time a player docks...
-            if (buildPercent == 0)
-            {
-                team = other.gameObject.GetComponent<ThirdpersonCharController>().team; // Set base on the same team as player
-            }
         }
+
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -59,16 +66,18 @@ public class TurretBuilder : MonoBehaviour
         {
             // Debug.Log("Player is docked");
             // Check if build progress is under 100%
-            if (buildProgress < completionTime)
+            if (secsBuilt < buildTime)
             {
-                buildProgress += Time.deltaTime; // Count total number of seconds the player has been in the dock zone
+                secsBuilt += Time.deltaTime; // Count total number of seconds the player has been in the dock zone
                 
             }
-            this.buildPercent = ((buildProgress) / (completionTime)) * 100; // Convert
-            if (buildProgress > completionTime)
+            this.buildPercent = ((secsBuilt) / (buildTime)) * 100; // Convert
+            if (secsBuilt > buildTime)
             {
-                buildProgress = completionTime;
+                secsBuilt = buildTime;
                 buildPercent = 100;
+                owner = other.gameObject; // This player is now the owner
+                ownerName = other.gameObject.name;
             }
             
             //Debug.Log("Built % = " + (buildProgress * 100) / (buildTime * 100));
@@ -78,6 +87,7 @@ public class TurretBuilder : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player has un-docked ");
@@ -86,28 +96,28 @@ public class TurretBuilder : MonoBehaviour
 
         if (buildPercent >= 0 && buildPercent < 25)
         {
-            buildProgress = 0;
+            secsBuilt = 0;
             buildPercent = 0;
         }
         else
 
         if (buildPercent > 25 && buildPercent < 50)
         {
-            buildProgress = 0.25f * completionTime;
+            secsBuilt = 0.25f * buildTime;
             buildPercent = 25;
         }
         else
 
         if (buildPercent > 50 && buildPercent < 75)
         {
-            buildProgress = 0.5f * completionTime;
+            secsBuilt = 0.5f * buildTime;
             buildPercent = 50;
         }
         else
 
         if (buildPercent > 75 && buildPercent < 100)
         {
-            buildProgress = 0.75f * completionTime;
+            secsBuilt = 0.75f * buildTime;
             buildPercent = 75;
         }
         else
@@ -143,6 +153,8 @@ public class TurretBuilder : MonoBehaviour
     {
         built[idx] = false;
         allChildren[idx].gameObject.SetActive(false);
+        secsBuilt -= 2.5f;
+
     }
     // Update is called once per frame
     void Update()

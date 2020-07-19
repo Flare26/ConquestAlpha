@@ -5,11 +5,11 @@ using UnityEngine;
 public class ThirdpersonCharController : MonoBehaviour
 {
     public float speed;
-    public string team;
+    public Team m_Team;
     // Start is called before the first frame update
     void Start()
     {
-        team = "Red";
+        m_Team = Team.Red;
     }
 
     // Update is called once per frame
