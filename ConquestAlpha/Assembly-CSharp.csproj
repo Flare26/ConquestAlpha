@@ -66,15 +66,17 @@
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\NPCAI.cs" />
     <Compile Include="Assets\Scripts\NPCTank.cs" />
-    <Compile Include="Assets\Scripts\NewTurretAI.cs" />
     <Compile Include="Assets\Scripts\ShowBuildUI.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\Scripts\TargetingAgent.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCamController.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCharController.cs" />
     <Compile Include="Assets\Scripts\TurretAI.cs" />
     <Compile Include="Assets\Scripts\TurretBuilder.cs" />
-    <Compile Include="Assets\Scripts\TurretTargeter.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Wep_Repeater.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Wep_Sniper.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.1f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

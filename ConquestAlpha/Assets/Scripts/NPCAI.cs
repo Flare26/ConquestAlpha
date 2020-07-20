@@ -12,18 +12,19 @@ public class NPCAI : MonoBehaviour
     
     [SerializeField] Transform destination;
     NavMeshAgent navAgent;
-    [SerializeField] public Team m_team;
+    [SerializeField] public Team m_Team;
     [SerializeField] GameObject shieldPopFX;
     [SerializeField] GameObject deathPopFX;
     string team;
     public int hull = 10;
+    public int shield = 5;
     public int maxShield = 5;
     public float shieldDowntime = 3f;
-    public int shield = 5;
     bool hasShield = true;
     private GameObject shieldFX;
     private GameObject deathFX;
     float safeTime = 0f;
+    public float range = 7f;
     
     // Start is called before the first frame update
 

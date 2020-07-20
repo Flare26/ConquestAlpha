@@ -409,7 +409,7 @@ Transform:
   m_LocalScale: {x: 151.37344, y: 15.415, z: 8.6231}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &72686510
 PrefabInstance:
@@ -989,7 +989,7 @@ PrefabInstance:
     - target: {fileID: 1542808817453485831, guid: 68db68fa7df214f4a9debde10333522a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1542808817453485831, guid: 68db68fa7df214f4a9debde10333522a,
         type: 3}
@@ -1045,7 +1045,7 @@ Transform:
   - {fileID: 977904096}
   - {fileID: 43100696}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &665927612
 GameObject:
@@ -1330,7 +1330,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &890881329
 PrefabInstance:
@@ -1903,7 +1903,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1044755658
@@ -1965,7 +1965,7 @@ Transform:
   m_LocalScale: {x: 20, y: 1, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1129567132
 PrefabInstance:
@@ -1982,7 +1982,7 @@ PrefabInstance:
     - target: {fileID: 787986391237924701, guid: f1f91b3f26aea564cb376f4408e8b501,
         type: 3}
       propertyPath: m_Drag
-      value: 0.8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 787986391237924701, guid: f1f91b3f26aea564cb376f4408e8b501,
         type: 3}
@@ -2108,7 +2108,7 @@ Transform:
   - {fileID: 511995465}
   - {fileID: 1777138828}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1280239510
 PrefabInstance:
@@ -2490,7 +2490,7 @@ Transform:
   m_LocalScale: {x: 150.72888, y: 15.415, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1450864105
 PrefabInstance:
