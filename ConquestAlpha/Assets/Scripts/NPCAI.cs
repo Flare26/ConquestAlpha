@@ -58,7 +58,7 @@ public class NPCAI : MonoBehaviour
             
         if (b.dmg >= shield && hasShield) // if dmg is greater than current shield
         {
-            Debug.Log("Shield Pop!!");
+            //Debug.Log("Shield Pop!!");
             hasShield = false;
             shieldFX = (GameObject)Instantiate(shieldPopFX, transform.position, transform.rotation);
             Destroy(shieldFX, 3f);
@@ -70,7 +70,7 @@ public class NPCAI : MonoBehaviour
             return;
         }
 
-        Debug.Log(gameObject.name + " took dmg " + b.dmg);
+        //Debug.Log(gameObject.name + " took dmg " + b.dmg);
     }
 
     void TakeDamage(int dmg)

@@ -93,7 +93,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 1.5
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.2}
@@ -128,7 +128,7 @@ MonoBehaviour:
   bulletSpawn: {fileID: 0}
   speed: 75
   TTL: 2
-  dmg: 4
+  dmg: 1
   impactEffect: {fileID: 6821978494458994580, guid: 26df4340c0af60249876fdb791a8197c,
     type: 3}
 --- !u!1 &7448676409617839037
@@ -175,7 +175,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.2783019, g: 0.55706125, b: 1, a: 1}
   m_Intensity: 20
-  m_Range: 3
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
