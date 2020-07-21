@@ -538,5 +538,5 @@ MonoBehaviour:
   dmg_Mod: 0
   turnSpeed: 1
   range: 30
-  fireRate: 0.25
+  fireRate: 0.42
   shotVelocityMult: 1
