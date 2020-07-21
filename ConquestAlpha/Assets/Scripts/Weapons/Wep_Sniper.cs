@@ -2,17 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wep_Sniper : Weapon
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class Wep_Sniper { }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
+

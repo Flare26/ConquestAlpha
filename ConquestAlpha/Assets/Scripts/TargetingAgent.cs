@@ -164,6 +164,9 @@ public class TargetingAgent : MonoBehaviour
 
     public Transform RequestClosestTarget()
     {
+        if (hostiles.Count == 0)
+            return null;
+
             float dist_low = float.MaxValue;
             Transform close_targ = null;
             for (int i = 0; i < hostiles.Count; i++)

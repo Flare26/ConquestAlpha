@@ -39,10 +39,6 @@ public class TurretAI : MonoBehaviour
         Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
         bullet_CS.speed *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
         bullet_CS.dmg += dmg_Mod;
-        if (bullet_CS != null)
-        {
-            bullet_CS.SetTargetTransform(this.tgt_Transform);
-        }
     }
     private void OnEnable()
     {

@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
     public Transform bulletSpawn;
     public float speed = 70f;// Chosen default
     public float TTL = 3f; // time to live in sec
-    Transform targetTransform;
+    
     public int dmg;
     
     public GameObject impactEffect;
@@ -16,42 +16,57 @@ public class Bullet : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
     }
-    public void SetTargetTransform(Transform target)
-    {
-        targetTransform = target;
-    }
-
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag.Equals("Wall"))
         {
             //Debug.Log("Congrats you shot a wall...");
             DestroyBullet();
             return;
         }
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag.Equals("Floor"))
         {
             //Debug.Log("Congrats you shot the floor...");
             DestroyBullet();
             return;
         }
-            
+        if (collision.gameObject.tag.Equals("Bullet"))
+        {
+            DestroyBullet();
+            return;
+        }
+        if (collision.gameObject.tag.Equals("TurretHead"))
+        {
+            DestroyBullet();
+            return;
+        }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag.Equals("Wall"))
         {
             //Debug.Log("Congrats you shot a wall...");
             DestroyBullet();
             return;
         }
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag.Equals("Floor"))
         {
             //Debug.Log("Congrats you shot the floor...");
             DestroyBullet();
             return;
         }
+        if (collision.gameObject.tag.Equals("Bullet"))
+        {
+            DestroyBullet();
+            return;
+        }
+        if (collision.gameObject.tag.Equals("TurretHead"))
+        {
+            DestroyBullet();
+            return;
+        }
+
 
     }
 

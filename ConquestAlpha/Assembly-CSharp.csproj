@@ -74,8 +74,9 @@
     <Compile Include="Assets\Scripts\ThirdpersonCharController.cs" />
     <Compile Include="Assets\Scripts\TurretAI.cs" />
     <Compile Include="Assets\Scripts\TurretBuilder.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
     <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
-    <Compile Include="Assets\Scripts\Weapons\Wep_Repeater.cs" />
+    <Compile Include="Assets\Scripts\Weapons\WeaponCore.cs" />
     <Compile Include="Assets\Scripts\Weapons\Wep_Sniper.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.1f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

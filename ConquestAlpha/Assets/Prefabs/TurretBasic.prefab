@@ -530,7 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Team: 2
   e_Team: 2
-  bulletPrefab: {fileID: 1667101032445687302, guid: 6917b53378aed7a4aa34a620de9b3d24,
+  bulletPrefab: {fileID: 1667101032445687302, guid: becc05472fb347b4788b8d065f2b3968,
     type: 3}
   bulletSpawnTransform: {fileID: 5750513204547384312}
   tHead: {fileID: 834493848498547325}
