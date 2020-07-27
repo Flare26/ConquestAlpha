@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
-
 public class TurretAI : MonoBehaviour
 {
     [SerializeField] public Team m_Team;
@@ -9,7 +7,9 @@ public class TurretAI : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnTransform; // use an empty game object as reference for fire point so bullet does not spawn within turret
     [SerializeField] GameObject tHead;
-    
+    public Transform aimOrb;
+    public float spreadFactor; // bullet spread range +/-
+
     public string targetName = "No Target";
     public int dmg_Mod;
     TargetingAgent tgtAgent;
@@ -17,6 +17,7 @@ public class TurretAI : MonoBehaviour
     public float turnSpeed; // clamped 0-1
     public float range;
     public float fireRate; // shots per sec
+    
 
     Transform tgt_Transform;
     public float shotVelocityMult;
@@ -34,11 +35,22 @@ public class TurretAI : MonoBehaviour
     }
     void Shoot()
     {
-        GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
-        bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
-        Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
-        bullet_CS.speed *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
-        bullet_CS.dmg += dmg_Mod;
+        if (!tgt_Transform.Equals(null))
+        {
+           // Every shot recalculates accuracy of the aim orb.
+                float x = Random.Range(-spreadFactor, spreadFactor);
+                float y = Random.Range(-spreadFactor, spreadFactor);
+                float z = Random.Range(-spreadFactor, spreadFactor);
+                Vector3 spread = new Vector3(x, y / 4 , z);
+                aimOrb.position += spread;
+                tgt_Transform = aimOrb.transform;
+
+            GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
+            bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
+            Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
+            bullet_CS.speed *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
+            bullet_CS.dmg += dmg_Mod;
+        }
     }
     private void OnEnable()
     {
@@ -80,13 +92,15 @@ public class TurretAI : MonoBehaviour
 
     void UpdateTarget()
     {
-        tgt_Transform = tgtAgent.RequestClosestTarget();
-        if (tgt_Transform == null)
-        {
-            targetName = "Out of Range";
+        // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
+        var focus = tgtAgent.RequestClosestTarget();
+        if (focus != null) {
+            tgt_Transform = focus;
+            aimOrb.position = tgt_Transform.position; // Set aim orb correctly
+            
         } else
         {
-            targetName = tgt_Transform.name;
+            tgt_Transform = null;
         }
     }
 

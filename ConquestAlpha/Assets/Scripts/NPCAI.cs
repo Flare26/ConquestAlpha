@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,7 +12,13 @@ using UnityEngine.AI;
 // these are going to be created and built with the team of the base
 public class NPCAI : MonoBehaviour
 {
-
+    enum State
+    {
+        Attacking,
+        Defending,
+        Holding,
+        Following
+    }
     [SerializeField] Transform destination;
     NavMeshAgent navAgent;
     [SerializeField] public Team m_Team;
@@ -187,6 +194,7 @@ public class NPCAI : MonoBehaviour
 
         tm -= Time.deltaTime; // fire rate will decrement regardless of having a target
     }
+
 
     private void FixedUpdate()
     {
