@@ -8,13 +8,9 @@ public class TurretBuilder : MonoBehaviour
     int capacity = 4; // How many turrets a base can have
     bool[] constructed = new bool[4]; // Each turret has an entry. Array stores whether or not turret is alive or dead / unconstructed. A dead turret = unconstruct
     
-    public GameObject turretPlate1;
-    public GameObject turretPlate2;
-    public GameObject turretPlate3;
-    public GameObject turretPlate4;
     private GameObject owner;
     public string ownerName;
-    public float secsBuilt = 0; // seconds
+    public float secondsInside = 0; // seconds
     public float buildTime = 5f; //seconds
     public float buildPercent; // percentage
     public bool isDocked;
@@ -22,6 +18,7 @@ public class TurretBuilder : MonoBehaviour
     Queue<GameObject> buildQueue;
     bool[] built;
     Transform[] allChildren;
+    public GameObject[] spawnables;
     public Team m_Team;
     // Start is called before the first frame update
     void Start()
@@ -43,81 +40,62 @@ public class TurretBuilder : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player has docked somwehere");
-            ownerName = other.gameObject.name;
-            if (m_Team == Team.Neutral)
+        if (!other.CompareTag("Player"))
+            return;
+
+        Debug.Log("Player has docked somwehere");
+        ownerName = other.gameObject.name;
+        if (m_Team == Team.Neutral)
                 m_Team = other.GetComponent<ThirdpersonCharController>().m_Team;
             
 
 
             isDocked = true;
             // If build percent is 0 at the time a player docks...
-        }
+        
 
 
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // Debug.Log("Player is docked");
-            // Check if build progress is under 100%
-            if (secsBuilt < buildTime)
-            {
-                secsBuilt += Time.deltaTime; // Count total number of seconds the player has been in the dock zone
-                
-            }
-            this.buildPercent = ((secsBuilt) / (buildTime)) * 100; // Convert
-            if (secsBuilt > buildTime)
-            {
-                secsBuilt = buildTime;
-                buildPercent = 100;
-                owner = other.gameObject; // This player is now the owner
-                ownerName = other.gameObject.name;
-            }
-            
-            //Debug.Log("Built % = " + (buildProgress * 100) / (buildTime * 100));
-        }
+
         // end player collision check
     }
 
     private void OnTriggerExit(Collider other)
     {
 
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player has un-docked ");
-            isDocked = false;
-        }
+        if (!other.CompareTag("Player"))
+            return;
+        
+         Debug.Log("Player has un-docked ");
+         isDocked = false;
 
         if (buildPercent >= 0 && buildPercent < 25)
         {
-            secsBuilt = 0;
+            secondsInside = 0;
             buildPercent = 0;
         }
         else
 
         if (buildPercent > 25 && buildPercent < 50)
         {
-            secsBuilt = 0.25f * buildTime;
+            secondsInside = 0.25f * buildTime;
             buildPercent = 25;
         }
         else
 
         if (buildPercent > 50 && buildPercent < 75)
         {
-            secsBuilt = 0.5f * buildTime;
+            secondsInside = 0.5f * buildTime;
             buildPercent = 50;
         }
         else
 
         if (buildPercent > 75 && buildPercent < 100)
         {
-            secsBuilt = 0.75f * buildTime;
+            secondsInside = 0.75f * buildTime;
             buildPercent = 75;
         }
         else
@@ -153,21 +131,39 @@ public class TurretBuilder : MonoBehaviour
     {
         built[idx] = false;
         allChildren[idx].gameObject.SetActive(false);
-        secsBuilt -= 2.5f;
+        secondsInside -= 2.5f;
 
     }
     // Update is called once per frame
     void Update()
     {
-        int simplePercent = Mathf.RoundToInt(buildPercent);
-        //Debug.Log("Rounded Percent" + simplePercent);
-        if (simplePercent == 25)
-            BuildTurret(0);
-        if (simplePercent == 50)
-            BuildTurret(1);
-        if (simplePercent == 75)
-            BuildTurret(2);
-        if (simplePercent == 100)
-            BuildTurret(3);
+        if (isDocked == true)
+        {
+            // Debug.Log("Player is docked");
+            // Check if build progress is under 100%
+            if (buildPercent < 100)
+            {
+                secondsInside += Time.deltaTime; // Count total number of seconds the player has been in the dock zone
+                buildPercent = (secondsInside / buildTime) * 100;
+                Mathf.Clamp(buildPercent, 0f, 100f);
+            }
+            else
+                buildPercent = 100;
+
+            int simplePercent = Mathf.RoundToInt(buildPercent);
+            //Debug.Log("Rounded Percent" + simplePercent);
+            if (simplePercent == 25)
+                BuildTurret(0);
+            if (simplePercent == 50)
+                BuildTurret(1);
+            if (simplePercent == 75)
+                BuildTurret(2);
+            if (simplePercent == 100)
+                BuildTurret(3);
+
+            //Debug.Log("Built % = " + (buildProgress * 100) / (buildTime * 100));
+        } // end isDocked == true
+
+
     }
 }

@@ -51,7 +51,23 @@ public class NPCAI : MonoBehaviour
     public float fireRate;
     private void OnEnable()
     {
-        
+        // On enable set the correct team color
+        var r = GetComponent<Renderer>();
+        var color = r.material;
+
+        switch (m_Team)
+        {
+            case Team.Neutral:
+                color.SetColor("_Color", Color.gray);
+                break;
+            case Team.Red:
+                color.SetColor("_Color", Color.red);
+                break;
+            case Team.Blue:
+                color.SetColor("_Color", Color.blue);
+                break;
+        }
+
         mount_Primary = transform.GetChild(0).transform;
         mount_Secondary = transform.GetChild(1).transform;
 
