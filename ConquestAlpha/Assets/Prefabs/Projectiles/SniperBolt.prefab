@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5036946679743012619}
   - component: {fileID: 1254253904066644643}
   - component: {fileID: 1927871665424442927}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SniperBolt
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ MonoBehaviour:
   bulletSpawn: {fileID: 0}
   speed: 75
   TTL: 2
-  dmg: 4
+  m_dmg: 5
   impactEffect: {fileID: 6821978494458994580, guid: 26df4340c0af60249876fdb791a8197c,
     type: 3}
 --- !u!1 &7448676409617839037
@@ -141,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5660518531680643242}
   - component: {fileID: 4182363463635215886}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

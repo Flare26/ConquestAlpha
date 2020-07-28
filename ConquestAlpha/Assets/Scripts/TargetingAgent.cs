@@ -149,7 +149,7 @@ public class TargetingAgent : MonoBehaviour
         for (int i = 0; i < hostiles.Count; i++)
         {
             Transform t = hostiles[i];
-            if (t == null)
+            if (t == null || t.gameObject.activeInHierarchy == false) // If destroyed OR disabled
                 hostiles.Remove(t);
         }
     }
@@ -171,10 +171,8 @@ public class TargetingAgent : MonoBehaviour
             Transform close_targ = null;
             for (int i = 0; i < hostiles.Count; i++)
             {
-            
+                
                 Transform t = hostiles[i];
-                if (t == null)
-                    return null;
 
                 float dist_targ = Vector3.Distance(transform.position, t.transform.position);
                 if (dist_targ < dist_low )

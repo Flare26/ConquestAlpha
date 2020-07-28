@@ -130,31 +130,24 @@ public class NPCAI : MonoBehaviour
         //Destroy(gameObject);
         
         if (hasShield == false) {
-            hull -= b.dmg;
+            hull -= b.m_dmg;
         }
             
-        if (b.dmg >= shield && hasShield) // if dmg is greater than current shield
+        if (b.m_dmg >= shield && hasShield) // if dmg is greater than current shield
         {
             //Debug.Log("Shield Pop!!");
             hasShield = false;
             shieldFX = (GameObject)Instantiate(shieldPopFX, transform.position, transform.rotation);
             Destroy(shieldFX, 3f);
-            hull -= (b.dmg - shield); // use the remaining shield to mitigate
+            hull -= (b.m_dmg - shield); // use the remaining shield to mitigate
             shield = 0;
-        } else if (b.dmg < shield)
+        } else if (b.m_dmg < shield)
         {
-            shield -= b.dmg;
+            shield -= b.m_dmg;
             return;
         }
 
         //Debug.Log(gameObject.name + " took dmg " + b.dmg);
-    }
-
-    void TakeDamage(int dmg)
-    {
-        int d = shield - dmg;
-        if (d < 0) // if dmg is greater than current shield
-            hull -= dmg;
     }
 
     private void SetDestination()

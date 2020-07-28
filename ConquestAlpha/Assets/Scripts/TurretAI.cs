@@ -7,10 +7,13 @@ public class TurretAI : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnTransform; // use an empty game object as reference for fire point so bullet does not spawn within turret
     [SerializeField] GameObject tHead;
+    
+    public string targetName = "No Target";
     public Transform aimOrb;
     public float spreadFactor; // bullet spread range +/-
-
-    public string targetName = "No Target";
+    public int turretHP;
+    private int maxHP;
+    
     public int dmg_Mod;
     TargetingAgent tgtAgent;
     private float tm = 0f; // Time since last shot
@@ -28,32 +31,16 @@ public class TurretAI : MonoBehaviour
         Gizmos.DrawWireSphere(tHead.transform.position, range);
     }
 
-    private void Start()
+    private void Awake()
     {
         var targetSphere = transform.GetChild(2);
         tgtAgent = targetSphere.GetComponent<TargetingAgent>();
-    }
-    void Shoot()
-    {
-        if (!tgt_Transform.Equals(null))
-        {
-           // Every shot recalculates accuracy of the aim orb.
-                float x = Random.Range(-spreadFactor, spreadFactor);
-                float y = Random.Range(-spreadFactor, spreadFactor);
-                float z = Random.Range(-spreadFactor, spreadFactor);
-                Vector3 spread = new Vector3(x, y / 4 , z);
-                aimOrb.position += spread;
-                tgt_Transform = aimOrb.transform;
-
-            GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
-            bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
-            Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
-            bullet_CS.speed *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
-            bullet_CS.dmg += dmg_Mod;
-        }
+        maxHP = turretHP;
     }
     private void OnEnable()
     {
+        turretHP = maxHP; // heal turret fully
+
         if (gameObject.transform.parent != null)
         {
             m_Team = GetComponentInParent<TurretBuilder>().m_Team; // On turret enable, check if its a child, and if there's a TurretBuilder in the parent.
@@ -83,6 +70,43 @@ public class TurretAI : MonoBehaviour
 
         InvokeRepeating("UpdateTarget", 0f, 0.42f); // This is called when the turret is "Built"
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Bullet"))
+        {
+            int dmg = collision.collider.GetComponent<Bullet>().m_dmg;
+            turretHP -= dmg;
+            collision.collider.GetComponent<Bullet>().DestroyBullet();
+            Debug.Log("Turet took dmg");
+            if (turretHP <= 0)
+            {
+                //destroy turret
+                Debug.Log("Turret has died");
+                gameObject.SetActive(false); // does not update the bool array yet
+            }
+        }
+    }
+
+    void Shoot()
+    {
+        if (!tgt_Transform.Equals(null))
+        {
+           // Every shot recalculates accuracy of the aim orb.
+                float x = Random.Range(-spreadFactor, spreadFactor);
+                float y = Random.Range(-spreadFactor, spreadFactor);
+                float z = Random.Range(-spreadFactor, spreadFactor);
+                Vector3 spread = new Vector3(x, y / 4 , z);
+                aimOrb.position += spread;
+                tgt_Transform = aimOrb.transform;
+
+            GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
+            bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
+            Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
+            bullet_CS.speed *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
+            bullet_CS.m_dmg += dmg_Mod;
+        }
+    }
     private void OnDisable()
     {
         // On turret disable, set back to neutral and reset targeting information
@@ -104,55 +128,9 @@ public class TurretAI : MonoBehaviour
         }
     }
 
-
-    /*
-     * 
-    void UpdateTarget()
-    {
-
-        
-        if (m_Team == Team.Neutral)
-            enemies = GameObject.FindGameObjectsWithTag("NPC"); // Find all NPCs
-        else
-            enemies = teamManager.FindTeamUnits(e_Team);
-  
-        float shortestDistance = float.MaxValue; // The shortest distance starts at infinity
-
-
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy == null)
-                return;
-            // Out of all enemies, find the one with the shortest distance to the turret base
-            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < shortestDistance)
-            {
-                shortestDistance = distanceToEnemy;
-                nearestEnemy = enemy;
-            }
-        } // Found nearest enemy
-
-        if (nearestEnemy != null && shortestDistance <= range)
-        {
-            // && !Physics.Raycast(turretHead.transform.position, nearestEnemy.transform.position, 100)
-            //if nearest enemy is not null, and it's within our range, and the raycast does not hit a collider (false)
-            targetTransform = nearestEnemy.transform; // store the transform of our nearest target.
-            targetName = targetTransform.name;
-            enemyInRange = true;
-        }
-        else if (nearestEnemy != null && shortestDistance > range)
-        {
-            targetName = "Out of Range";
-            enemyInRange = false;
-            targetTransform = null;
-        }
-
-    }
-     */
-
-
     void Update()
     {
+        
         // angles to rotate 
         if (tgt_Transform == null)
             return; // will return null if there are no enemy units within the targeting area

@@ -7,67 +7,36 @@ public class Bullet : MonoBehaviour
     public float speed = 70f;// Chosen default
     public float TTL = 3f; // time to live in sec
     
-    public int dmg;
+    public int m_dmg;
     
     public GameObject impactEffect;
     Rigidbody m_Rigidbody;
 
-    private void Start()
+    private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        Physics.IgnoreLayerCollision(9, 9);
     }
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag.Equals("Wall"))
+        var other = collision.gameObject;
+        if (other.CompareTag("Wall"))
         {
             //Debug.Log("Congrats you shot a wall...");
             DestroyBullet();
             return;
         }
-        if (collision.gameObject.tag.Equals("Floor"))
+        if (other.CompareTag("Floor"))
         {
             //Debug.Log("Congrats you shot the floor...");
             DestroyBullet();
             return;
         }
-        if (collision.gameObject.tag.Equals("Bullet"))
+        if (other.CompareTag("Bullet"))
         {
             DestroyBullet();
             return;
         }
-        if (collision.gameObject.tag.Equals("TurretHead"))
-        {
-            DestroyBullet();
-            return;
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag.Equals("Wall"))
-        {
-            //Debug.Log("Congrats you shot a wall...");
-            DestroyBullet();
-            return;
-        }
-        if (collision.gameObject.tag.Equals("Floor"))
-        {
-            //Debug.Log("Congrats you shot the floor...");
-            DestroyBullet();
-            return;
-        }
-        if (collision.gameObject.tag.Equals("Bullet"))
-        {
-            DestroyBullet();
-            return;
-        }
-        if (collision.gameObject.tag.Equals("TurretHead"))
-        {
-            DestroyBullet();
-            return;
-        }
-
-
     }
 
 
@@ -77,7 +46,7 @@ public class Bullet : MonoBehaviour
         DestroyBullet();
     }
 
-    private void DestroyBullet()
+    public void DestroyBullet()
     {
         // Call Hit Target, not Destroy bullet please! :)
         GameObject effectInstance = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
