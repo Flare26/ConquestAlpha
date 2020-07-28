@@ -24,7 +24,8 @@ public class NPCAI : MonoBehaviour
     [SerializeField] public Team m_Team;
     [SerializeField] GameObject shieldPopFX;
     [SerializeField] GameObject deathPopFX;
-    TargetingAgent tgtAgent;
+    [SerializeField] Renderer meshRenderer;
+    public TargetingAgent tgtAgent;
     Transform tgt_Transform;
     Transform mount_Primary;
     Transform mount_Secondary;
@@ -32,6 +33,7 @@ public class NPCAI : MonoBehaviour
     public Transform s_FP; // secondary fire point
     public GameObject primaryWep;
     public GameObject secondaryWep;
+    
     public string targetName;
     public int hull = 10;
     public int shield = 5;
@@ -52,8 +54,7 @@ public class NPCAI : MonoBehaviour
     private void OnEnable()
     {
         // On enable set the correct team color
-        var r = GetComponent<Renderer>();
-        var color = r.material;
+        var color = meshRenderer.material;
 
         switch (m_Team)
         {
@@ -69,7 +70,7 @@ public class NPCAI : MonoBehaviour
         }
 
         mount_Primary = transform.GetChild(0).transform;
-        mount_Secondary = transform.GetChild(1).transform;
+        mount_Secondary = transform.GetChild(2).transform;
 
         if (primaryWep != null)
         {
@@ -79,8 +80,6 @@ public class NPCAI : MonoBehaviour
 
         // in the prefab the mount points should be first 2 children on the npc
         // The target sphere should always be the last
-        var targetSphere = transform.GetChild(transform.childCount-1);
-        tgtAgent = targetSphere.GetComponent<TargetingAgent>();
 
         navAgent = GetComponent<NavMeshAgent>();
         if (navAgent == null)
@@ -155,6 +154,7 @@ public class NPCAI : MonoBehaviour
         if (destination != null)
         {
             Vector3 targetVector = destination.transform.position;
+            navAgent.stoppingDistance = 5;
             navAgent.SetDestination(targetVector);
         }
     }
@@ -222,7 +222,7 @@ public class NPCAI : MonoBehaviour
         {
             deathFX = (GameObject)Instantiate(deathPopFX, transform.position, transform.rotation);
             Destroy(shieldFX, 4f);
-            Destroy(deathFX, 4f);
+            Destroy(deathFX, 2f);
             Destroy(primaryInstance);
             //Destroy(secondaryInstance);
             Destroy(gameObject);
