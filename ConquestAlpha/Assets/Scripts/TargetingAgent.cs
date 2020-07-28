@@ -172,17 +172,18 @@ public class TargetingAgent : MonoBehaviour
             for (int i = 0; i < hostiles.Count; i++)
             {
                 
-                Transform t = hostiles[i];
-
-                float dist_targ = Vector3.Distance(transform.position, t.transform.position);
-                if (dist_targ < dist_low )
-                {
-                    dist_low = dist_targ;
-                    close_targ = t;
-                }
+            Transform t = hostiles[i];
+            if (t.Equals(null))
+                return null;
+            float dist_targ = Vector3.Distance(transform.position, t.transform.position);
+            if (dist_targ < dist_low )
+            {
+                dist_low = dist_targ;
+                close_targ = t;
             }
+        }
 
-            return close_targ;
+        return close_targ;
     }
 
     public void RequestWeakestTarget()

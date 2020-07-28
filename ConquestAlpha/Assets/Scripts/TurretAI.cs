@@ -78,7 +78,7 @@ public class TurretAI : MonoBehaviour
             int dmg = collision.collider.GetComponent<Bullet>().m_dmg;
             turretHP -= dmg;
             collision.collider.GetComponent<Bullet>().DestroyBullet();
-            Debug.Log("Turet took dmg");
+            //Debug.Log("Turet took dmg");
             if (turretHP <= 0)
             {
                 //destroy turret
