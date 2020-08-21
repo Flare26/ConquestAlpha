@@ -19,6 +19,7 @@ public class HoverController : MonoBehaviour
     public float m_hoverForce = 9.0f;
     public float m_hoverHeight = 2.0f;
     public GameObject[] m_hoverPoints;
+    private int m_currStrafe;
 
     private void Start()
     {
@@ -44,6 +45,24 @@ public class HoverController : MonoBehaviour
         float turnAxis = Input.GetAxis("Horizontal");
         if (Mathf.Abs(turnAxis) > m_deadZone)
             m_currTurn = turnAxis;
+
+        //strafing
+        float strafeAxis = Input.GetAxis("Strafe");
+        m_currStrafe = 0;
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            
+            m_currStrafe = 1;
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+            m_currStrafe = -1;
+        }
+        else
+        {
+            m_currStrafe = 0; // if neither E or Q, then not strafing.
+        }
     }
 
     private void FixedUpdate()
@@ -57,6 +76,7 @@ public class HoverController : MonoBehaviour
                 m_body.AddForceAtPosition(Vector3.up * m_hoverForce * (1.0f - (hit.distance / m_hoverHeight)), hoverPoint.transform.position);
             else
             {
+                m_body.AddForceAtPosition(Vector3.down * 9.8f * 10, hoverPoint.transform.position);
                 // Self corrects the vehicle based on which side is higher
                 //if (transform.position.y > hoverPoint.transform.position.y)
                 //    m_body.AddForceAtPosition(hoverPoint.transform.up * m_hoverForce, hoverPoint.transform.position);
@@ -77,6 +97,23 @@ public class HoverController : MonoBehaviour
         {
             m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
         }
+
+        //Strafe
+
+        if (m_currStrafe != 0)
+        {
+            if (m_currStrafe == 1)
+            {
+                
+                m_body.AddForce(transform.right * m_backwardAcl);
+            }
+            if (m_currStrafe == -1)
+            {
+                
+                m_body.AddForce(- transform.right * m_backwardAcl);
+            }
+        }
+
     }
 
     void OnDrawGizmos()

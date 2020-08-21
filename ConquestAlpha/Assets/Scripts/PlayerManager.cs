@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     public int hull;
     public int shield;
     int shield_rate;
+    public int pps; // projectile per second
     public GameObject weapon1Obj;
     public GameObject weapon2Obj;
     public Transform primaryBulletSpawn;
@@ -24,6 +25,26 @@ public class PlayerManager : MonoBehaviour
     void OnEnable()
     {
         //give the proper stats based on the class script this player is using
+        //Change the glow color of your hitbox
+        var glowLight = transform.Find("TeamLight");
+        Light glowColor = glowLight.GetComponent<Light>();
+        
+        switch (m_Team)
+        {
+            //assign by team
+            case Team.Red:
+                glowColor.color = Color.red;
+                Debug.Log("Set Glow To Red!");
+                break;
+
+            case Team.Blue:
+                glowColor.color = Color.blue;
+                Debug.Log("Set Glow To Blue!");
+                break;
+            default:
+                glowColor.color = Color.white;
+                break;
+        }
 
         primary = Instantiate<GameObject>(weapon1Obj, primaryMount);
         primary.GetComponent<WeaponCore>().bulletSpawn = primaryBulletSpawn;
@@ -31,9 +52,14 @@ public class PlayerManager : MonoBehaviour
         secondary.GetComponent<WeaponCore>().bulletSpawn = secondaryBulletSpawn;
     }
 
+    void EnableCursor()
+    {
+        Cursor.visible = false;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             primary.GetComponent<WeaponCore>().Fire(primaryBulletSpawn.position, GetComponent<Transform>().rotation);
         }
