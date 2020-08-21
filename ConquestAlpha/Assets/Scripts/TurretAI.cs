@@ -43,7 +43,7 @@ public class TurretAI : MonoBehaviour
 
         if (gameObject.transform.parent != null)
         {
-            m_Team = GetComponentInParent<TurretBuilder>().m_Team; // On turret enable, check if its a child, and if there's a TurretBuilder in the parent.
+            m_Team = GetComponentInParent<BaseBuilder>().m_Team; // On turret enable, check if its a child, and if there's a TurretBuilder in the parent.
 
         }
         else

@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections;
+using UnityEngine;
+// https://www.youtube.com/watch?v=5B6ALcOX4b8
+[RequireComponent(typeof(Rigidbody))]
+public class HoverController : MonoBehaviour
+{
+    Rigidbody m_body;
+    float m_deadZone = 0.1f;
+
+    public float m_forwardAcl = 100.0f;
+    public float m_backwardAcl = 25.0f;
+    float m_currThrust = 0.0f;
+
+    public float m_turnStrength = 10f;
+    float m_currTurn = 0.0f;
+
+    int m_layerMask;
+    public float m_hoverForce = 9.0f;
+    public float m_hoverHeight = 2.0f;
+    public GameObject[] m_hoverPoints;
+
+    private void Start()
+    {
+        m_body = GetComponent<Rigidbody>();
+        m_layerMask = 1 << LayerMask.NameToLayer("Characters");
+        m_layerMask = ~m_layerMask;
+    }
+
+    private void Update()
+    {
+        // Input calculations
+
+        //main thrust
+        m_currThrust = 0.0f;
+        float aclAxis = Input.GetAxis("Vertical");
+        if (aclAxis > m_deadZone)
+            m_currThrust = aclAxis * m_forwardAcl;
+        else if (aclAxis < -m_deadZone)
+            m_currThrust = aclAxis * m_backwardAcl;
+
+        //turning
+        m_currTurn = 0f;
+        float turnAxis = Input.GetAxis("Horizontal");
+        if (Mathf.Abs(turnAxis) > m_deadZone)
+            m_currTurn = turnAxis;
+    }
+
+    private void FixedUpdate()
+    {
+        //Hover Force
+        RaycastHit hit;
+        for (int i = 0; i < m_hoverPoints.Length; i++)
+        {
+            var hoverPoint = m_hoverPoints[i];
+            if (Physics.Raycast(hoverPoint.transform.position, -Vector3.up, out hit, m_hoverHeight, m_layerMask))
+                m_body.AddForceAtPosition(Vector3.up * m_hoverForce * (1.0f - (hit.distance / m_hoverHeight)), hoverPoint.transform.position);
+            else
+            {
+                // Self corrects the vehicle based on which side is higher
+                //if (transform.position.y > hoverPoint.transform.position.y)
+                //    m_body.AddForceAtPosition(hoverPoint.transform.up * m_hoverForce, hoverPoint.transform.position);
+                //else
+                //    m_body.AddForceAtPosition(hoverPoint.transform.up * -m_hoverForce, hoverPoint.transform.position);
+            }
+        }
+
+        //Forward
+        if (Math.Abs(m_currThrust) > 0)
+            m_body.AddForce(transform.forward * m_currThrust);
+
+        //Turn
+        if(m_currTurn > 0)
+        {
+            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
+        }else if (m_currTurn < 0)
+        {
+            m_body.AddRelativeTorque(Vector3.up * m_currTurn * m_turnStrength);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        
+    }
+}

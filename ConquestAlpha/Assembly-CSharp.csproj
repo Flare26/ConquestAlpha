@@ -55,23 +55,32 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Hover\HoverFollowCam.cs" />
     <Compile Include="Assets\Scripts\NPCTank.cs" />
     <Compile Include="Assets\Scripts\Weapons\WeaponCore.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCharController.cs" />
+    <Compile Include="Assets\Hover\HoverCarControl.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
-    <Compile Include="Assets\Scripts\TurretBuilder.cs" />
+    <Compile Include="Assets\Scripts\CamController2.cs" />
+    <Compile Include="Assets\Scripts\HoverController.cs" />
     <Compile Include="Assets\Scripts\NPCAI.cs" />
+    <Compile Include="Assets\Scripts\BaseBuilder.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCamController.cs" />
     <Compile Include="Assets\Scripts\TurretAI.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
-    <Compile Include="Assets\Scripts\ShowBuildUI.cs" />
+    <Compile Include="Assets\Scripts\BaseUI.cs" />
     <Compile Include="Assets\Scripts\Weapons\Wep_Sniper.cs" />
     <Compile Include="Assets\Scripts\TargetingAgent.cs" />
     <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
+    <Compile Include="Assets\Scripts\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\TankClass.cs" />
+    <Compile Include="Assets\Scripts\Classes\RepeaterClass.cs" />
+    <Compile Include="Assets\Scripts\Classes\UnitClass.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\Sample Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.0f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -609,6 +618,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -623,6 +635,9 @@
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
