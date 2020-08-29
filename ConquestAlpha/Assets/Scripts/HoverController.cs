@@ -8,24 +8,29 @@ public class HoverController : MonoBehaviour
     Rigidbody m_body;
     float m_deadZone = 0.1f;
 
-    public float m_forwardAcl = 100.0f;
+    [SerializeField] public float m_forwardAcl = 100.0f;
+    [SerializeField] float m_absVelocity = 0f;
     public float m_backwardAcl = 25.0f;
     float m_currThrust = 0.0f;
-
+    float m_baseAcl;
     public float m_turnStrength = 10f;
     float m_currTurn = 0.0f;
 
     int m_layerMask;
+    public float m_boostSpeed = 3000f;
     public float m_hoverForce = 9.0f;
     public float m_hoverHeight = 2.0f;
     public GameObject[] m_hoverPoints;
     private int m_currStrafe;
-
-    private void Start()
+    [SerializeField] bool boosting = false;
+    Transform boostFXinstance;
+    private void Awake()
     {
         m_body = GetComponent<Rigidbody>();
         m_layerMask = 1 << LayerMask.NameToLayer("Characters");
         m_layerMask = ~m_layerMask;
+        m_baseAcl = m_forwardAcl;
+        
     }
 
     private void Update()
@@ -63,10 +68,25 @@ public class HoverController : MonoBehaviour
         {
             m_currStrafe = 0; // if neither E or Q, then not strafing.
         }
+
+        // Boosting
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Debug.Log("Boostio!");
+
+            boosting = true;
+        } else
+        {
+            boosting = false;
+        }
     }
 
     private void FixedUpdate()
     {
+        m_absVelocity = GetComponent<Rigidbody>().velocity.magnitude;
+        //Debug.Log("VELOCITY " + m_absVelocity);
+        // Physics calculations
         //Hover Force
         RaycastHit hit;
         for (int i = 0; i < m_hoverPoints.Length; i++)
@@ -114,6 +134,17 @@ public class HoverController : MonoBehaviour
             }
         }
 
+        // boost
+        if (boosting)
+        {
+            if (m_forwardAcl < m_baseAcl + m_boostSpeed)
+            {
+                m_forwardAcl += Time.deltaTime * m_boostSpeed;
+            }
+        } else if (m_forwardAcl > m_baseAcl)
+        {
+            m_forwardAcl -= Time.deltaTime * m_boostSpeed;
+        }
     }
 
     void OnDrawGizmos()

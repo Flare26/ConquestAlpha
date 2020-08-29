@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8814278738111747852}
   - component: {fileID: 4284263530037400044}
   - component: {fileID: 9055420611324860682}
+  - component: {fileID: 5481512091683268350}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -89,15 +90,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_forwardAcl: 7000
+  m_absVelocity: 0
   m_backwardAcl: 5000
   m_turnStrength: 420
-  m_hoverForce: 2000
-  m_hoverHeight: 1.5
+  m_boostSpeed: 5000
+  m_hoverForce: 1600
+  m_hoverHeight: 2
   m_hoverPoints:
   - {fileID: 7320065381106791912}
   - {fileID: 433490759554922569}
   - {fileID: 7764107941857851143}
   - {fileID: 3623301884800324956}
+  boosting: 0
 --- !u!114 &8814278738111747852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +119,8 @@ MonoBehaviour:
   pps: 0
   weapon1Obj: {fileID: 5453322046799446820, guid: d9fcc0a848a99104fb9bca533f5b52e7,
     type: 3}
-  weapon2Obj: {fileID: 0}
+  weapon2Obj: {fileID: 5453322046799446820, guid: d9fcc0a848a99104fb9bca533f5b52e7,
+    type: 3}
   primaryBulletSpawn: {fileID: 8308843456948849896}
   secondaryBulletSpawn: {fileID: 8593624738375267503}
   m_Team: 0
@@ -151,6 +156,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5481512091683268350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330216006884828695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d93d410ee299b42aac63e1deba1888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2244581557582870309
 GameObject:
   m_ObjectHideFlags: 0

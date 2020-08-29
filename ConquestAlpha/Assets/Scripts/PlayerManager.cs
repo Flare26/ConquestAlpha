@@ -62,6 +62,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             primary.GetComponent<WeaponCore>().Fire(primaryBulletSpawn.position, GetComponent<Transform>().rotation);
+            secondary.GetComponent<WeaponCore>().Fire(secondaryBulletSpawn.position, GetComponent<Transform>().rotation);
         }
     }
 
