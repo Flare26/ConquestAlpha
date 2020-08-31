@@ -94,7 +94,7 @@ MonoBehaviour:
   m_backwardAcl: 5000
   m_turnStrength: 420
   m_boostSpeed: 5000
-  m_hoverForce: 1600
+  m_hoverForce: 1000
   m_hoverHeight: 2
   m_hoverPoints:
   - {fileID: 7320065381106791912}

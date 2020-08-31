@@ -26,6 +26,8 @@ public class HoverController : MonoBehaviour
     Transform boostFXinstance;
     private void Awake()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         m_body = GetComponent<Rigidbody>();
         m_layerMask = 1 << LayerMask.NameToLayer("Characters");
         m_layerMask = ~m_layerMask;
@@ -47,7 +49,7 @@ public class HoverController : MonoBehaviour
 
         //turning
         m_currTurn = 0f;
-        float turnAxis = Input.GetAxis("Horizontal");
+        float turnAxis = Input.GetAxis("Mouse X");
         if (Mathf.Abs(turnAxis) > m_deadZone)
             m_currTurn = turnAxis;
 
@@ -55,12 +57,12 @@ public class HoverController : MonoBehaviour
         float strafeAxis = Input.GetAxis("Strafe");
         m_currStrafe = 0;
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.D))
         {
             
             m_currStrafe = 1;
         }
-        else if (Input.GetKey(KeyCode.Q))
+        else if (Input.GetKey(KeyCode.A))
         {
             m_currStrafe = -1;
         }

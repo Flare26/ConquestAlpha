@@ -60,14 +60,16 @@ public class TargetingAgent : MonoBehaviour
     // TurretRoutine and NPCRoutine both populate the hostiles list however they filter what gets added to it differently.
     private void TurretRoutine(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (other.transform.gameObject.GetComponent<ThirdpersonCharController>().m_Team == m_Team)
-                return;
+            Team pteam = other.transform.gameObject.GetComponent<PlayerManager>().m_Team;
+            Debug.Log("Pteam =" + pteam);
+            if (pteam == m_Team)
+                Debug.Log("Same Team!");
         }
         bool isNPC = false;
         Team ut = Team.Neutral;
-        if (other.tag == "NPC")
+        if (other.gameObject.CompareTag("NPC"))
         {
             ut = other.GetComponent<NPCAI>().m_Team;
             isNPC = true;
