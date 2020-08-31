@@ -56,7 +56,7 @@ public class BaseBuilder : MonoBehaviour
 
         Debug.Log("A player has docked somwehere");
         
-        m_Team = other.GetComponent<PlayerManager>().m_Team;
+        m_Team = other.GetComponent<TeamManager>().m_Team;
             
 
 

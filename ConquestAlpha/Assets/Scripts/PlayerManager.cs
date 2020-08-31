@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, IRespawnable
 {
     public int hull;
     public int shield;
@@ -14,8 +14,6 @@ public class PlayerManager : MonoBehaviour
     public Transform secondaryBulletSpawn;
     GameObject primary;
     GameObject secondary;
-    ClassType type;
-    public Team m_Team;
     public UnitClass classScript;
 
     public Transform primaryMount;
@@ -29,7 +27,7 @@ public class PlayerManager : MonoBehaviour
         var glowLight = transform.Find("TeamLight");
         Light glowColor = glowLight.GetComponent<Light>();
         
-        switch (m_Team)
+        switch (GetComponent<TeamManager>().m_Team)
         {
             //assign by team
             case Team.Red:
@@ -51,12 +49,6 @@ public class PlayerManager : MonoBehaviour
         secondary = Instantiate<GameObject>(weapon2Obj, secondaryMount);
         secondary.GetComponent<WeaponCore>().bulletSpawn = secondaryBulletSpawn;
     }
-
-    void EnableCursor()
-    {
-        Cursor.visible = false;
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -66,4 +58,23 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int currentshields, int currenthull)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TakeDamage(int currenthull)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetSpawn(Vector3 spawnPoint)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ReturnToBuildQueue(GameObject parent)
+    {
+        throw new System.NotImplementedException();
+    }
 }

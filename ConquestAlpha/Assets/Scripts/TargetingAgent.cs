@@ -62,7 +62,7 @@ public class TargetingAgent : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Team pteam = other.transform.gameObject.GetComponent<PlayerManager>().m_Team;
+            Team pteam = other.transform.gameObject.GetComponent<TeamManager>().m_Team;
             Debug.Log("Pteam =" + pteam);
             if (pteam == m_Team)
                 Debug.Log("Same Team!");

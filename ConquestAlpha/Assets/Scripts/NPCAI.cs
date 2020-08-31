@@ -44,7 +44,6 @@ public class NPCAI : MonoBehaviour
     bool hasShield = true;
     private GameObject shieldFX;
     private GameObject deathFX;
-    float safeTime = 0f;
     public float range = 20f;
     GameObject primaryInstance;
     private float tm = 0f;

@@ -9,7 +9,6 @@ public class RepeaterClass : UnitClass
     public int shield_rate;
     public GameObject weaopn1;
     public GameObject weapon2;
-    string classname = "Repeater";
     // Start is called before the first frame update
     void Awake()
     {

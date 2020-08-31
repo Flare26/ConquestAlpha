@@ -10,10 +10,10 @@ public enum Team
 }
 
 public class TeamManager : MonoBehaviour
-{ 
+{
 
-    public List<Transform> blueBases = new List<Transform>();
-    public List<Transform> redBases = new List<Transform>();
+    public static List<Transform> redTeam;
+    public static List<Transform> blueTeam;
+    public Team m_Team;
 
-    public List<Transform> neutralBases = new List<Transform>();
 }
