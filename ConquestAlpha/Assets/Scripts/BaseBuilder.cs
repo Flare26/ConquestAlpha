@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BaseBuilder : MonoBehaviour
 {
-    int capacity = 4; // How many turrets a base can have
     bool[] constructed = new bool[4]; // Each turret has an entry. Array stores whether or not turret is alive or dead / unconstructed. A dead turret = unconstruct
     
     //public GameObject curr_builder;
@@ -111,8 +110,8 @@ public class BaseBuilder : MonoBehaviour
             // make sure the unit is removed from hostiles. since it is briefly neutral upon making.
             foreach (TargetingAgent ta in GetComponentsInChildren<TargetingAgent>())
             {
-                if (ta.hostiles.Contains(instance.transform))
-                    ta.hostiles.Remove(instance.transform);
+                if (ta.hostiles.Contains(instance.gameObject))
+                    ta.hostiles.Remove(instance.gameObject);
             }
         }
 

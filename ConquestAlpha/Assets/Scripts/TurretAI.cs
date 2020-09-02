@@ -2,8 +2,6 @@
 using UnityEngine;
 public class TurretAI : MonoBehaviour
 {
-    [SerializeField] public Team m_Team;
-    [SerializeField] public Team e_Team;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnTransform; // use an empty game object as reference for fire point so bullet does not spawn within turret
     [SerializeField] GameObject tHead;
@@ -20,8 +18,8 @@ public class TurretAI : MonoBehaviour
     public float turnSpeed; // clamped 0-1
     public float range;
     public float fireRate; // shots per sec
-    
-
+    public GameObject parentBase;
+    TeamManager m_TM;
     Transform tgt_Transform;
     public float shotVelocityMult;
     
@@ -43,29 +41,12 @@ public class TurretAI : MonoBehaviour
 
         if (gameObject.transform.parent != null)
         {
-            m_Team = GetComponentInParent<BaseBuilder>().m_Team; // On turret enable, check if its a child, and if there's a TurretBuilder in the parent.
+            m_TM = GetComponentInParent<TeamManager>();
 
         }
         else
         {
             Debug.Log(gameObject.name + " is ORPHANED!"); // if no TurretBuilder in the parent, then the turret is not connected to a base.
-        }
-        //Debug.Log("m_Team is " + m_Team);
-        Light glow = transform.GetChild(0).GetComponent<Light>();
-
-        switch (m_Team)
-        {
-            case Team.Neutral:
-                e_Team = Team.Neutral;
-                break;
-            case Team.Blue:
-                e_Team = Team.Red;
-                glow.color = Color.blue;
-                break;
-            case Team.Red:
-                e_Team = Team.Blue;
-                glow.color = Color.red;
-                break;
         }
 
         InvokeRepeating("UpdateTarget", 0f, 0.42f); // This is called when the turret is "Built"
@@ -111,13 +92,14 @@ public class TurretAI : MonoBehaviour
     {
         // On turret disable, set back to neutral and reset targeting information
         tgt_Transform = null;
+        parentBase.GetComponent<CommandPost>().turretQ.Enqueue(this.gameObject);
     }
 
 
     void UpdateTarget()
     {
         // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
-        var focus = tgtAgent.RequestClosestTarget();
+        var focus = tgtAgent.RequestClosestTarget(GetComponent<TeamManager>());
         if (focus != null) {
             tgt_Transform = focus;
             aimOrb.position = tgt_Transform.position; // Set aim orb correctly

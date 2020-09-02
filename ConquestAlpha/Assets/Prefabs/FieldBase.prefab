@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 1020577159055193207}
   - component: {fileID: 1020577159055193204}
   - component: {fileID: 1020577159055193205}
+  - component: {fileID: 2810021075060669808}
   - component: {fileID: 1020577159055193206}
-  - component: {fileID: 1020577159055193209}
   m_Layer: 0
   m_Name: Dock
   m_TagString: Untagged
@@ -132,6 +132,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2810021075060669808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020577159055193203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b343434efa85b418817233b62a9bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Team: 2
 --- !u!114 &1020577159055193206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,19 +169,6 @@ MonoBehaviour:
   npcSpawnablesLoadout: []
   m_Team: 2
   timeSinceLastSpawnable: 0
---- !u!114 &1020577159055193209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020577159055193203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8681978bfbc0b8f4bac033a447771981, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseUI: {fileID: 0}
 --- !u!1001 &5270285943041103666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -221,6 +221,11 @@ PrefabInstance:
       propertyPath: teamManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7191052010400315699, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: parentBase
+      value: 
+      objectReference: {fileID: 1020577159055193203}
     - target: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
         type: 3}
       propertyPath: m_Name
@@ -366,6 +371,11 @@ PrefabInstance:
       propertyPath: teamManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7191052010400315699, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: parentBase
+      value: 
+      objectReference: {fileID: 1020577159055193203}
     - target: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
         type: 3}
       propertyPath: m_Name
@@ -511,6 +521,11 @@ PrefabInstance:
       propertyPath: teamManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7191052010400315699, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: parentBase
+      value: 
+      objectReference: {fileID: 1020577159055193203}
     - target: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
         type: 3}
       propertyPath: m_Name
@@ -656,6 +671,11 @@ PrefabInstance:
       propertyPath: teamManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7191052010400315699, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
+        type: 3}
+      propertyPath: parentBase
+      value: 
+      objectReference: {fileID: 1020577159055193203}
     - target: {fileID: 7631736724046115267, guid: 4dcac6f40fa8b4d468430ebdeea4b4d4,
         type: 3}
       propertyPath: m_Name

@@ -55,10 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Hover\HoverFollowCam.cs" />
+     <Compile Include="Assets\Scripts\CommandPost.cs" />
      <Compile Include="Assets\Scripts\Classes\RepeaterClass.cs" />
      <Compile Include="Assets\Scripts\PlayerParticleFX.cs" />
      <Compile Include="Assets\Scripts\Weapons\WeaponCore.cs" />
+     <Compile Include="Assets\Scripts\IBuildable.cs" />
      <Compile Include="Assets\Scripts\TeamManager.cs" />
      <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\ThirdpersonCharController.cs" />
@@ -74,9 +77,8 @@
      <Compile Include="Assets\Scripts\TurretAI.cs" />
      <Compile Include="Assets\Scripts\Weapons\Wep_Sniper.cs" />
      <Compile Include="Assets\Scripts\TargetingAgent.cs" />
-     <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
      <Compile Include="Assets\Scripts\IRespawnable.cs" />
-     <Compile Include="Assets\Scripts\Unit.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
      <None Include="Assets\Sample Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/natha/Documents/GitHub/ConquestAlpha/ConquestAlpha/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

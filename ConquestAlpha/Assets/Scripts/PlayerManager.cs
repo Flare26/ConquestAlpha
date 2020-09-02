@@ -22,6 +22,9 @@ public class PlayerManager : MonoBehaviour, IRespawnable
     // Start is called before the first frame update
     void OnEnable()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         //give the proper stats based on the class script this player is using
         //Change the glow color of your hitbox
         var glowLight = transform.Find("TeamLight");

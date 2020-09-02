@@ -75,6 +75,7 @@ Transform:
   - {fileID: 7148815040070148528}
   - {fileID: 3708429529707568829}
   - {fileID: 5755934956727272830}
+  - {fileID: 5534896883509543317}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -90,6 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b343434efa85b418817233b62a9bb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamLights:
+  - {fileID: 3863920240521420712}
+  m_Team: 0
 --- !u!114 &9021542337109192517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,19 +106,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9880e7b7620868b479cd24d770c0fdeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_forwardAcl: 7000
-  m_absVelocity: 0
+  m_forwardAcl: 10000
   m_backwardAcl: 5000
+  m_boostSpeed: 20000
   m_turnStrength: 420
-  m_boostSpeed: 5000
-  m_hoverForce: 1000
-  m_hoverHeight: 2
+  m_hoverForce: 2000
+  m_hoverHeight: 1
   m_hoverPoints:
   - {fileID: 7320065381106791912}
   - {fileID: 433490759554922569}
   - {fileID: 7764107941857851143}
   - {fileID: 3623301884800324956}
-  boosting: 0
+  totalAcl: 0
 --- !u!114 &8814278738111747852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +139,6 @@ MonoBehaviour:
     type: 3}
   primaryBulletSpawn: {fileID: 8308843456948849896}
   secondaryBulletSpawn: {fileID: 8593624738375267503}
-  m_Team: 0
   classScript: {fileID: 0}
   primaryMount: {fileID: 3063613834661751380}
   secondaryMount: {fileID: 473194765762643053}
@@ -161,7 +163,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330216006884828695}
   serializedVersion: 2
-  m_Mass: 100
+  m_Mass: 200
   m_Drag: 7
   m_AngularDrag: 3
   m_UseGravity: 1
@@ -214,6 +216,36 @@ Transform:
   - {fileID: 405851725422549780}
   m_Father: {fileID: 1330216006884828691}
   m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3014939649482226053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5534896883509543317}
+  m_Layer: 0
+  m_Name: MassCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5534896883509543317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014939649482226053}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1330216006884828691}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3623301884800324956
 GameObject:

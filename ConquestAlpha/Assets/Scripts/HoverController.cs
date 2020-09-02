@@ -9,25 +9,30 @@ public class HoverController : MonoBehaviour
     float m_deadZone = 0.1f;
 
     [SerializeField] public float m_forwardAcl = 100.0f;
-    [SerializeField] float m_absVelocity = 0f;
+    
     public float m_backwardAcl = 25.0f;
     float m_currThrust = 0.0f;
     float m_baseAcl;
+    public float m_boostSpeed = 3000f;
     public float m_turnStrength = 10f;
     float m_currTurn = 0.0f;
+    Vector3 centerOMass;
 
     int m_layerMask;
-    public float m_boostSpeed = 3000f;
+    
     public float m_hoverForce = 9.0f;
     public float m_hoverHeight = 2.0f;
     public GameObject[] m_hoverPoints;
     private int m_currStrafe;
-    [SerializeField] bool boosting = false;
+    bool isBoosting = false;
+    
     Transform boostFXinstance;
+
+    [Header("Speedometer")]
+    [SerializeField] float totalAcl = 0f;
     private void Awake()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        GetComponent<Rigidbody>().centerOfMass = centerOMass;
         m_body = GetComponent<Rigidbody>();
         m_layerMask = 1 << LayerMask.NameToLayer("Characters");
         m_layerMask = ~m_layerMask;
@@ -77,16 +82,16 @@ public class HoverController : MonoBehaviour
         {
             Debug.Log("Boostio!");
 
-            boosting = true;
+            isBoosting = true;
         } else
         {
-            boosting = false;
+            isBoosting = false;
         }
     }
 
     private void FixedUpdate()
     {
-        m_absVelocity = GetComponent<Rigidbody>().velocity.magnitude;
+        totalAcl = GetComponent<Rigidbody>().velocity.magnitude;
         //Debug.Log("VELOCITY " + m_absVelocity);
         // Physics calculations
         //Hover Force
@@ -137,7 +142,7 @@ public class HoverController : MonoBehaviour
         }
 
         // boost
-        if (boosting)
+        if (isBoosting)
         {
             if (m_forwardAcl < m_baseAcl + m_boostSpeed)
             {

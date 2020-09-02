@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
-
+// CURRENTLY CRASHES BECUASE ITS COUNTING BULLETS AS HOSTILES FOR SOME REASON
 public class TargetingAgent : MonoBehaviour
 {
     enum Mode
@@ -13,28 +14,39 @@ public class TargetingAgent : MonoBehaviour
     }
     // This script at it's core should search for a suitable target in range for the turret that it is a parent of. It should present the turret with a target every time it requests one.
     // Made to be used with a targetArea collision trigger sphere or object 
-    [SerializeField] public List<Transform> hostiles;
-    [SerializeField] public Team m_Team;
+    [SerializeField] public List<GameObject> hostiles;
+    [SerializeField] List<GameObject> inRange;
+    TeamManager tm;
     Mode mode;
-    Team e_Team; // If turret is neutral, this value remains NULL
+
+    public void Start()
+    {
+        //GameEvents.current.onDeathRemoveAggro += 
+    }
+
+    private void RemoveAggro()
+    {
+
+    }
     private void OnEnable()
     {
+        inRange = new List<GameObject>();
+        tm = GetComponentInParent<TeamManager>();
         // Assess whether or not this agent will acquire targets for a turret, or NPC
+        //Initialize based on what type of unit the target agent is on
         if (transform.parent.tag == "Turret")
         {
-            Debug.Log("Targeting mode: Turret");
+            Debug.Log("Initializing TargetingAgent | Turret");
+            var tm = GetComponentInParent<TeamManager>();
             var ai = GetComponentInParent<TurretAI>();
             GetComponent<SphereCollider>().radius = ai.range; // set the range collider to proper size based on the turret range stat
-            m_Team = ai.m_Team;
-
         }
         else if (transform.parent.tag == "NPC")
         {
-            Debug.Log("Targeting mode: NPC");
+            Debug.Log("Initializing TargetingAgent | Turret");
             var ai = GetComponentInParent<NPCAI>();
             GetComponent<SphereCollider>().radius = ai.range;
-            m_Team = ai.m_Team;
-            
+
         }
         else
         {
@@ -48,9 +60,11 @@ public class TargetingAgent : MonoBehaviour
         switch (mode)
         {
             case Mode.Turret:
+                inRange.Add(other.gameObject);
                 TurretRoutine(other);
                 break;
             case Mode.NPC:
+                inRange.Add(other.gameObject);
                 NPCRoutine(other);
                 break;
         }
@@ -60,48 +74,22 @@ public class TargetingAgent : MonoBehaviour
     // TurretRoutine and NPCRoutine both populate the hostiles list however they filter what gets added to it differently.
     private void TurretRoutine(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        try
         {
-            Team pteam = other.transform.gameObject.GetComponent<TeamManager>().m_Team;
-            Debug.Log("Pteam =" + pteam);
-            if (pteam == m_Team)
-                Debug.Log("Same Team!");
+            TeamManager tm;
+            if (other.gameObject.TryGetComponent<TeamManager>(out tm))
+                if (!tm.m_Team.Equals(tm.m_Team))
+                    hostiles.Add(other.gameObject);
         }
-        bool isNPC = false;
-        Team ut = Team.Neutral;
-        if (other.gameObject.CompareTag("NPC"))
+        catch(Exception e)
         {
-            ut = other.GetComponent<NPCAI>().m_Team;
-            isNPC = true;
-        }
-
-
-        if (m_Team == Team.Neutral)
-        {
-            //Debug.Log("Target In Range");
-            //if turret does not have a team (neutral) all NPC are potential targets
-            if (isNPC)
-            {
-                hostiles.Add(other.transform);
-            }
-        }
-        else
-        {
-
-            // if this turret has a team
-            List<Transform> inRange = new List<Transform>();
-            if (isNPC && ut != m_Team)
-            {
-                // and the intruder is on a different team
-                hostiles.Add(other.transform);
-            }
+            Debug.Log("Exeption in turret routine");
         }
     }
 
     private void NPCRoutine(Collider other)
     {
         // NPC Can target players, Turrets, other NPC
-        bool isTgtable = false; // is this new found unit targetable by our NPC? If so, add to hostiles.
         Team ut = Team.Neutral;
 
         if (other.tag == "NPC" || other.tag == "TurretHead" || other.tag == "Player")
@@ -110,82 +98,75 @@ public class TargetingAgent : MonoBehaviour
             switch (other.tag)
             {
                 case "NPC":
-                    ut = other.GetComponent<NPCAI>().m_Team; // check team of new potential target
+                    ut = other.GetComponent<TeamManager>().m_Team; // check team of new potential target
+
                     break;
                 case "TurretHead":
-                    ut = other.GetComponentInParent<TurretAI>().m_Team; // check team of new potential target. TurretHead should always have a parent so we can assume it has a TurretAi
+                    ut = other.GetComponentInParent<TeamManager>().m_Team; // check team of new potential target. TurretHead should always have a parent so we can assume it has a TurretAi
                     break;
                 case "Player":
                     Debug.Log("Tried to target " + other.name) ;
                     break;
             } // The team of the enemy has now been determined
-            
-            if (ut != m_Team)
-            {
-                isTgtable = true;
-            }
 
-        }
-
-
-        if (m_Team == Team.Neutral)
-        {
-            //if NPC is (neutral) then all units that fit tag criteria above are potential targets EXCEPT other neutrals
-            if (isTgtable && ut != Team.Neutral)
-            {
-                hostiles.Add(other.transform);
-            }
-        }
-        else
-        {
-
-            // if this turret has a team, check that
-            List<Transform> inRange = new List<Transform>();
-            if (isTgtable && ut != m_Team)
-            {
-                // and the intruder is on a different team
-                hostiles.Add(other.transform);
-            }
+            if (!ut.Equals(tm.m_Team))
+                hostiles.Add(other.gameObject);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
+        hostiles.TrimExcess();
         // When units die within the targeting range, a data ghost is left as null in the enemy units array. To fix this, regularly remove nulls
         for (int i = 0; i < hostiles.Count; i++)
         {
-            Transform t = hostiles[i];
-            if (t == null || t.gameObject.activeInHierarchy == false) // If destroyed OR disabled
-                hostiles.Remove(t);
+            // Verify that we have not targeted our own team somehow!
+            TeamManager htm; // hostile team manager
+            var hostile = hostiles[i];
+            if (hostile.gameObject.TryGetComponent<TeamManager>(out htm))
+            {
+                Debug.Log("HTM" + htm);
+                Debug.Log("TM"+tm);
+                if (htm.m_Team == tm.m_Team)
+                    hostiles.Remove(hostiles[i]);
+            }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
-        if (hostiles.Contains(other.transform))
+        if (hostiles.Contains(other.gameObject))
         {
-            hostiles.Remove(other.transform);
+            hostiles.Remove(other.gameObject);
         }
     }
 
-    public Transform RequestClosestTarget()
+    public Transform RequestClosestTarget(TeamManager m_tm)
     {
         if (hostiles.Count == 0)
             return null;
+        TeamManager etm; // enemy team manager
+
+        for (int i = 0; i < hostiles.Count; i++)
+        {
+            if (hostiles[i].gameObject.TryGetComponent<TeamManager>(out etm))
+                if (m_tm.m_Team.Equals(tm.m_Team))
+                    hostiles.RemoveAt(i); // remove friendlies 
+        }
 
             float dist_low = float.MaxValue;
             Transform close_targ = null;
             for (int i = 0; i < hostiles.Count; i++)
             {
                 
-            Transform t = hostiles[i];
-            if (t.Equals(null))
-                return null;
-            float dist_targ = Vector3.Distance(transform.position, t.transform.position);
-            if (dist_targ < dist_low )
-            {
-                dist_low = dist_targ;
-                close_targ = t;
+                Transform t = hostiles[i].transform;
+                if (t.Equals(null))
+                    return null;
+                float dist_targ = Vector3.Distance(transform.position, t.transform.position);
+                if (dist_targ < dist_low )
+                {
+                    dist_low = dist_targ;
+                    close_targ = t;
             }
         }
 

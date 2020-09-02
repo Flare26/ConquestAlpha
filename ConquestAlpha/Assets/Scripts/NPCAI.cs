@@ -91,7 +91,7 @@ public class NPCAI : MonoBehaviour
     }
     void UpdateTarget()
     {
-        tgt_Transform = tgtAgent.RequestClosestTarget();
+        tgt_Transform = tgtAgent.RequestClosestTarget(GetComponent<TeamManager>()); // Call on the agent to find us who we can aggro
         if (tgt_Transform == null)
         {
             targetName = "Out of Range";

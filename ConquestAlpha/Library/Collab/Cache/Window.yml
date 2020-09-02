@@ -13,35 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimpleSelectedItems:
-    m_Keys:
-    - .collabignore
-    - Assets/Prefabs/FieldBase.prefab
-    - Assets/Prefabs/FieldBase.prefab.meta
-    - Assets/Prefabs/Player.prefab
-    - Assets/Prefabs/Player.prefab.meta
-    - Assets/Scenes/ShootingModel.unity
-    - Assets/Scenes/ShootingModel.unity.meta
-    - Assets/Scripts/BaseBuilder.cs
-    - Assets/Scripts/BaseBuilder.cs.meta
-    - Assets/Scripts/Classes/RepeaterClass.cs
-    - Assets/Scripts/Classes/RepeaterClass.cs.meta
-    - Assets/Scripts/IRespawnable.cs
-    - Assets/Scripts/IRespawnable.cs.meta
-    - Assets/Scripts/NPCAI.cs
-    - Assets/Scripts/NPCAI.cs.meta
-    - Assets/Scripts/PlayerManager.cs
-    - Assets/Scripts/PlayerManager.cs.meta
-    - Assets/Scripts/TargetingAgent.cs
-    - Assets/Scripts/TargetingAgent.cs.meta
-    - Assets/Scripts/TeamManager.cs
-    - Assets/Scripts/TeamManager.cs.meta
-    - Assets/Scripts/Unit.cs
-    - Assets/Scripts/Unit.cs.meta
-    - Packages/manifest.json
-    - Packages/packages-lock.json
-    - ProjectSettings/ProjectVersion.txt
-    - 
-    m_Values: 000000000000000000000000000000000000000000000000000000
+    m_Keys: []
+    m_Values: 
   RevisionSummary: 
   ChangesSearchValue: 
   SelectedHistoryRevision: 
