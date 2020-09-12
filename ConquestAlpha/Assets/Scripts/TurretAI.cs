@@ -13,14 +13,14 @@ public class TurretAI : MonoBehaviour
     private int maxHP;
     
     public int dmg_Mod;
-    TargetingAgent tgtAgent;
+    
     private float tm = 0f; // Time since last shot
     public float turnSpeed; // clamped 0-1
     public float range;
     public float fireRate; // shots per sec
     public GameObject parentBase;
     TeamManager m_TM;
-    Transform tgt_Transform;
+    Transform currentTarget;
     public float shotVelocityMult;
     
     // Start is called before the first frame update
@@ -31,8 +31,6 @@ public class TurretAI : MonoBehaviour
 
     private void Awake()
     {
-        var targetSphere = transform.GetChild(2);
-        tgtAgent = targetSphere.GetComponent<TargetingAgent>();
         maxHP = turretHP;
     }
     private void OnEnable()
@@ -71,7 +69,7 @@ public class TurretAI : MonoBehaviour
 
     void Shoot()
     {
-        if (!tgt_Transform.Equals(null))
+        if (!currentTarget.Equals(null))
         {
            // Every shot recalculates accuracy of the aim orb.
                 float x = Random.Range(-spreadFactor, spreadFactor);
@@ -79,7 +77,7 @@ public class TurretAI : MonoBehaviour
                 float z = Random.Range(-spreadFactor, spreadFactor);
                 Vector3 spread = new Vector3(x, y / 4 , z);
                 aimOrb.position += spread;
-                tgt_Transform = aimOrb.transform;
+                currentTarget = aimOrb.transform;
 
             GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
             bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
@@ -91,7 +89,7 @@ public class TurretAI : MonoBehaviour
     private void OnDisable()
     {
         // On turret disable, set back to neutral and reset targeting information
-        tgt_Transform = null;
+        currentTarget = null;
         parentBase.GetComponent<CommandPost>().turretQ.Enqueue(this.gameObject);
     }
 
@@ -99,14 +97,14 @@ public class TurretAI : MonoBehaviour
     void UpdateTarget()
     {
         // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
-        var focus = tgtAgent.RequestClosestTarget(GetComponent<TeamManager>());
+        var focus = GetComponent<TargetingAgent>().RequestClosestTarget(GetComponent<TeamManager>());
         if (focus != null) {
-            tgt_Transform = focus;
-            aimOrb.position = tgt_Transform.position; // Set aim orb correctly
+            currentTarget = focus;
+            aimOrb.position = currentTarget.position; // Set aim orb correctly
             
         } else
         {
-            tgt_Transform = null;
+            currentTarget = null;
         }
     }
 
@@ -114,10 +112,10 @@ public class TurretAI : MonoBehaviour
     {
         
         // angles to rotate 
-        if (tgt_Transform == null)
+        if (currentTarget == null)
             return; // will return null if there are no enemy units within the targeting area
         
-        Vector3 dir = tgt_Transform.position - (tHead.transform.position); // get the difference between points
+        Vector3 dir = currentTarget.position - (tHead.transform.position); // get the difference between points
         Quaternion rotation = Quaternion.LookRotation(dir, Vector3.up); // have unity calculate quaternion based on this difference
         tHead.transform.rotation = Quaternion.Lerp(tHead.transform.rotation, rotation, 0.9f); // interpolate from current rotation to the one facing the target
 

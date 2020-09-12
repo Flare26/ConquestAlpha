@@ -21,11 +21,10 @@ public class NPCAI : MonoBehaviour
     }
     [SerializeField] Transform destination;
     NavMeshAgent navAgent;
-    [SerializeField] public Team m_Team;
+    [SerializeField] Team m_Team;
     [SerializeField] GameObject shieldPopFX;
     [SerializeField] GameObject deathPopFX;
     [SerializeField] Renderer meshRenderer;
-    public TargetingAgent tgtAgent;
     Transform tgt_Transform;
     Transform mount_Primary;
     Transform mount_Secondary;
@@ -91,7 +90,7 @@ public class NPCAI : MonoBehaviour
     }
     void UpdateTarget()
     {
-        tgt_Transform = tgtAgent.RequestClosestTarget(GetComponent<TeamManager>()); // Call on the agent to find us who we can aggro
+        tgt_Transform = GetComponent<TargetingAgent>().RequestClosestTarget(GetComponent<TeamManager>()); // Call on the agent to find us who we can aggro
         if (tgt_Transform == null)
         {
             targetName = "Out of Range";

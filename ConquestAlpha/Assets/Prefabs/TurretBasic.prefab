@@ -330,7 +330,6 @@ GameObject:
   - component: {fileID: 836744494264654710}
   - component: {fileID: 6493330824035534331}
   - component: {fileID: 6484167983645587215}
-  - component: {fileID: 470185482261093926}
   m_Layer: 0
   m_Name: TargetingArea
   m_TagString: Untagged
@@ -414,19 +413,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &470185482261093926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5516985314493417413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c947923c966059241852c171533a648b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hostiles: []
 --- !u!1 &5697885902899368475
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8173442266457709693}
   - component: {fileID: 3317587850177484420}
+  - component: {fileID: 570083334740291958}
   - component: {fileID: 7191052010400315699}
   - component: {fileID: 8565364514762616441}
   m_Layer: 0
@@ -667,6 +654,21 @@ MonoBehaviour:
   teamLights:
   - {fileID: 2859555571122119461}
   m_Team: 2
+--- !u!114 &570083334740291958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7631736724046115267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c947923c966059241852c171533a648b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostiles: []
+  inRange: []
+  targetingArea: {fileID: 6484167983645587215}
 --- !u!114 &7191052010400315699
 MonoBehaviour:
   m_ObjectHideFlags: 0

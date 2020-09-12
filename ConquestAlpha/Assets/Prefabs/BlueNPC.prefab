@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6907606805897833715}
   - component: {fileID: 5880831741125500039}
   - component: {fileID: 4267232761071880694}
-  - component: {fileID: 6303071472004425943}
   m_Layer: 0
   m_Name: TargetingArea
   m_TagString: Untagged
@@ -96,19 +95,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6303071472004425943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730537135527141052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c947923c966059241852c171533a648b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hostiles: []
 --- !u!1 &935713035669968389
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,6 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5726731593887544428}
   - component: {fileID: 897495360423818964}
+  - component: {fileID: 3951513362317521439}
   - component: {fileID: 5726731593887544430}
   - component: {fileID: 5726731593887544435}
   - component: {fileID: 5726731593887544434}
@@ -338,6 +325,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamLights: []
   m_Team: 1
+--- !u!114 &3951513362317521439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726731593887544432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c947923c966059241852c171533a648b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostiles: []
+  inRange: []
+  targetingArea: {fileID: 4267232761071880694}
 --- !u!114 &5726731593887544430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,7 +359,7 @@ MonoBehaviour:
   deathPopFX: {fileID: 694890427346761469, guid: 9c309058d5ccc9b4c8d9c2be26b32c47,
     type: 3}
   meshRenderer: {fileID: 6032964593771277272}
-  tgtAgent: {fileID: 6303071472004425943}
+  tgtAgent: {fileID: 0}
   p_FP: {fileID: 2685689955727643740}
   s_FP: {fileID: 735971883517480553}
   primaryWep: {fileID: 5453322046799446820, guid: d9fcc0a848a99104fb9bca533f5b52e7,

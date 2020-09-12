@@ -16,6 +16,7 @@ public class TargetingAgent : MonoBehaviour
     // Made to be used with a targetArea collision trigger sphere or object 
     [SerializeField] public List<GameObject> hostiles;
     [SerializeField] List<GameObject> inRange;
+    [SerializeField] SphereCollider targetingArea;
     TeamManager tm;
     Mode mode;
 
@@ -34,18 +35,18 @@ public class TargetingAgent : MonoBehaviour
         tm = GetComponentInParent<TeamManager>();
         // Assess whether or not this agent will acquire targets for a turret, or NPC
         //Initialize based on what type of unit the target agent is on
-        if (transform.parent.tag == "Turret")
+        if (gameObject.tag == "Turret")
         {
             Debug.Log("Initializing TargetingAgent | Turret");
             var tm = GetComponentInParent<TeamManager>();
             var ai = GetComponentInParent<TurretAI>();
-            GetComponent<SphereCollider>().radius = ai.range; // set the range collider to proper size based on the turret range stat
+            targetingArea.radius = ai.range; // set the range collider to proper size based on the turret range stat
         }
-        else if (transform.parent.tag == "NPC")
+        else if (gameObject.tag == "NPC")
         {
             Debug.Log("Initializing TargetingAgent | Turret");
             var ai = GetComponentInParent<NPCAI>();
-            GetComponent<SphereCollider>().radius = ai.range;
+            targetingArea.radius = ai.range;
 
         }
         else
