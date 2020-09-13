@@ -47,6 +47,11 @@ public class TeamManager : MonoBehaviour
         }
 
         m_Team = t;
+        TargetingAgent agt;
+        if (TryGetComponent<TargetingAgent>(out agt))
+        {
+            agt.myTeam = t;
+        }
         TeamLightUpdate();
     }
 

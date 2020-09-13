@@ -32,7 +32,7 @@ public class NPCAI : MonoBehaviour
     public Transform s_FP; // secondary fire point
     public GameObject primaryWep;
     public GameObject secondaryWep;
-    
+    public List<GameObject> targetedBy;
     public string targetName;
     public int hull = 10;
     public int shield = 5;
@@ -53,7 +53,7 @@ public class NPCAI : MonoBehaviour
     {
         // On enable set the correct team color
         var color = meshRenderer.material;
-
+        targetedBy = new List<GameObject>();
         switch (m_Team)
         {
             case Team.Neutral:
@@ -90,7 +90,7 @@ public class NPCAI : MonoBehaviour
     }
     void UpdateTarget()
     {
-        tgt_Transform = GetComponent<TargetingAgent>().RequestClosestTarget(GetComponent<TeamManager>()); // Call on the agent to find us who we can aggro
+        tgt_Transform = GetComponent<TargetingAgent>().RequestClosestTarget(); // Call on the agent to find us who we can aggro
         if (tgt_Transform == null)
         {
             targetName = "Out of Range";
@@ -115,13 +115,44 @@ public class NPCAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Bullet hitbox component
         if (collision.gameObject.tag == "Bullet")
         {
             TakeDamage(collision.gameObject.GetComponent<Bullet>()); // Get Bullet script instance to see what type of bullet has hit us
             collision.gameObject.GetComponent<Bullet>().HitTarget();
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        String name = other.gameObject.name;
+        TargetingAgent tmp;
 
+        if (name.Equals("TargetingArea"))
+        {
+            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+            if (tmp.inRange.Contains(gameObject))
+                return;
+            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
+            Debug.Log("Found a targeting agent!");
+            tmp.inRange.Add(gameObject);
+            if (!targetedBy.Contains(tmp.gameObject))
+                targetedBy.Add(tmp.gameObject);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        String name = other.gameObject.name;
+        TargetingAgent tmp; // the TargetingAgent component of the NPC whose range we just entered
+        if ( name.Equals("TargetingArea") )
+        {
+            // if the collision has a targeting agent
+            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+            if (tmp.hostiles.Contains(gameObject)) // If the npc has come into the range of an enemy aligned agent, add to hostiles.
+                tmp.hostiles.Remove(gameObject);
+
+            targetedBy.Remove(tmp.gameObject);
+        }
+    }
     void TakeDamage(Bullet b)
     {
         //Destroy(gameObject);
@@ -202,6 +233,33 @@ public class NPCAI : MonoBehaviour
         tm -= Time.deltaTime; // fire rate will decrement regardless of having a target
     }
 
+    private void DeathRoutine()
+    {
+
+        // If this NPC was being targeted by targeting agents at time of death, ensure that it is removed from the lists
+
+        foreach (GameObject g in targetedBy)
+        {
+            // first, check that whatever was targeting us didnt get destroyed already first
+            if (g.Equals(null))
+                return;
+
+            TargetingAgent agt;
+            g.TryGetComponent<TargetingAgent>(out agt);
+            if (agt.inRange.Contains(gameObject))
+                agt.inRange.Remove(gameObject);
+            if (agt.hostiles.Contains(gameObject))
+                agt.hostiles.Remove(gameObject);
+        }
+
+        deathFX = (GameObject)Instantiate(deathPopFX, transform.position, transform.rotation);
+        Destroy(shieldFX, 4f);
+        Destroy(deathFX, 2f);
+        Destroy(primaryInstance);
+        //Destroy(secondaryInstance);
+        Destroy(gameObject);
+
+    }
 
     private void FixedUpdate()
     {
@@ -218,12 +276,7 @@ public class NPCAI : MonoBehaviour
 
         if (hull <= 0)
         {
-            deathFX = (GameObject)Instantiate(deathPopFX, transform.position, transform.rotation);
-            Destroy(shieldFX, 4f);
-            Destroy(deathFX, 2f);
-            Destroy(primaryInstance);
-            //Destroy(secondaryInstance);
-            Destroy(gameObject);
+            DeathRoutine();
         }
     }
 }

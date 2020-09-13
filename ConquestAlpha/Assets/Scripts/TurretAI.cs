@@ -18,7 +18,7 @@ public class TurretAI : MonoBehaviour
     public float turnSpeed; // clamped 0-1
     public float range;
     public float fireRate; // shots per sec
-    public GameObject parentBase;
+    public GameObject parentBase = null;
     TeamManager m_TM;
     Transform currentTarget;
     public float shotVelocityMult;
@@ -97,7 +97,7 @@ public class TurretAI : MonoBehaviour
     void UpdateTarget()
     {
         // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
-        var focus = GetComponent<TargetingAgent>().RequestClosestTarget(GetComponent<TeamManager>());
+        var focus = GetComponent<TargetingAgent>().RequestClosestTarget();
         if (focus != null) {
             currentTarget = focus;
             aimOrb.position = currentTarget.position; // Set aim orb correctly

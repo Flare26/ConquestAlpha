@@ -29,7 +29,8 @@ public class PlayerManager : MonoBehaviour, IRespawnable
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
+        currentHull = maxHull;
+        currentShield = maxShield;
         hpSlider.maxValue = maxHull;
         hpSlider.value = currentHull;
 

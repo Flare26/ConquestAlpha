@@ -340,6 +340,7 @@ MonoBehaviour:
   hostiles: []
   inRange: []
   targetingArea: {fileID: 4267232761071880694}
+  myTeam: 2
 --- !u!114 &5726731593887544430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,18 +354,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 0}
-  m_Team: 1
+  m_Team: 2
   shieldPopFX: {fileID: 694890427346761469, guid: 23e52a4d3d8c91b4abd5087fa8e65051,
     type: 3}
   deathPopFX: {fileID: 694890427346761469, guid: 9c309058d5ccc9b4c8d9c2be26b32c47,
     type: 3}
   meshRenderer: {fileID: 6032964593771277272}
-  tgtAgent: {fileID: 0}
   p_FP: {fileID: 2685689955727643740}
   s_FP: {fileID: 735971883517480553}
   primaryWep: {fileID: 5453322046799446820, guid: d9fcc0a848a99104fb9bca533f5b52e7,
     type: 3}
   secondaryWep: {fileID: 0}
+  targetedBy: []
   targetName: 
   hull: 10
   shield: 5
