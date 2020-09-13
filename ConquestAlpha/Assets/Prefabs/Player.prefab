@@ -106,18 +106,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9880e7b7620868b479cd24d770c0fdeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_forwardAcl: 10000
-  m_backwardAcl: 5000
-  m_boostSpeed: 20000
-  m_turnStrength: 420
-  m_hoverForce: 2000
-  m_hoverHeight: 1
+  m_fwardAcl: 8000
+  m_bwardAcl: 6500
+  m_boostSpeed: 4000
+  m_turnStrength: 4200
+  m_hoverForce: 1500
+  m_hoverHeight: 3
   m_hoverPoints:
   - {fileID: 7320065381106791912}
   - {fileID: 433490759554922569}
   - {fileID: 7764107941857851143}
   - {fileID: 3623301884800324956}
-  totalAcl: 0
 --- !u!114 &8814278738111747852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,8 +129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a97046968c7e004289d00e3a4c70128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hull: 10
-  shield: 1
+  hpSlider: {fileID: 0}
+  currentHull: 0
+  currentShield: 0
+  maxHull: 100
+  maxShield: 30
   pps: 0
   weapon1Obj: {fileID: 5453322046799446820, guid: d9fcc0a848a99104fb9bca533f5b52e7,
     type: 3}
@@ -163,9 +165,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330216006884828695}
   serializedVersion: 2
-  m_Mass: 200
-  m_Drag: 7
-  m_AngularDrag: 3
+  m_Mass: 500
+  m_Drag: 1
+  m_AngularDrag: 2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0

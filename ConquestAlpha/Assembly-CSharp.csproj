@@ -66,16 +66,18 @@
     <Compile Include="Assets\Hover\HoverCarControl.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\CamController2.cs" />
-    <Compile Include="Assets\Scripts\HoverController.cs" />
+    <Compile Include="Assets\Scripts\HoverControl\HoverController.cs" />
     <Compile Include="Assets\Scripts\Classes\UnitClass.cs" />
-    <Compile Include="Assets\Scripts\NPCAI.cs" />
+    <Compile Include="Assets\Scripts\AI\NPCAI.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCamController.cs" />
-    <Compile Include="Assets\Scripts\TurretAI.cs" />
+    <Compile Include="Assets\Scripts\AI\TurretAI.cs" />
     <Compile Include="Assets\Scripts\Weapons\Wep_Sniper.cs" />
-    <Compile Include="Assets\Scripts\TargetingAgent.cs" />
+    <Compile Include="Assets\Scripts\Weapons\TargetingAgent.cs" />
     <Compile Include="Assets\Scripts\IRespawnable.cs" />
     <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
+    <Compile Include="Assets\script.cs" />
+    <Compile Include="Assets\Scripts\HoverControl\HoverController_AI.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Sample Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
