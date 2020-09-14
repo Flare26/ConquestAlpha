@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//Nathan Frazier
 public class PlayerManager : MonoBehaviour, IRespawnable
 {
     [SerializeField] Slider hpSlider;

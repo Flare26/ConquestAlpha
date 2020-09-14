@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+//Nathan Frazier
 // https://www.youtube.com/watch?v=5B6ALcOX4b8
 [RequireComponent(typeof(Rigidbody))]
 public class HoverController : MonoBehaviour

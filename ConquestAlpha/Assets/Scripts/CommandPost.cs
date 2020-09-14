@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Nathan Frazier
 public class CommandPost : MonoBehaviour
 {
     //public GameObject curr_builder;

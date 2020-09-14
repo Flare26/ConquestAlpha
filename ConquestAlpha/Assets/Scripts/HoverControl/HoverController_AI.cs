@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+// Nathan Frazier
 public class HoverController_AI : MonoBehaviour
 {
     [SerializeField] GameObject [] m_hoverPoints;
+    [SerializeField] bool[] isRayHit;
     private Rigidbody m_body;
 
     public int m_currStrafe { get; private set; }
     public float m_hoverForce { get; private set; }
-    public float m_hoverHeight { get; private set; }
+    public float m_hoverHeight;
     public float m_bwardAcl = 5000;
     public float m_fwardAcl = 9000;
     public int m_boostSpeed { get; private set; }
@@ -24,7 +25,8 @@ public class HoverController_AI : MonoBehaviour
     private void Awake()
     {
         m_body = GetComponent<Rigidbody>();
-        
+        isRayHit = new bool[m_hoverPoints.Length];
+
     }
     void FixedUpdate()
     {
@@ -40,12 +42,16 @@ public class HoverController_AI : MonoBehaviour
         {
             var hoverPoint = m_hoverPoints[i];
             if (Physics.Raycast(hoverPoint.transform.position, -transform.up, out hit) && hit.distance < m_hoverHeight) // if there is a hit and that same hit distance is <= hover height
+            {
                 m_body.AddForceAtPosition(Vector3.up * m_hoverForce * (1.0f - (hit.distance / m_hoverHeight)), hoverPoint.transform.position);
+                isRayHit[i] = true ;
+            }
             else
             {
                 // Is on it's side
                 m_currThrust = 0;
                 isBoosting = false;
+                isRayHit[i] = false;
             }
         }
 

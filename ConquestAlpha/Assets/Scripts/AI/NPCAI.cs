@@ -6,9 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.AI;
-
-
-
+// Nathan Frazier
 // these are going to be created and built with the team of the base
 public class NPCAI : MonoBehaviour
 {
@@ -184,7 +182,8 @@ public class NPCAI : MonoBehaviour
         {
             Vector3 targetVector = destination.transform.position;
             navAgent.stoppingDistance = 5;
-            navAgent.SetDestination(targetVector);
+            navAgent.Warp(transform.position);
+            //navAgent.SetDestination(targetVector);
         }
     }
 
