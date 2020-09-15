@@ -33,9 +33,9 @@ public class PlayerTarget : MonoBehaviour
         var distFromPlayer = Vector3.Distance(transform.position, playerTforms[0].position); // HARD WIRED FOR NOW
         Vector3 myViewportPoint = Camera.main.WorldToViewportPoint(this.transform.position);
         //Debug.Log("myViewportPoint = " + myViewportPoint);
-
+        Debug.Log(playerTforms[0].rotation);
         bool isSnapped = false;
-        if (myViewportPoint.x < 0.75f && myViewportPoint.x > 0.35f && myViewportPoint.z > 0 )
+        if (myViewportPoint.x < 0.6f && myViewportPoint.x > 0.40f && myViewportPoint.z > 0 )
             isSnapped = true;
         if (distFromPlayer > maxDist || !isSnapped) // if the player is out of targeting range disable the lock on image
         {

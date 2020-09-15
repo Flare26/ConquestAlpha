@@ -98,12 +98,16 @@ public class HoverController : MonoBehaviour
         for (int i = 0; i < m_hoverPoints.Length; i++)
         {
             var hoverPoint = m_hoverPoints[i];
-            if (Physics.Raycast(hoverPoint.transform.position, -transform.up, out hit, m_layerMask) && hit.distance < m_hoverHeight) // if there is a hit and that same hit distance is <= hover height
+            if (Physics.Raycast(hoverPoint.transform.position, -transform.up, out hit, m_layerMask) && hit.distance < m_hoverHeight) { 
                 m_body.AddForceAtPosition(Vector3.up * m_hoverForce * (1.0f - (hit.distance / m_hoverHeight)), hoverPoint.transform.position);
+                m_body.drag = 2;
+            } // if there is a hit and that same hit distance is <= hover height
             else
             {
                 // Is on it's side
                 m_currThrust = 0;
+                m_body.drag = 0.1f;
+               
                 isBoosting = false;
             }
         }
