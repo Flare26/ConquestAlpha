@@ -50,20 +50,8 @@ public class NPCAI : MonoBehaviour
     private void OnEnable()
     {
         // On enable set the correct team color
-        var color = meshRenderer.material;
         targetedBy = new List<GameObject>();
-        switch (m_Team)
-        {
-            case Team.Neutral:
-                color.SetColor("_Color", Color.gray);
-                break;
-            case Team.Red:
-                color.SetColor("_Color", Color.red);
-                break;
-            case Team.Blue:
-                color.SetColor("_Color", Color.blue);
-                break;
-        }
+
 
         mount_Primary = transform.GetChild(0).transform;
         mount_Secondary = transform.GetChild(2).transform;
@@ -86,8 +74,29 @@ public class NPCAI : MonoBehaviour
             SetDestination();
         InvokeRepeating("UpdateTarget", 0, 0.42f);
     }
+
+    void RefreshMeshColor()
+    {
+        var color = meshRenderer.material;
+        switch (m_Team)
+        {
+            case Team.Neutral:
+                color.SetColor("_Color", Color.gray);
+                break;
+            case Team.Red:
+                color.SetColor("_Color", Color.red);
+                break;
+            case Team.Blue:
+                color.SetColor("_Color", Color.blue);
+                break;
+        }
+    }
     void UpdateTarget()
     {
+
+        m_Team = GetComponent<TeamManager>().m_Team;
+        RefreshMeshColor(); // for good measure
+        
         tgt_Transform = GetComponent<TargetingAgent>().RequestClosestTarget(); // Call on the agent to find us who we can aggro
         if (tgt_Transform == null)
         {
@@ -252,12 +261,11 @@ public class NPCAI : MonoBehaviour
         }
 
         deathFX = (GameObject)Instantiate(deathPopFX, transform.position, transform.rotation);
-        Destroy(shieldFX, 4f);
-        Destroy(deathFX, 2f);
+        Destroy(shieldFX);
+        Destroy(deathFX);
         Destroy(primaryInstance);
         //Destroy(secondaryInstance);
         Destroy(gameObject);
-
     }
 
     private void FixedUpdate()
@@ -275,6 +283,7 @@ public class NPCAI : MonoBehaviour
 
         if (hull <= 0)
         {
+            Debug.Log("Destroying " + name);
             DeathRoutine();
         }
     }

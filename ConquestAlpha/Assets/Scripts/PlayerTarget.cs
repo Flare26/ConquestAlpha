@@ -7,6 +7,7 @@ public class PlayerTarget : MonoBehaviour
 {
     public Image LockOn;
     static Transform[] playerTforms;
+    static Image reticle;
     int playerLockRange = 20;
     bool isNearPlayer = false;
     float[] pdist;
@@ -15,6 +16,7 @@ public class PlayerTarget : MonoBehaviour
     {
         // All units with a PlayerTarget should know where each player is at all times using the static array.
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        reticle = GameObject.Find("Reticle").GetComponent<Image>();
         playerTforms = new Transform[players.Length];
         for (int i = 0; i < players.Length; i++)
         {
@@ -25,10 +27,17 @@ public class PlayerTarget : MonoBehaviour
     }
     void FixedUpdate()
     {
+        // Viewport Point Z is negative if the point is located behind the viewport
+
         int maxDist = 50; // HARD WIRED FOR NOW
         var distFromPlayer = Vector3.Distance(transform.position, playerTforms[0].position); // HARD WIRED FOR NOW
-        //Debug.Log("Dist from player = " + distFromPlayer);
-        if (distFromPlayer > maxDist) // if the player is out of targeting range disable the lock on image
+        Vector3 myViewportPoint = Camera.main.WorldToViewportPoint(this.transform.position);
+        //Debug.Log("myViewportPoint = " + myViewportPoint);
+
+        bool isSnapped = false;
+        if (myViewportPoint.x < 0.75f && myViewportPoint.x > 0.35f && myViewportPoint.z > 0 )
+            isSnapped = true;
+        if (distFromPlayer > maxDist || !isSnapped) // if the player is out of targeting range disable the lock on image
         {
             LockOn.enabled = false;
         } else
@@ -37,9 +46,8 @@ public class PlayerTarget : MonoBehaviour
             //if player already has a target though dont even bother
             if (LockOn.enabled == false)
                 LockOn.enabled = true;
-
-            Vector3 reticlePos = Camera.main.WorldToScreenPoint(this.transform.position);
-            LockOn.transform.position = reticlePos;
+            var myScreenPoint = Camera.main.ViewportToScreenPoint(myViewportPoint);
+            LockOn.transform.position = myScreenPoint ; // set the lock on cursor to follow me!
         }
     }
 
