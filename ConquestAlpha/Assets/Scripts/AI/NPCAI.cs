@@ -137,11 +137,10 @@ public class NPCAI : MonoBehaviour
         if (name.Equals("TargetingArea"))
         {
             tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
-            if (tmp.inRange.Contains(gameObject))
+            if (tmp.inRange.Contains(GetComponent<TargetingAgent>()))
                 return;
-            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
-            Debug.Log("Found a targeting agent!");
-            tmp.inRange.Add(gameObject);
+            //Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
+            tmp.inRange.Add(GetComponent<TargetingAgent>());
             if (!targetedBy.Contains(tmp.gameObject))
                 targetedBy.Add(tmp.gameObject);
         }
@@ -181,7 +180,8 @@ public class NPCAI : MonoBehaviour
             shield -= b.m_dmg;
             return;
         }
-
+        if (hull <= 0)
+            DeathRoutine();
         //Debug.Log(gameObject.name + " took dmg " + b.dmg);
     }
 
@@ -254,18 +254,17 @@ public class NPCAI : MonoBehaviour
 
             TargetingAgent agt;
             g.TryGetComponent<TargetingAgent>(out agt);
-            if (agt.inRange.Contains(gameObject))
-                agt.inRange.Remove(gameObject);
-            if (agt.hostiles.Contains(gameObject))
+                agt.inRange.Remove(GetComponent<TargetingAgent>());
                 agt.hostiles.Remove(gameObject);
         }
 
         deathFX = (GameObject)Instantiate(deathPopFX, transform.position, transform.rotation);
-        Destroy(shieldFX);
-        Destroy(deathFX);
+        Destroy(shieldFX,1f);
+        Destroy(deathFX,1f);
         Destroy(primaryInstance);
         //Destroy(secondaryInstance);
         Destroy(gameObject);
+        return;
     }
 
     private void FixedUpdate()
@@ -279,12 +278,6 @@ public class NPCAI : MonoBehaviour
         if (shieldFX != null)
         {
             shieldFX.transform.position = this.transform.position;
-        }
-
-        if (hull <= 0)
-        {
-            Debug.Log("Destroying " + name);
-            DeathRoutine();
         }
     }
 }

@@ -15,7 +15,7 @@ public class TargetingAgent : MonoBehaviour
     // This script at it's core should search for a suitable target in range for the turret that it is a parent of. It should present the turret with a target every time it requests one.
     // Made to be used with a targetArea collision trigger sphere or object 
     [SerializeField] public List<GameObject> hostiles;
-    [SerializeField] public List<GameObject> inRange;
+    [SerializeField] public List<TargetingAgent> inRange;
     [SerializeField] SphereCollider targetingArea;
     TeamManager tm;
      public Team myTeam = Team.Neutral;
@@ -23,7 +23,7 @@ public class TargetingAgent : MonoBehaviour
 
     private void OnEnable()
     {
-        inRange = new List<GameObject>();
+        inRange = new List<TargetingAgent>();
         tm = GetComponentInParent<TeamManager>();
         myTeam = tm.m_Team;
 
@@ -31,14 +31,14 @@ public class TargetingAgent : MonoBehaviour
         //Initialize based on what type of unit the target agent is on
         if (gameObject.tag == "Turret")
         {
-            Debug.Log("Initializing TargetingAgent | Turret");
+            //Debug.Log("Initializing TargetingAgent | Turret");
             var tm = GetComponentInParent<TeamManager>();
             var ai = GetComponentInParent<TurretAI>();
             targetingArea.radius = ai.range; // set the range collider to proper size based on the turret range stat
         }
         else if (gameObject.tag == "NPC")
         {
-            Debug.Log("Initializing TargetingAgent | Turret");
+            //Debug.Log("Initializing TargetingAgent | NPC");
             var ai = GetComponentInParent<NPCAI>();
             targetingArea.radius = ai.range;
 
@@ -54,14 +54,14 @@ public class TargetingAgent : MonoBehaviour
     // TurretRoutine and NPCRoutine both populate the hostiles list however they filter what gets added to it differently.
     private void TurretRoutine()
     {
-        foreach (GameObject g in inRange)
+        foreach (TargetingAgent g in inRange)
         {
             TeamManager utm; // unit team manager
             if (g.TryGetComponent<TeamManager>(out utm))
             {
                 // For each team manager, compare the teams and if they are different then add the gameobject of the utm to hostiles.
                 if (!utm.m_Team.Equals(GetComponent<TeamManager>().m_Team))
-                    if (utm.gameObject.tag.Equals("NPC") && !hostiles.Contains(g))
+                    if (utm.gameObject.tag.Equals("NPC") && !hostiles.Contains(g.gameObject))
                     hostiles.Add(utm.gameObject);
             }
         }
@@ -69,10 +69,10 @@ public class TargetingAgent : MonoBehaviour
 
     private void NPCRoutine()
     {
-        foreach (GameObject g in inRange)
+        foreach (TargetingAgent g in inRange)
         {
             // if something dies in the middle of this routine check for that.
-            if (g.Equals(null))
+            if (g == null)
                 return;
 
             TeamManager utm;
@@ -80,8 +80,8 @@ public class TargetingAgent : MonoBehaviour
             {
                 if ( g.TryGetComponent<TeamManager>(out utm) )
                 {
-                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g))
-                        hostiles.Add(g);
+                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g.gameObject))
+                        hostiles.Add(g.gameObject);
                 }
             }
         }

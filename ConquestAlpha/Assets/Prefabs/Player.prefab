@@ -106,12 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9880e7b7620868b479cd24d770c0fdeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fwardAcl: 7000
-  m_bwardAcl: 5000
-  m_boostSpeed: 3000
+  m_fwardAcl: 5500
+  m_bwardAcl: 3000
+  m_boostSpeed: 1500
   m_turnStrength: 4200
-  m_hoverForce: 2000
-  m_hoverHeight: 3
+  m_hoverForce: 1700
+  m_hoverHeight: 2
   m_hoverPoints:
   - {fileID: 7320065381106791912}
   - {fileID: 433490759554922569}
@@ -169,7 +169,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.7, z: 2}
+  m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &9055420611324860682
 Rigidbody:
@@ -179,7 +179,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330216006884828695}
   serializedVersion: 2
-  m_Mass: 250
+  m_Mass: 200
   m_Drag: 2
   m_AngularDrag: 2
   m_UseGravity: 1
@@ -223,7 +223,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3014939649482226053}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1330216006884828691}

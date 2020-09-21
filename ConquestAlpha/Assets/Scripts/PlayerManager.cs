@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour, IRespawnable
 {
     [SerializeField] Slider hpSlider;
+    public int playerNumber = 0;
     public int currentHull;
     public int currentShield;
     public int maxHull;
@@ -19,7 +21,7 @@ public class PlayerManager : MonoBehaviour, IRespawnable
     GameObject primary;
     GameObject secondary;
     public UnitClass classScript;
-
+    public List<TargetingAgent> targetedBy = new List<TargetingAgent>();
     public Transform primaryMount;
     public Transform secondaryMount;
 
@@ -61,12 +63,44 @@ public class PlayerManager : MonoBehaviour, IRespawnable
         secondary = Instantiate<GameObject>(weapon2Obj, secondaryMount);
         secondary.GetComponent<WeaponCore>().bulletSpawn = secondaryBulletSpawn;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        String name = other.gameObject.name;
+        TargetingAgent tmp;
+
+        if (name.Equals("TargetingArea"))
+        {
+            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+            if (tmp.inRange.Contains(GetComponent<TargetingAgent>()))
+                return;
+            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
+            tmp.inRange.Add(GetComponent<TargetingAgent>());
+            if (!targetedBy.Contains(tmp))
+                targetedBy.Add(tmp);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        String name = other.gameObject.name;
+        TargetingAgent tmp;
+
+        if (name.Equals("TargetingArea"))
+        {
+            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+
+            Debug.Log("Unit " + gameObject.name + " has moved outside of targeting area of " + tmp.gameObject.name);
+            tmp.inRange.Remove(GetComponent<TargetingAgent>());
+            targetedBy.Remove(tmp.GetComponent<TargetingAgent>());
+        }
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            primary.GetComponent<WeaponCore>().Fire(primaryBulletSpawn.position, GetComponent<Transform>().rotation);
-            secondary.GetComponent<WeaponCore>().Fire(secondaryBulletSpawn.position, GetComponent<Transform>().rotation);
+            primary.GetComponent<WeaponCore>().Fire(primaryBulletSpawn.position, primaryBulletSpawn.rotation);
+            secondary.GetComponent<WeaponCore>().Fire(secondaryBulletSpawn.position, secondaryBulletSpawn.rotation);
         }
     }
 

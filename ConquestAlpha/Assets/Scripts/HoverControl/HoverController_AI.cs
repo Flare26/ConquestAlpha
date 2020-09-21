@@ -8,7 +8,7 @@ public class HoverController_AI : MonoBehaviour
     private Rigidbody m_body;
 
     public int m_currStrafe { get; private set; }
-    public float m_hoverForce { get; private set; }
+    public float m_hoverForce = 2000;
     public float m_hoverHeight;
     public float m_bwardAcl = 5000;
     public float m_fwardAcl = 9000;
@@ -48,7 +48,7 @@ public class HoverController_AI : MonoBehaviour
             }
             else
             {
-                // Is on it's side
+                // Is on it's side or on a hitch
                 m_currThrust = 0;
                 isBoosting = false;
                 isRayHit[i] = false;
