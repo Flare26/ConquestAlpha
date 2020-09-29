@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     GameObject primary;
     GameObject secondary;
     
-    public List<TargetingAgent> targetedBy = new List<TargetingAgent>();
+    public List<GameObject> targetedBy = new List<GameObject>();
     public Transform primaryMount;
     public Transform secondaryMount;
 
@@ -67,17 +67,22 @@ public class PlayerManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         String name = other.gameObject.name;
-        TargetingAgent tmp;
+        
 
         if (name.Equals("TargetingArea"))
         {
-            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
-            if (tmp.inRange.Contains(GetComponent<TargetingAgent>()))
+            var enemyTargList = other.gameObject.GetComponentInParent<TargetingAgent>().inRange;
+            var enemyHostileList = other.gameObject.GetComponentInParent<TargetingAgent>().hostiles;
+            var myTeam = GetComponent<TeamManager>().m_Team;
+            var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
+            if (enemyTargList.Contains(gameObject))
                 return;
-            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
-            tmp.inRange.Add(GetComponent<TargetingAgent>());
-            if (!targetedBy.Contains(tmp))
-                targetedBy.Add(tmp);
+
+            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + other.gameObject.name);
+            enemyTargList.Add(gameObject);
+
+            if (!myTeam.Equals(eTeam))
+                enemyHostileList.Add(gameObject);
         }
     }
 
@@ -91,8 +96,8 @@ public class PlayerManager : MonoBehaviour
             tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
 
             Debug.Log("Unit " + gameObject.name + " has moved outside of targeting area of " + tmp.gameObject.name);
-            tmp.inRange.Remove(GetComponent<TargetingAgent>());
-            targetedBy.Remove(tmp.GetComponent<TargetingAgent>());
+            tmp.inRange.Remove(gameObject);
+            tmp.hostiles.Remove(gameObject);
         }
     }
     private void Update()

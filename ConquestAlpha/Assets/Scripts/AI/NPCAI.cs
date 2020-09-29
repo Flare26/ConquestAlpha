@@ -131,10 +131,10 @@ public class NPCAI : MonoBehaviour
         if (name.Equals("TargetingArea"))
         {
             tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
-            if (tmp.inRange.Contains(GetComponent<TargetingAgent>()))
+            if (tmp.inRange.Contains(other.gameObject))
                 return;
             //Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
-            tmp.inRange.Add(GetComponent<TargetingAgent>());
+            tmp.inRange.Add(other.gameObject);
             if (!targetedBy.Contains(tmp.gameObject))
                 targetedBy.Add(tmp.gameObject);
         }
@@ -248,7 +248,7 @@ public class NPCAI : MonoBehaviour
 
             TargetingAgent agt;
             g.TryGetComponent<TargetingAgent>(out agt);
-                agt.inRange.Remove(GetComponent<TargetingAgent>());
+                agt.inRange.Remove(gameObject);
                 agt.hostiles.Remove(gameObject);
         }
 

@@ -448,21 +448,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 688441720236378225, guid: 17b2747c5a5e8b8409cb22356cc7d2db,
         type: 3}
-      propertyPath: h_max
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 688441720236378225, guid: 17b2747c5a5e8b8409cb22356cc7d2db,
-        type: 3}
-      propertyPath: sh_current
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 688441720236378225, guid: 17b2747c5a5e8b8409cb22356cc7d2db,
-        type: 3}
-      propertyPath: sh_max
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 688441720236378225, guid: 17b2747c5a5e8b8409cb22356cc7d2db,
-        type: 3}
       propertyPath: sh_rate
       value: 0
       objectReference: {fileID: 0}

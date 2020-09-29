@@ -14,7 +14,7 @@ public class NPC : GameUnit, IKillable
 
     HoverController_AI driver;
     ParticlePlayer fxplayer;
-    
+    TeamManager tm;
     private void Awake()
     {
         // Triggered when script is loaded into runtime
@@ -23,6 +23,9 @@ public class NPC : GameUnit, IKillable
 
         if (!TryGetComponent<ParticlePlayer>(out fxplayer))
             Debug.LogError("NPC does not have a particle player script! >" + gameObject.name);
+
+        if (!TryGetComponent<TeamManager>(out tm))
+            Debug.LogError("NPC does not have a Team Manager! >" + gameObject.name);
     }
 
     void OnEnable()
@@ -31,6 +34,7 @@ public class NPC : GameUnit, IKillable
         h_current = h_max;
         sh_current = sh_max;
         hasShield = true;
+        
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -426,6 +426,7 @@ MonoBehaviour:
   teamLights:
   - {fileID: 3976762671500995278}
   m_Team: 1
+  mesh: {fileID: 6032964593771277272}
 --- !u!114 &3951513362317521439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,9 +456,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   h_current: 0
-  h_max: 0
-  sh_current: 0
-  sh_max: 0
+  h_max: 10
+  sh_current: 5
+  sh_max: 5
   sh_rate: 0
   sh_delay: 0
   range: 20
@@ -473,6 +474,7 @@ MonoBehaviour:
   p_FP: {fileID: 611365104702319113}
   s_FP: {fileID: 1573142611743531317}
   targetedBy: []
+  hasShield: 0
 --- !u!114 &5717090285490378643
 MonoBehaviour:
   m_ObjectHideFlags: 0

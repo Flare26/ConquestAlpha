@@ -16,12 +16,17 @@ public class TeamManager : MonoBehaviour
     public static List<GameObject> blueTeam;
     public Light[] teamLights;
     public Team m_Team;
-
+    public Renderer mesh;
     void Awake()
     {
         //Initialize static lists
         redTeam = new List<GameObject>();
         blueTeam = new List<GameObject>();
+    }
+
+    private void OnEnable()
+    {
+        AssignTeam(m_Team);
     }
     public void AssignTeam(Team t)
     {
@@ -52,12 +57,31 @@ public class TeamManager : MonoBehaviour
         {
             agt.myTeam = t;
         }
-        TeamLightUpdate();
+        TeamColorsUpdate();
+    }
+    
+    public Color SetMeshColor()
+    {
+        Color c = Color.white;
+
+        switch (m_Team)
+        {
+            case Team.Red:
+                c = Color.red;
+                break;
+            case Team.Blue:
+                c =  Color.blue;
+                break;
+            case Team.Neutral:
+                c = Color.green;
+                break;
+        }
+        
+        return c;
     }
 
-    void TeamLightUpdate()
+    void SetTeamLights()
     {
-
         for (int i = 0; i < teamLights.Length; i++)
         {
             Light glow = teamLights[i];
@@ -76,5 +100,10 @@ public class TeamManager : MonoBehaviour
                     break;
             }
         }
+    }
+    void TeamColorsUpdate()
+    {
+        mesh.material.color = SetMeshColor();
+        SetTeamLights();
     }
 }
