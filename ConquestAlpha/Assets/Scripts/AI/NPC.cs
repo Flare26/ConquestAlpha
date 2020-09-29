@@ -15,6 +15,7 @@ public class NPC : GameUnit, IKillable
     HoverController_AI driver;
     ParticlePlayer fxplayer;
     TeamManager tm;
+    TargetingAgent ta;
     private void Awake()
     {
         // Triggered when script is loaded into runtime
@@ -26,6 +27,8 @@ public class NPC : GameUnit, IKillable
 
         if (!TryGetComponent<TeamManager>(out tm))
             Debug.LogError("NPC does not have a Team Manager! >" + gameObject.name);
+        if (!TryGetComponent<TargetingAgent>(out ta))
+            Debug.LogError("NPC does not have a TargetingAgent! >" + gameObject.name);
     }
 
     void OnEnable()
@@ -34,13 +37,31 @@ public class NPC : GameUnit, IKillable
         h_current = h_max;
         sh_current = sh_max;
         hasShield = true;
-        
+
+        primaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary);
+        secondaryInstance = Instantiate<GameObject>(secondaryWep, mount_Secondary);
+        InvokeRepeating("RefreshCurrentTarget", 0.5f, 0.5f);
+    }
+    void RefreshCurrentTarget()
+    {
+        curr_targ = ta.RequestClosestTarget();
+        if(curr_targ != null)
+        {
+            var lookvector = curr_targ.position;
+            lookvector.y = transform.position.y; // this is to prevent the whole vehicle from turning itself up / down for now
+            transform.LookAt(lookvector);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
             TakeDamage(collision.gameObject.GetComponent<Bullet>());
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+ 
     }
 
     public void TakeDamage(Bullet b)
@@ -75,12 +96,22 @@ public class NPC : GameUnit, IKillable
         }
     }
 
+
+
     private void FixedUpdate()
     {
         //first check for death
         if (h_current < 1)
         {
             DeathRoutine();
+        }
+
+        if (curr_targ != null)
+        {
+            primaryInstance.GetComponent<WeaponCore>().CheckReload();
+            secondaryInstance.GetComponent<WeaponCore>().CheckReload();
+            primaryInstance.GetComponent<WeaponCore>().Fire();
+            secondaryInstance.GetComponent<WeaponCore>().Fire();
         }
     }
     public void DeathRoutine()

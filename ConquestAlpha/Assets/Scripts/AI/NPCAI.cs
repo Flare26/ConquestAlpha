@@ -105,7 +105,7 @@ public class NPCAI : MonoBehaviour
     {
         if (primaryWep != null)
         {
-            primaryWep.GetComponent<WeaponCore>().Fire(p_FP.position, p_FP.transform.rotation); // The angle of fire can be adjusted via firepoint
+            primaryWep.GetComponent<WeaponCore>().Fire(); // The angle of fire can be adjusted via firepoint
         }
     }
 

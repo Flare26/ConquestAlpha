@@ -82,7 +82,7 @@ public class TurretAI : MonoBehaviour
             GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
             bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
             Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
-            bullet_CS.speed *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
+            bullet_CS.bullet_velocity *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
             bullet_CS.m_dmg += dmg_Mod;
         }
     }

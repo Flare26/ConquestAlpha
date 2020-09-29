@@ -31,6 +31,7 @@ public abstract class GameUnit : MonoBehaviour
     [Header("Weaponry")]
     [SerializeField] public GameObject primaryWep;
     [SerializeField] public GameObject secondaryWep;
+    public Transform curr_targ;
     [HideInInspector] public GameObject primaryInstance;
     [HideInInspector] public GameObject secondaryInstance;
 
@@ -39,8 +40,6 @@ public abstract class GameUnit : MonoBehaviour
     [SerializeField] State stance;
     public Transform mount_Primary;
     public Transform mount_Secondary;
-    [SerializeField] public Transform p_FP; // primary fire point
-    [SerializeField] public Transform s_FP; // secondary fire point
     public List<GameObject> targetedBy;
     public bool hasShield;
 
@@ -55,7 +54,12 @@ public abstract class GameUnit : MonoBehaviour
 
         if (primaryWep != null)
         {
-            primaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary.position, this.transform.rotation);
+            primaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary.position, mount_Primary.rotation);
+        }
+
+        if (secondaryWep != null)
+        {
+            secondaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary.position, mount_Secondary.rotation);
         }
         // Secondary wep not accounted for yet
 

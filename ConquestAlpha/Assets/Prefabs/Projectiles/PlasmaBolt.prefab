@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 924070359493855965}
+  - component: {fileID: 7101100356825446062}
   - component: {fileID: 274602548472682639}
   - component: {fileID: 1435008419092653161}
   - component: {fileID: 5036946679743012619}
   - component: {fileID: 1254253904066644643}
-  - component: {fileID: 1927871665424442927}
   m_Layer: 9
   m_Name: PlasmaBolt
   m_TagString: Bullet
@@ -36,6 +36,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7101100356825446062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667101032445687302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc625bb68648654f8bfc714fcf8bb2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawn: {fileID: 0}
+  TTL: 3
+  bullet_velocity: 50
+  m_dmg: 1
 --- !u!33 &274602548472682639
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -115,24 +131,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &1927871665424442927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667101032445687302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43c7db857212a2444bb88fc307935300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSpawn: {fileID: 0}
-  speed: 80
-  TTL: 1
-  m_dmg: 1
-  impactEffect: {fileID: 6821978494458994580, guid: 26df4340c0af60249876fdb791a8197c,
-    type: 3}
 --- !u!1 &7448676409617839037
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class TeamManager : MonoBehaviour
     public static List<GameObject> blueTeam;
     public Light[] teamLights;
     public Team m_Team;
-    public Renderer mesh;
+    [HideInInspector]public Renderer mesh;
     void Awake()
     {
         //Initialize static lists
@@ -55,7 +55,7 @@ public class TeamManager : MonoBehaviour
         TargetingAgent agt;
         if (TryGetComponent<TargetingAgent>(out agt))
         {
-            agt.myTeam = t;
+            agt.SetTeam(t);
         }
         TeamColorsUpdate();
     }

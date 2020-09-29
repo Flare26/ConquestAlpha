@@ -18,7 +18,7 @@ public class TargetingAgent : MonoBehaviour
     [SerializeField] public List<GameObject> inRange;
     [SerializeField] SphereCollider targetingArea;
     TeamManager tm;
-     public Team myTeam = Team.Neutral;
+    Team myTeam = Team.Neutral;
     Mode mode;
 
     private void OnEnable()
@@ -51,6 +51,10 @@ public class TargetingAgent : MonoBehaviour
         
     }
 
+    public void SetTeam(Team t)
+    {
+        t = myTeam;
+    }
     // TurretRoutine and NPCRoutine both populate the hostiles list however they filter what gets added to it differently.
     private void TurretRoutine()
     {
@@ -103,7 +107,6 @@ public class TargetingAgent : MonoBehaviour
 
         if (hostiles.Count == 0)
             return null;
-        TeamManager etm; // enemy team manager
 
             float dist_low = float.MaxValue;
             Transform close_targ = null;

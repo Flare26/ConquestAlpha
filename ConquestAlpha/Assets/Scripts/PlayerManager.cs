@@ -59,9 +59,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         primary = Instantiate<GameObject>(weapon1Obj, primaryMount);
-        primary.GetComponent<WeaponCore>().bulletSpawn = primaryBulletSpawn;
         secondary = Instantiate<GameObject>(weapon2Obj, secondaryMount);
-        secondary.GetComponent<WeaponCore>().bulletSpawn = secondaryBulletSpawn;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -102,10 +100,12 @@ public class PlayerManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            primary.GetComponent<WeaponCore>().Fire(primaryBulletSpawn.position, primaryBulletSpawn.rotation);
-            secondary.GetComponent<WeaponCore>().Fire(secondaryBulletSpawn.position, secondaryBulletSpawn.rotation);
+            primary.GetComponent<WeaponCore>().CheckReload();
+            secondary.GetComponent<WeaponCore>().CheckReload();
+            primary.GetComponent<WeaponCore>().Fire();
+            secondary.GetComponent<WeaponCore>().Fire();
         }
     }
 

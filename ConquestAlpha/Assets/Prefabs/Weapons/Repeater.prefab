@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7932096748125332806}
   - component: {fileID: 8389256876032381330}
   m_Layer: 0
-  m_Name: Barrel
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,6 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &8389256876032381330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -102,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5453322046799446818}
-  - component: {fileID: 1189812884227395887}
+  - component: {fileID: 771202822186462482}
   m_Layer: 0
   m_Name: Repeater
   m_TagString: Untagged
@@ -122,10 +124,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2805926056946375464}
+  - {fileID: 738832683668842509}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1189812884227395887
+--- !u!114 &771202822186462482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,11 +137,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 5453322046799446820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727298f1f7b3d254ba0aa474f7ca2f0e, type: 3}
+  m_Script: {fileID: 11500000, guid: f47dcbf0ae8c58e418f68813e5c28e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WepName: Plasma Repeater
+  m_WepName: 
   projectile: {fileID: 1667101032445687302, guid: 6917b53378aed7a4aa34a620de9b3d24,
     type: 3}
-  bulletSpawn: {fileID: 0}
+  firepoint: {fileID: 738832683668842509}
   shotVelocityMult: 1
+  roundsInClip: 0
+  clipSize: 3
+  reloadTime: 1
+  reloadTimer: 0
+  canFire: 0
+--- !u!1 &6017542124942454084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 738832683668842509}
+  m_Layer: 0
+  m_Name: FP
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &738832683668842509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6017542124942454084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5453322046799446818}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
