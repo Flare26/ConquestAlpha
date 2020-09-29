@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 0}
+  playerNumber: 0
   currentHull: 0
   currentShield: 0
   maxHull: 100
@@ -141,7 +142,7 @@ MonoBehaviour:
     type: 3}
   primaryBulletSpawn: {fileID: 8308843456948849896}
   secondaryBulletSpawn: {fileID: 8593624738375267503}
-  classScript: {fileID: 0}
+  targetedBy: []
   primaryMount: {fileID: 3063613834661751380}
   secondaryMount: {fileID: 473194765762643053}
 --- !u!114 &5452626338801971268
@@ -156,8 +157,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e813d93b947a6084383f12a3675ec32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapRange: 0
-  snapAngle: 0
+  lockOnUI: {fileID: 0}
+  reticle: {fileID: 0}
+  inRange: []
+  currTarget: {fileID: 0}
 --- !u!65 &4284263530037400044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -169,7 +172,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 2}
+  m_Size: {x: 2, y: 0.75, z: 2}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &9055420611324860682
 Rigidbody:
@@ -223,7 +226,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3014939649482226053}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0.22}
+  m_LocalPosition: {x: 0, y: -0.42, z: 0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1330216006884828691}
@@ -649,7 +652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8864306965338989325}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1330216006884828691}

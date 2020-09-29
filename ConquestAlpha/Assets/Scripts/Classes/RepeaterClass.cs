@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeaterClass : UnitClass
+public class RepeaterClass : GameUnit
 {
     public int hull;
     public int shield;

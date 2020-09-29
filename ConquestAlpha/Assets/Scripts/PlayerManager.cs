@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 //Nathan Frazier
-public class PlayerManager : MonoBehaviour, IRespawnable
+public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Slider hpSlider;
     public int playerNumber = 0;
@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour, IRespawnable
     public Transform secondaryBulletSpawn;
     GameObject primary;
     GameObject secondary;
-    public UnitClass classScript;
+    
     public List<TargetingAgent> targetedBy = new List<TargetingAgent>();
     public Transform primaryMount;
     public Transform secondaryMount;

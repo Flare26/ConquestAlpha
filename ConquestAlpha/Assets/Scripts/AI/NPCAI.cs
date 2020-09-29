@@ -10,18 +10,12 @@ using UnityEngine.AI;
 // these are going to be created and built with the team of the base
 public class NPCAI : MonoBehaviour
 {
-    enum State
-    {
-        Attacking,
-        Defending,
-        Holding,
-        Following
-    }
+
+    [SerializeField] GameObject shieldPopFX;
+    [SerializeField] GameObject deathPopFX;
     [SerializeField] Transform destination;
     NavMeshAgent navAgent;
     [SerializeField] Team m_Team;
-    [SerializeField] GameObject shieldPopFX;
-    [SerializeField] GameObject deathPopFX;
     [SerializeField] Renderer meshRenderer;
     Transform tgt_Transform;
     Transform mount_Primary;

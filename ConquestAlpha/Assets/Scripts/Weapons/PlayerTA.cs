@@ -90,11 +90,16 @@ public class PlayerTA : MonoBehaviour
 
 
                 PlayerTarget pt = inRange[i];
+                //protect against sudden unit deaths
+                if (pt == null)
+                    return;
+
                 if (pt.pdist[h - 1] < closest)
                 {
                     closest = pt.pdist[h-1];
                     newTarget = pt;
-                    inRange.Remove(currTarget);
+                    inRange.Add(currTarget);
+                    inRange.Remove(newTarget);
                 }
                 currTarget = newTarget;
             }
