@@ -53,6 +53,28 @@ public class NPC : GameUnit, IKillable
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        String name = other.gameObject.name;
+
+
+        if (name.Equals("TargetingArea"))
+        {
+            var enemyTargList = other.gameObject.GetComponentInParent<TargetingAgent>().inRange;
+            var enemyHostileList = other.gameObject.GetComponentInParent<TargetingAgent>().hostiles;
+            var myTeam = GetComponent<TeamManager>().m_Team;
+            var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
+            if (enemyTargList.Contains(gameObject))
+                return;
+
+            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + other.gameObject.name);
+            enemyTargList.Add(gameObject);
+
+            if (!myTeam.Equals(eTeam))
+                enemyHostileList.Add(gameObject);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))

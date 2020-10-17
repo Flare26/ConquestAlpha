@@ -119,6 +119,7 @@ PlayerSettings:
   stadiaTargetFramerate: 0
   vulkanNumSwapchainBuffers: 3
   vulkanEnableSetSRGBWrite: 0
+  vulkanEnableLateAcquireNextImage: 0
   m_SupportedAspectRatios:
     4:3: 1
     5:4: 1
@@ -655,7 +656,7 @@ PlayerSettings:
   cloudServicesEnabled:
     Analytics: 1
     Build: 0
-    Collab: 1
+    Collab: 0
     Game Performance: 0
     Purchasing: 0
     UNet: 1
@@ -672,7 +673,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 4efc33e2-db92-4047-95aa-d3466365c7ae
+  cloudProjectId: 39de225a-29de-42c7-944e-b9ae8ba56c86
   framebufferDepthMemorylessMode: 0
   projectName: ConquestAlpha
   organizationId: natebo

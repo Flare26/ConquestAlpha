@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class PlayerTA : MonoBehaviour
@@ -12,137 +9,102 @@ public class PlayerTA : MonoBehaviour
     
     public Image lockOnUI;
     public Image reticle;
-    int h = 0; // always start 0
-    static Transform[] playerTforms;
-    static List<PlayerTarget> [] playerInRanges;
-    public List<PlayerTarget> inRange;
-    [Header("Crosshair Auto Lock Parameters")]
-    public static int lockRange = 50;
     
-    [SerializeField] PlayerTarget currTarget;
-    PlayerTarget clockwise;
+    int h = 0; // always start 0
+    public List<GameObject> inRange;
+    [Header("Crosshair Auto Lock Parameters")]
+    public float lockRange = 50f;
+    public float spherecast_r = 10f;
+    public float sweetspot = 0.10f; // in viewport space on scale from 0 left to 1 right
     TeamManager myTM;
-
+    public Camera pcam;
+    RaycastHit camRay;
+    public GameObject aimIndicator;
     // make an activate + deactivate method for the lock on and have them erase the Q when turned off
 
     void Awake()
-    {  
-        inRange = new List<PlayerTarget>();
-        int pcount = GameManager.CountPlayers();
-        Debug.Log("Pcount = " + pcount);
-        playerInRanges = new List<PlayerTarget>[pcount];
-        playerInRanges[pcount - 1] = new List<PlayerTarget>(); // HARD CODED FOR ONE PLAYER
-
-        currTarget = null;
-
-
-        myTM = GetComponent<TeamManager>();
-        Team myTeam = myTM.m_Team;
-        InvokeRepeating("TargetingTick", 0f, 0.05f);
+    {
+        myTM = gameObject.GetComponent<TeamManager>();
+        inRange = new List<GameObject>();
+        InvokeRepeating("TargetingTick", 0.5f, 0.15f);
     }
 
 
-    public static void MovedIntoRange(int playerNum, PlayerTarget target)
+    public void MovedIntoRange(GameObject tgt)
     {
-        List<PlayerTarget> tmpIR = playerInRanges[playerNum - 1];
+        inRange.Add(tgt);
+        inRange.TrimExcess();
 
-        if (!tmpIR.Contains(target))
-        {
-            Debug.Log("ADDING target " + target.name + " to the in range list of player " + playerNum);
-            tmpIR.Add(target);
-
-        }
-        // Add new target to inRange. This is going to be an enemy team target.
-        
-        playerInRanges[playerNum - 1] = tmpIR; // save changes to static
     }
-    public static void OutOfRange(int playerNum, PlayerTarget target)
+    public void OutOfRange(GameObject t)
     {
-        List<PlayerTarget> tmpIR = playerInRanges[playerNum - 1];
-        if (tmpIR.Contains(target))
-        {
-            Debug.Log("REMOVING target " + target.name + " from the in range list of player " + playerNum);
-            tmpIR.Remove(target);
-        }
-        
-        // Add new target to inRange. This is going to be an enemy team target.
-
-        playerInRanges[playerNum - 1] = tmpIR; // save changes to static
+        inRange.Remove(t);
+        inRange.TrimExcess();
     }
 
     void TargetingTick()
     {
-        
-        //Sync the player number because its not correct on load time.
-        h = GetComponent<PlayerManager>().playerNumber;
-        
-        // Viewport Point Z is negative if the point is located behind the viewport
-        inRange = playerInRanges[h - 1];
-        
-        // NOW if our current target is null, assign the closest that is within the snap range.
-        // first we need to add a PlayerTarget only if the enemy meets the screen space requirement
-        if (currTarget == null)
+        //Debug.DrawRay(pcam.transform.position, pcam.transform.forward, Color.cyan, 0.5f);
+        if (Physics.SphereCast(pcam.transform.position, spherecast_r, pcam.transform.forward, out camRay, lockRange))
         {
-            float closest = float.MaxValue;
-            PlayerTarget newTarget = null;
-            for(int i = 0; i < inRange.Count; i++)
+            //Debug.Log("Spherecast hit something!");
+            TeamManager tm;
+            aimIndicator.transform.position = camRay.point;
+            if (camRay.transform.gameObject.TryGetComponent<TeamManager>(out tm))
             {
 
-
-                PlayerTarget pt = inRange[i];
-                //protect against sudden unit deaths
-                if (pt == null)
-                    return;
-
-                if (pt.pdist[h - 1] < closest)
+                if (!tm.m_Team.Equals(myTM.m_Team) && !inRange.Contains(camRay.transform.gameObject))
                 {
-                    closest = pt.pdist[h-1];
-                    newTarget = pt;
-                    inRange.Add(currTarget);
-                    inRange.Remove(newTarget);
+                    // Dont add if its ouside of the sweet spot
+                    var viewportPt = Camera.main.WorldToViewportPoint(camRay.transform.position);
+                    if (viewportPt.x < 0.5f - sweetspot || viewportPt.x > 0.5f + sweetspot)
+                        return;
+                    Debug.Log("Enemy Detected");
+                    MovedIntoRange(camRay.transform.gameObject);
                 }
-                currTarget = newTarget;
+
             }
-            
-        } else
-        {
-            // If we have a current target add the others that are not current to the queue
-            
+        }
 
+        for (int i = 0; i < inRange.Count; i++)
+        {
+            Renderer r = inRange[i].gameObject.GetComponentInChildren<Renderer>();
+
+            var viewportPt = Camera.main.WorldToViewportPoint(inRange[i].transform.position);
+            //Debug.Log(viewportPt + inRange[i].name);
+
+            if (viewportPt.x < 0.5f - sweetspot || viewportPt.x > 0.5f + sweetspot)
+            {
+                Debug.Log("Moved out of sweetspot");
+                OutOfRange(inRange[i]);
+            }
+            else if (!r.isVisible || Vector3.Distance(gameObject.transform.position, inRange[i].transform.position) > lockRange)
+            {
+                Debug.Log("Target became not visible or too far away");
+                OutOfRange(inRange[i]);
+            }         
+
+
+        }
+
+        void AimGuns(Transform t)
+        {
+            // Need direction to the target
+            //Debug.Log("Aim Dem Guns");
+
+            GetComponent<PlayerManager>().primaryBulletSpawn.LookAt(t.position);
+            GetComponent<PlayerManager>().secondaryBulletSpawn.LookAt(t.position);
+
+        }
+        void Update()
+        {
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                //ROUTINE
+                Debug.Log("TAB!");
+
+            }
         }
     }
-
-    void AimGuns(Transform t)
-    {
-        // Need direction to the target
-        //Debug.Log("Aim Dem Guns");
-
-        GetComponent<PlayerManager>().primaryBulletSpawn.LookAt(t.position);
-        GetComponent<PlayerManager>().secondaryBulletSpawn.LookAt(t.position);
-
-    }
-    void Update()
-    {
-        if (inRange.Count == 0) // update the position of the lockon UI element
-        {
-            lockOnUI.enabled = false;
-            currTarget = null;
-            GetComponent<PlayerManager>().primaryBulletSpawn.rotation = transform.rotation;
-            GetComponent<PlayerManager>().secondaryBulletSpawn.rotation = transform.rotation;
-        }
-        else if (currTarget != null)
-        {
-            lockOnUI.enabled = true;
-            lockOnUI.transform.position = currTarget.FindUIPosition();
-            AimGuns(currTarget.transform);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            //ROUTINE
-            Debug.Log("TAB!");
-
-        }
-    }
-
 }

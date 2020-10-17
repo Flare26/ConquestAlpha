@@ -277,3 +277,4 @@ C:\Users\natha\Documents\GitHub\ConquestAlpha\ConquestAlpha\obj\Debug\Assembly-C
 C:\Users\natha\Documents\GitHub\ConquestAlpha\ConquestAlpha\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\natha\Documents\GitHub\ConquestAlpha\ConquestAlpha\obj\Debug\Assembly-CSharp.dll
 C:\Users\natha\Documents\GitHub\ConquestAlpha\ConquestAlpha\obj\Debug\Assembly-CSharp.pdb
+C:\Users\natha\Documents\GitHub\ConquestAlpha\ConquestAlpha\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
