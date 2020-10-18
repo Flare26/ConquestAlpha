@@ -375,7 +375,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 0
   m_Height: 1
-  m_BaseOffset: 0
+  m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &897495360423818964
@@ -425,8 +425,8 @@ MonoBehaviour:
   h_max: 10
   sh_current: 5
   sh_max: 5
-  sh_rate: 0
-  sh_delay: 0
+  sh_rate: 3
+  sh_delay: 5
   range: 20
   primaryWep: {fileID: 5453322046799446820, guid: d9fcc0a848a99104fb9bca533f5b52e7,
     type: 3}
@@ -440,6 +440,7 @@ MonoBehaviour:
   mount_Secondary: {fileID: 8795219748099537989}
   targetedBy: []
   hasShield: 0
+  sinceLastDMG: 0
 --- !u!114 &5717090285490378643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,7 +511,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!1 &5814731072334719220
 GameObject:

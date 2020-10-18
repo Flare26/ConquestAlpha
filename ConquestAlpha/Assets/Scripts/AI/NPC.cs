@@ -89,13 +89,13 @@ public class NPC : GameUnit, IKillable
     public void TakeDamage(Bullet b)
     {
         var indmg = b.m_dmg;
-
+        sinceLastDMG = 0;
         
         if (sh_current < indmg && hasShield)
         {
             fxplayer.PopShield();
             // incoming dmg greater than shield, sub shield from dmg and apply to HP
-            int bleed = (int) indmg - sh_current;
+            int bleed = Mathf.RoundToInt( indmg - sh_current );
             h_current -= bleed;
             sh_current = 0;
             // Start the shield regen count at 0
@@ -117,8 +117,6 @@ public class NPC : GameUnit, IKillable
             //Debug.Log("Took direct hit while shield DOWN! ");
         }
     }
-
-
 
     private void FixedUpdate()
     {

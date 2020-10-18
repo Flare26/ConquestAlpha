@@ -9,10 +9,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Slider hpSlider;
     public int playerNumber = 0;
     public int currentHull;
-    public int currentShield;
+    public float currentShield;
     public int maxHull;
     public int maxShield;
-    int shield_rate;
+    public float shieldRate;
+    public float shieldDelay;
     public int pps; // projectile per second
     public GameObject weapon1Obj;
     public GameObject weapon2Obj;
@@ -26,11 +27,13 @@ public class PlayerManager : MonoBehaviour
     public Transform primaryMount;
     public Transform secondaryMount;
     public static Quaternion defaultAim;
-
+    PlayerParticleFX particleManager;
+    public float sinceLastDMG = 0f;
+    bool hasShield = false;
     // Start is called before the first frame update
     void OnEnable()
     {
-
+        hasShield = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         currentHull = maxHull;
@@ -42,7 +45,7 @@ public class PlayerManager : MonoBehaviour
         //Change the glow color of your hitbox
         var glowLight = transform.Find("TeamLight");
         Light glowColor = glowLight.GetComponent<Light>();
-        
+        particleManager = GetComponent<PlayerParticleFX>();
         switch (GetComponent<TeamManager>().m_Team)
         {
             //assign by team
@@ -70,7 +73,7 @@ public class PlayerManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         String name = other.gameObject.name;
-        
+
 
         if (name.Equals("TargetingArea"))
         {
@@ -87,8 +90,18 @@ public class PlayerManager : MonoBehaviour
             if (!myTeam.Equals(eTeam))
                 enemyHostileList.Add(gameObject);
         }
+  
     }
 
+    void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag.Equals("Bullet"))
+        {
+            Debug.Log("Player was hit!");
+            particleManager.BulletHitFX();
+            TakeDamage(c.gameObject.GetComponent<Bullet>());
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         String name = other.gameObject.name;
@@ -103,28 +116,43 @@ public class PlayerManager : MonoBehaviour
             tmp.hostiles.Remove(gameObject);
         }
     }
-    private void Update()
+
+    public void TakeDamage(Bullet b)
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        var indmg = b.m_dmg;
+        sinceLastDMG = 0;
+
+        if (currentShield < indmg && hasShield)
         {
-            primary.GetComponent<WeaponCore>().CheckReload();
-            secondary.GetComponent<WeaponCore>().CheckReload();
-            primary.GetComponent<WeaponCore>().Fire();
-            secondary.GetComponent<WeaponCore>().Fire();
+            particleManager.PopShield();
+            // incoming dmg greater than shield, sub shield from dmg and apply to HP
+            int bleed = Mathf.RoundToInt(indmg - currentShield);
+            currentHull -= bleed;
+            currentShield = 0;
+            // Start the shield regen count at 0
+            //Debug.Log("Dmg made it past shield!");
         }
-    }
+        else if (hasShield && currentShield - indmg != 0)
+        {
+            //Debug.Log("Shield absorbs dmg");
+            // incoming dmg is either same as shield or less so sub from shield
+            currentShield -= indmg;
+        }
+        else if (currentShield - indmg == 0)
+        {
+            Debug.Log("Perfect Pop");
+            currentShield = 0;
+            hasShield = false;
+            particleManager.PopShield();
+        }
+        else if (!hasShield)
+        {
+            currentHull -= indmg;
+            //Debug.Log("Took direct hit while shield DOWN! ");
+        }
 
-    public void TakeDamage(int currentshields, int currenthull)
-    {
-        throw new System.NotImplementedException();
+        Destroy(b.gameObject);
     }
-
-    public void TakeDamage(int dmg)
-    {
-        hpSlider.value = currentHull;
-        throw new System.NotImplementedException();
-    }
-
     public void SetSpawn(Vector3 spawnPoint)
     {
         throw new System.NotImplementedException();
@@ -133,5 +161,32 @@ public class PlayerManager : MonoBehaviour
     public void ReturnToBuildQueue(GameObject parent)
     {
         throw new System.NotImplementedException();
+    }
+
+    void CheckShieldCharge()
+    {
+        sinceLastDMG += Time.deltaTime;
+        if (sinceLastDMG > shieldDelay && currentShield < maxShield)
+        {
+            currentShield += Time.deltaTime * shieldRate;
+            hasShield = true;
+        }
+        else if (currentShield > maxShield)
+        {
+            currentShield = maxShield;
+            hasShield = true;
+        }
+    }
+    private void Update()
+    {
+        CheckShieldCharge();
+
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            primary.GetComponent<WeaponCore>().CheckReload();
+            secondary.GetComponent<WeaponCore>().CheckReload();
+            primary.GetComponent<WeaponCore>().Fire();
+            secondary.GetComponent<WeaponCore>().Fire();
+        }
     }
 }

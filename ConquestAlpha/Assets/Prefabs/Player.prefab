@@ -158,10 +158,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e813d93b947a6084383f12a3675ec32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockOnUI: {fileID: 0}
+  trackingReticle: {fileID: 0}
   reticle: {fileID: 0}
+  currentLock: {fileID: 0}
   inRange: []
-  currTarget: {fileID: 0}
+  lockRange: 75
+  spherecast_r: 10
+  sweetspot: 0.18
+  pcam: {fileID: 0}
+  aimIndicator: {fileID: 0}
 --- !u!65 &4284263530037400044
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -20,12 +20,12 @@ public abstract class GameUnit : MonoBehaviour
     // Basic Stats
     public int h_current;
     public int h_max;
-    public int sh_current;
-    public int sh_max;
-    public int sh_rate;
-    public int sh_delay;
+    public float sh_current;
+    public float sh_max;
+    public float sh_rate;
+    public float sh_delay;
     public float range = 20f;
-
+    
 
     // Weaponry
     [Header("Weaponry")]
@@ -42,7 +42,7 @@ public abstract class GameUnit : MonoBehaviour
     public Transform mount_Secondary;
     public List<GameObject> targetedBy;
     public bool hasShield;
-
+    public float sinceLastDMG = 0f;
     private void OnEnable()
     {
         // On enable set the correct team color
@@ -75,5 +75,23 @@ public abstract class GameUnit : MonoBehaviour
             Debug.Log("NO NavMeshAgent on object: " + gameObject.name);
         }
     }
-
+    void CheckShieldCharge()
+    {
+        sinceLastDMG += Time.deltaTime;
+        if (sinceLastDMG > sh_delay && sh_current < sh_max)
+        {
+            sh_current += Time.deltaTime * sh_rate;
+            hasShield = true;
+        }
+        else if (sh_current > sh_max)
+        {
+            sh_current = sh_max;
+            hasShield = true;
+        }
+    }
+    void Update()
+    {
+        
+        CheckShieldCharge();
+    }
 }
