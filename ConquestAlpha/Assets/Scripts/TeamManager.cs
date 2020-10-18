@@ -16,7 +16,7 @@ public class TeamManager : MonoBehaviour
     public static List<GameObject> blueTeam;
     public Light[] teamLights;
     public Team m_Team;
-    [HideInInspector]public Renderer mesh;
+    [HideInInspector]public Renderer mesh = null;
     void Awake()
     {
         //Initialize static lists
@@ -103,7 +103,8 @@ public class TeamManager : MonoBehaviour
     }
     void TeamColorsUpdate()
     {
-        mesh.material.color = SetMeshColor();
+        if (!mesh.Equals(null))
+            mesh.material.color = SetMeshColor();
         SetTeamLights();
     }
 }

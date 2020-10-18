@@ -2,8 +2,17 @@
 using UnityEngine;
 public class TurretAI : MonoBehaviour
 {
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform bulletSpawnTransform; // use an empty game object as reference for fire point so bullet does not spawn within turret
+    public GameObject weapon1Obj;
+    public GameObject weapon2Obj;
+    WeaponCore primary;
+    WeaponCore secondary;
+
+    GameObject primaryInst;
+    GameObject secondaryInst;
+    Transform primaryBulletSpawn;
+    Transform secondaryBulletSpawn;
+    Transform primaryMount;
+    Transform secondaryMount;
     [SerializeField] GameObject tHead;
     
     public string targetName = "No Target";
@@ -31,7 +40,12 @@ public class TurretAI : MonoBehaviour
 
     private void Awake()
     {
-        maxHP = turretHP;
+        primaryInst = Instantiate<GameObject>(weapon1Obj, primaryMount);
+        secondaryInst = Instantiate<GameObject>(weapon2Obj, secondaryMount);
+        primaryBulletSpawn = primaryInst.transform.Find("FP"); // find firepoints inside the instance
+        secondaryBulletSpawn = secondaryInst.transform.Find("FP");
+        primary = primaryInst.GetComponent<WeaponCore>();
+        secondary = secondaryInst.GetComponent<WeaponCore>();
     }
     private void OnEnable()
     {
@@ -79,11 +93,8 @@ public class TurretAI : MonoBehaviour
                 aimOrb.position += spread;
                 currentTarget = aimOrb.transform;
 
-            GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, bulletSpawnTransform.position, gameObject.transform.rotation); // Instantiaite
-            bulletObj.transform.rotation = tHead.transform.rotation; // orient bullet to the turret firing point's rotation
-            Bullet bullet_CS = bulletObj.GetComponent<Bullet>();
-            bullet_CS.bullet_velocity *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
-            bullet_CS.m_dmg += dmg_Mod;
+            primary.Fire() ; // Instantiaite
+            secondary.Fire();
         }
     }
     private void OnDisable()

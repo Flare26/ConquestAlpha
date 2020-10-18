@@ -20,8 +20,8 @@ public class PlayerManager : MonoBehaviour
     
     public Transform primaryBulletSpawn;
     public Transform secondaryBulletSpawn;
-    GameObject primary;
-    GameObject secondary;
+    GameObject primaryInst;
+    GameObject secondaryInst;
     
     public List<GameObject> targetedBy = new List<GameObject>();
     public Transform primaryMount;
@@ -63,11 +63,11 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
 
-        primary = Instantiate<GameObject>(weapon1Obj, primaryMount);
-        secondary = Instantiate<GameObject>(weapon2Obj, secondaryMount);
-        primaryBulletSpawn = primary.transform.Find("FP"); // find firepoints inside the instance
-        secondaryBulletSpawn = secondary.transform.Find("FP");
-        defaultAim = primaryBulletSpawn.transform.rotation;
+        primaryInst = Instantiate<GameObject>(weapon1Obj, primaryMount);
+        secondaryInst = Instantiate<GameObject>(weapon2Obj, secondaryMount);
+        primaryBulletSpawn = primaryInst.transform.Find("FP"); // find firepoints inside the instance
+        secondaryBulletSpawn = secondaryInst.transform.Find("FP");
+        //defaultAim = primaryBulletSpawn.transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -183,10 +183,10 @@ public class PlayerManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            primary.GetComponent<WeaponCore>().CheckReload();
-            secondary.GetComponent<WeaponCore>().CheckReload();
-            primary.GetComponent<WeaponCore>().Fire();
-            secondary.GetComponent<WeaponCore>().Fire();
+            primaryInst.GetComponent<WeaponCore>().CheckReload();
+            secondaryInst.GetComponent<WeaponCore>().CheckReload();
+            primaryInst.GetComponent<WeaponCore>().Fire();
+            secondaryInst.GetComponent<WeaponCore>().Fire();
         }
     }
 }

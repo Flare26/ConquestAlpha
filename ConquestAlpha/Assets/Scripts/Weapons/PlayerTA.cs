@@ -20,6 +20,9 @@ public class PlayerTA : MonoBehaviour
     public Camera pcam;
     RaycastHit camRay;
     public GameObject aimIndicator;
+
+    Transform pbs;
+    Transform sbs;
     // make an activate + deactivate method for the lock on and have them erase the Q when turned off
 
     void Awake()
@@ -28,6 +31,8 @@ public class PlayerTA : MonoBehaviour
         inRange = new List<GameObject>();
         InvokeRepeating("TargetingTick", 0.25f, 0.25f);
         trackingReticle.enabled = false;
+        pbs = GetComponent<PlayerManager>().primaryBulletSpawn;
+        sbs = GetComponent<PlayerManager>().secondaryBulletSpawn;
     }
 
 
@@ -98,9 +103,8 @@ public class PlayerTA : MonoBehaviour
             // Need direction to the target
             //Debug.Log("Aim Dem Guns");
 
-            GetComponent<PlayerManager>().primaryBulletSpawn.LookAt(t.position);
-            GetComponent<PlayerManager>().secondaryBulletSpawn.LookAt(t.position);
-
+            pbs.LookAt(t.position);
+            sbs.LookAt(t.position);
         }
 
         void TrackReticle(Image r, GameObject t)
