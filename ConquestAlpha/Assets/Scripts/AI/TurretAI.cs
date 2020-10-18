@@ -11,8 +11,8 @@ public class TurretAI : MonoBehaviour
     GameObject secondaryInst;
     Transform primaryBulletSpawn;
     Transform secondaryBulletSpawn;
-    Transform primaryMount;
-    Transform secondaryMount;
+    public Transform primaryMount;
+    public Transform secondaryMount;
     [SerializeField] GameObject tHead;
     
     public string targetName = "No Target";

@@ -717,6 +717,8 @@ MonoBehaviour:
     type: 3}
   weapon2Obj: {fileID: 5453322046799446820, guid: 8b14a43bf9c2ee74085029b8e1f81343,
     type: 3}
+  primaryMount: {fileID: 9011887267331038957}
+  secondaryMount: {fileID: 672630086489393166}
   tHead: {fileID: 834493848498547325}
   targetName: No Target
   aimOrb: {fileID: 8226563859019422032}
