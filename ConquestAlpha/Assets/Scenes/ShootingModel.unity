@@ -790,7 +790,17 @@ PrefabInstance:
     - target: {fileID: 5452626338801971268, guid: f33df07111f290f479a2077bff00c890,
         type: 3}
       propertyPath: lockRange
-      value: 50
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452626338801971268, guid: f33df07111f290f479a2077bff00c890,
+        type: 3}
+      propertyPath: trackingReticle
+      value: 
+      objectReference: {fileID: 564279499}
+    - target: {fileID: 5452626338801971268, guid: f33df07111f290f479a2077bff00c890,
+        type: 3}
+      propertyPath: sweetspot
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 8814278738111747852, guid: f33df07111f290f479a2077bff00c890,
         type: 3}

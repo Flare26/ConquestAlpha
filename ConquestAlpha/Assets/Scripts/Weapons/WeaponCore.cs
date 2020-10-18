@@ -23,7 +23,7 @@ using UnityEngine;
         if ( reloading == false && sinceLastShot > (6 / fireRate))
         {
             sinceLastShot = 0f;
-            GameObject bulletObj = Instantiate(projectile, firepoint.position, transform.rotation); // Instantiaite
+            GameObject bulletObj = Instantiate(projectile, firepoint.position, firepoint.rotation); // Instantiaite
             bulletObj.GetComponent<Bullet>().bullet_velocity *= shotVelocityMult; // after creating the bullet, multiply the speed immediately
             roundsInClip -= 1;
             if (roundsInClip == 0)

@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     public int pps; // projectile per second
     public GameObject weapon1Obj;
     public GameObject weapon2Obj;
+    
     public Transform primaryBulletSpawn;
     public Transform secondaryBulletSpawn;
     GameObject primary;
@@ -24,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> targetedBy = new List<GameObject>();
     public Transform primaryMount;
     public Transform secondaryMount;
+    public static Quaternion defaultAim;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -60,6 +62,9 @@ public class PlayerManager : MonoBehaviour
 
         primary = Instantiate<GameObject>(weapon1Obj, primaryMount);
         secondary = Instantiate<GameObject>(weapon2Obj, secondaryMount);
+        primaryBulletSpawn = primary.transform.Find("FP"); // find firepoints inside the instance
+        secondaryBulletSpawn = secondary.transform.Find("FP");
+        defaultAim = primaryBulletSpawn.transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)

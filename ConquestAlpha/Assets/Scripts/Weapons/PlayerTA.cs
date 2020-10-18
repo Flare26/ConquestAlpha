@@ -7,9 +7,9 @@ public class PlayerTA : MonoBehaviour
     
     // Player Targeting Agent
     
-    public Image lockOnUI;
+    public Image trackingReticle;
     public Image reticle;
-    
+    public GameObject currentLock;
     int h = 0; // always start 0
     public List<GameObject> inRange;
     [Header("Crosshair Auto Lock Parameters")]
@@ -26,7 +26,8 @@ public class PlayerTA : MonoBehaviour
     {
         myTM = gameObject.GetComponent<TeamManager>();
         inRange = new List<GameObject>();
-        InvokeRepeating("TargetingTick", 0.5f, 0.15f);
+        InvokeRepeating("TargetingTick", 0.25f, 0.25f);
+        trackingReticle.enabled = false;
     }
 
 
@@ -61,6 +62,8 @@ public class PlayerTA : MonoBehaviour
                         return;
                     Debug.Log("Enemy Detected");
                     MovedIntoRange(camRay.transform.gameObject);
+
+                    currentLock = camRay.transform.gameObject;
                 }
 
             }
@@ -68,6 +71,9 @@ public class PlayerTA : MonoBehaviour
 
         for (int i = 0; i < inRange.Count; i++)
         {
+            if (!inRange[i])
+                return;
+
             Renderer r = inRange[i].gameObject.GetComponentInChildren<Renderer>();
 
             var viewportPt = Camera.main.WorldToViewportPoint(inRange[i].transform.position);
@@ -82,11 +88,11 @@ public class PlayerTA : MonoBehaviour
             {
                 Debug.Log("Target became not visible or too far away");
                 OutOfRange(inRange[i]);
-            }         
-
-
+            }
         }
-
+        if (inRange.Count < 1)
+            currentLock = null;
+    }
         void AimGuns(Transform t)
         {
             // Need direction to the target
@@ -95,6 +101,34 @@ public class PlayerTA : MonoBehaviour
             GetComponent<PlayerManager>().primaryBulletSpawn.LookAt(t.position);
             GetComponent<PlayerManager>().secondaryBulletSpawn.LookAt(t.position);
 
+        }
+
+        void TrackReticle(Image r, GameObject t)
+        {
+            Vector3 viewport = Camera.main.WorldToViewportPoint(t.transform.position);
+            Vector3 screen = Camera.main.ViewportToScreenPoint(viewport);
+            r.gameObject.transform.position = screen;
+        }
+        
+        void FixedUpdate()
+        {
+            if (currentLock)
+            {
+            Debug.Log("Tracking Lock!");
+            Transform aimspot = currentLock.transform;
+                trackingReticle.enabled = true;
+                AimGuns(aimspot);
+                TrackReticle(trackingReticle, currentLock);
+            }
+            else
+        {
+            Debug.Log("Lock is null!");
+            trackingReticle.enabled = false;
+            GetComponent<PlayerManager>().primaryBulletSpawn.rotation = gameObject.transform.rotation;
+            GetComponent<PlayerManager>().secondaryBulletSpawn.rotation = gameObject.transform.rotation;
+        }
+
+            
         }
         void Update()
         {
@@ -106,5 +140,4 @@ public class PlayerTA : MonoBehaviour
 
             }
         }
-    }
 }
