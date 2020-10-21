@@ -11,11 +11,11 @@ public class NPC : GameUnit, IKillable
 {
     // Nathan Frazier
     // these are going to be created and built with the team of the base
-
+    float turningRate = 10f; 
     HoverController_AI driver;
     ParticlePlayer fxplayer;
     TeamManager tm;
-    TargetingAgent ta;
+    NPCTargetingAgent ta;
     private void Awake()
     {
         // Triggered when script is loaded into runtime
@@ -27,7 +27,7 @@ public class NPC : GameUnit, IKillable
 
         if (!TryGetComponent<TeamManager>(out tm))
             Debug.LogError("NPC does not have a Team Manager! >" + gameObject.name);
-        if (!TryGetComponent<TargetingAgent>(out ta))
+        if (!TryGetComponent<NPCTargetingAgent>(out ta))
             Debug.LogError("NPC does not have a TargetingAgent! >" + gameObject.name);
     }
 
@@ -45,12 +45,6 @@ public class NPC : GameUnit, IKillable
     void RefreshCurrentTarget()
     {
         curr_targ = ta.RequestClosestTarget();
-        if(curr_targ != null)
-        {
-            var lookvector = curr_targ.position;
-            lookvector.y = transform.position.y; // this is to prevent the whole vehicle from turning itself up / down for now
-            transform.LookAt(lookvector);
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -60,8 +54,8 @@ public class NPC : GameUnit, IKillable
 
         if (name.Equals("TargetingArea"))
         {
-            var enemyTargList = other.gameObject.GetComponentInParent<TargetingAgent>().inRange;
-            var enemyHostileList = other.gameObject.GetComponentInParent<TargetingAgent>().hostiles;
+            var enemyTargList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().inRange;
+            var enemyHostileList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().hostiles;
             var myTeam = GetComponent<TeamManager>().m_Team;
             var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
             if (enemyTargList.Contains(gameObject))
@@ -118,6 +112,11 @@ public class NPC : GameUnit, IKillable
         }
     }
 
+    public void DeathRoutine()
+    {
+        fxplayer.DeathFX();
+        gameObject.SetActive(false);
+    }
     private void FixedUpdate()
     {
         //first check for death
@@ -133,10 +132,12 @@ public class NPC : GameUnit, IKillable
             primaryInstance.GetComponent<WeaponCore>().Fire();
             secondaryInstance.GetComponent<WeaponCore>().Fire();
         }
-    }
-    public void DeathRoutine()
-    {
-        fxplayer.DeathFX();
-        gameObject.SetActive(false);
+
+        if (!curr_targ.Equals(null))
+        {
+            //Vector3 noY = new Vector3(transform.position.x, 0f, transform.position.z);
+            Quaternion targetRotation = Quaternion.LookRotation(curr_targ.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turningRate * Time.deltaTime);
+        }
     }
 }

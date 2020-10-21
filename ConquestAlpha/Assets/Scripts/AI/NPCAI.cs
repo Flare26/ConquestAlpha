@@ -91,7 +91,7 @@ public class NPCAI : MonoBehaviour
         m_Team = GetComponent<TeamManager>().m_Team;
         RefreshMeshColor(); // for good measure
         
-        tgt_Transform = GetComponent<TargetingAgent>().RequestClosestTarget(); // Call on the agent to find us who we can aggro
+        tgt_Transform = GetComponent<NPCTargetingAgent>().RequestClosestTarget(); // Call on the agent to find us who we can aggro
         if (tgt_Transform == null)
         {
             targetName = "Out of Range";
@@ -126,11 +126,11 @@ public class NPCAI : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         String name = other.gameObject.name;
-        TargetingAgent tmp;
+        NPCTargetingAgent tmp;
 
         if (name.Equals("TargetingArea"))
         {
-            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+            tmp = other.gameObject.GetComponentInParent<NPCTargetingAgent>();
             if (tmp.inRange.Contains(other.gameObject))
                 return;
             //Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + tmp.gameObject.name);
@@ -142,11 +142,11 @@ public class NPCAI : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         String name = other.gameObject.name;
-        TargetingAgent tmp; // the TargetingAgent component of the NPC whose range we just entered
+        NPCTargetingAgent tmp; // the TargetingAgent component of the NPC whose range we just entered
         if ( name.Equals("TargetingArea") )
         {
             // if the collision has a targeting agent
-            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+            tmp = other.gameObject.GetComponentInParent<NPCTargetingAgent>();
             if (tmp.hostiles.Contains(gameObject)) // If the npc has come into the range of an enemy aligned agent, add to hostiles.
                 tmp.hostiles.Remove(gameObject);
 
@@ -246,8 +246,8 @@ public class NPCAI : MonoBehaviour
             if (g.Equals(null))
                 return;
 
-            TargetingAgent agt;
-            g.TryGetComponent<TargetingAgent>(out agt);
+            NPCTargetingAgent agt;
+            g.TryGetComponent<NPCTargetingAgent>(out agt);
                 agt.inRange.Remove(gameObject);
                 agt.hostiles.Remove(gameObject);
         }

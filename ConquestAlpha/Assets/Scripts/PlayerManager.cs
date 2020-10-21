@@ -77,8 +77,8 @@ public class PlayerManager : MonoBehaviour
 
         if (name.Equals("TargetingArea"))
         {
-            var enemyTargList = other.gameObject.GetComponentInParent<TargetingAgent>().inRange;
-            var enemyHostileList = other.gameObject.GetComponentInParent<TargetingAgent>().hostiles;
+            var enemyTargList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().inRange;
+            var enemyHostileList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().hostiles;
             var myTeam = GetComponent<TeamManager>().m_Team;
             var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
             if (enemyTargList.Contains(gameObject))
@@ -105,11 +105,11 @@ public class PlayerManager : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         String name = other.gameObject.name;
-        TargetingAgent tmp;
+        NPCTargetingAgent tmp;
 
         if (name.Equals("TargetingArea"))
         {
-            tmp = other.gameObject.GetComponentInParent<TargetingAgent>();
+            tmp = other.gameObject.GetComponentInParent<NPCTargetingAgent>();
 
             Debug.Log("Unit " + gameObject.name + " has moved outside of targeting area of " + tmp.gameObject.name);
             tmp.inRange.Remove(gameObject);

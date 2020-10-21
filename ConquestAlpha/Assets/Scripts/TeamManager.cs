@@ -52,8 +52,8 @@ public class TeamManager : MonoBehaviour
         }
 
         m_Team = t;
-        TargetingAgent agt;
-        if (TryGetComponent<TargetingAgent>(out agt))
+        NPCTargetingAgent agt;
+        if (TryGetComponent<NPCTargetingAgent>(out agt))
         {
             agt.SetTeam(t);
         }

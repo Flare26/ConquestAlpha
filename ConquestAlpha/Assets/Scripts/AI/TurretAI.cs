@@ -108,7 +108,7 @@ public class TurretAI : MonoBehaviour
     void UpdateTarget()
     {
         // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
-        var focus = GetComponent<TargetingAgent>().RequestClosestTarget();
+        var focus = GetComponent<NPCTargetingAgent>().RequestClosestTarget();
         if (focus != null) {
             currentTarget = focus;
             aimOrb.position = currentTarget.position; // Set aim orb correctly
