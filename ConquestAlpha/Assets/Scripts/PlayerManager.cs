@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour
     public Transform primaryMount;
     public Transform secondaryMount;
     public static Quaternion defaultAim;
-    PlayerParticleFX particleManager;
+    PlayerParticles particleManager;
     public float sinceLastDMG = 0f;
     bool hasShield = false;
     // Start is called before the first frame update
@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviour
         //Change the glow color of your hitbox
         var glowLight = transform.Find("TeamLight");
         Light glowColor = glowLight.GetComponent<Light>();
-        particleManager = GetComponent<PlayerParticleFX>();
+        particleManager = GetComponent<PlayerParticles>();
         switch (GetComponent<TeamManager>().m_Team)
         {
             //assign by team

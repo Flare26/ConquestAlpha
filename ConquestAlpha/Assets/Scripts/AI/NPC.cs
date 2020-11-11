@@ -69,6 +69,17 @@ public class NPC : GameUnit, IKillable
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name.Equals("TargetingArea"))
+        {
+            var enemyTargList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().inRange;
+            var enemyHostileList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().hostiles;
+            enemyTargList.Remove(gameObject);
+            enemyHostileList.Remove(gameObject);
+        }    
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))

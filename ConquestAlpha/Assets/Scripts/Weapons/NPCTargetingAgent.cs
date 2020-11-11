@@ -60,15 +60,21 @@ public class NPCTargetingAgent : MonoBehaviour
     {
         foreach (GameObject g in inRange)
         {
-            TeamManager utm; // unit team manager
-            if (g.TryGetComponent<TeamManager>(out utm))
+            // if something dies in the middle of this routine check for that.
+            if (g == null)
+                return;
+
+            TeamManager utm;
+            if (g.tag.Equals("NPC") || g.tag.Equals("Player"))
             {
-                // For each team manager, compare the teams and if they are different then add the gameobject of the utm to hostiles.
-                if (!utm.m_Team.Equals(GetComponent<TeamManager>().m_Team))
-                    if (utm.gameObject.tag.Equals("NPC") && !hostiles.Contains(g.gameObject))
-                    hostiles.Add(utm.gameObject);
+                if (g.TryGetComponent<TeamManager>(out utm))
+                {
+                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g))
+                        hostiles.Add(g);
+                }
             }
         }
+        hostiles.TrimExcess();
     }
 
     private void NPCRoutine()
@@ -84,11 +90,12 @@ public class NPCTargetingAgent : MonoBehaviour
             {
                 if ( g.TryGetComponent<TeamManager>(out utm) )
                 {
-                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g.gameObject))
-                        hostiles.Add(g.gameObject);
+                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g))
+                        hostiles.Add(g);
                 }
             }
         }
+        hostiles.TrimExcess();
     }
 
     public Transform RequestClosestTarget()

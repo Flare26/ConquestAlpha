@@ -31,7 +31,7 @@ public class TurretAI : MonoBehaviour
     TeamManager m_TM;
     Transform currentTarget;
     public float shotVelocityMult;
-    
+    NPCTargetingAgent mytgtagt;
     // Start is called before the first frame update
     public void OnDrawGizmosSelected()
     {
@@ -40,6 +40,7 @@ public class TurretAI : MonoBehaviour
 
     private void Awake()
     {
+        GetComponent<NPCTargetingAgent>();
         primaryInst = Instantiate<GameObject>(weapon1Obj, primaryMount);
         secondaryInst = Instantiate<GameObject>(weapon2Obj, secondaryMount);
         primaryBulletSpawn = primaryInst.transform.Find("FP"); // find firepoints inside the instance
@@ -108,7 +109,7 @@ public class TurretAI : MonoBehaviour
     void UpdateTarget()
     {
         // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
-        var focus = GetComponent<NPCTargetingAgent>().RequestClosestTarget();
+        var focus = mytgtagt.RequestClosestTarget();
         if (focus != null) {
             currentTarget = focus;
             aimOrb.position = currentTarget.position; // Set aim orb correctly

@@ -40,7 +40,6 @@ public class PlayerTA : MonoBehaviour
     {
         inRange.Add(tgt);
         inRange.TrimExcess();
-
     }
     public void OutOfRange(GameObject t)
     {
@@ -89,6 +88,7 @@ public class PlayerTA : MonoBehaviour
                 Debug.Log("Moved out of sweetspot");
                 OutOfRange(inRange[i]);
             }
+            // check into r.isVisible alternatives
             else if (!r.isVisible || Vector3.Distance(gameObject.transform.position, inRange[i].transform.position) > lockRange)
             {
                 Debug.Log("Target became not visible or too far away");
@@ -109,6 +109,7 @@ public class PlayerTA : MonoBehaviour
 
         void TrackReticle(Image r, GameObject t)
         {
+        // phase out camera.main eventually PLEASE
             Vector3 viewport = Camera.main.WorldToViewportPoint(t.transform.position);
             Vector3 screen = Camera.main.ViewportToScreenPoint(viewport);
             r.gameObject.transform.position = screen;
