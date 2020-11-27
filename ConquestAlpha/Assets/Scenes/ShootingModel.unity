@@ -1081,6 +1081,11 @@ PrefabInstance:
       propertyPath: m_Team
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5048904530868850213, guid: f33df07111f290f479a2077bff00c890,
+        type: 3}
+      propertyPath: isTargetetable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5452626338801971268, guid: f33df07111f290f479a2077bff00c890,
         type: 3}
       propertyPath: pcam

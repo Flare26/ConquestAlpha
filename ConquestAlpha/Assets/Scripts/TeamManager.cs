@@ -16,6 +16,7 @@ public class TeamManager : MonoBehaviour
     public static List<GameObject> blueTeam;
     public Light[] teamLights;
     public Team m_Team;
+    [SerializeField] public bool isTgtable = true;
     [HideInInspector]public Renderer mesh = null;
     void Awake()
     {

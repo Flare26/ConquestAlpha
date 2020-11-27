@@ -57,6 +57,8 @@ public class PlayerTA : MonoBehaviour
             aimIndicator.transform.position = camRay.point;
             if (camRay.transform.gameObject.TryGetComponent<TeamManager>(out tm))
             {
+                if (tm.isTgtable == false)
+                    return;
 
                 if (!tm.m_Team.Equals(myTM.m_Team) && !inRange.Contains(camRay.transform.gameObject))
                 {
