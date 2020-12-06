@@ -11,7 +11,7 @@ public class NPC : GameUnit, IKillable
 {
     // Nathan Frazier
     // these are going to be created and built with the team of the base
-    public Transform spawn;
+    Vector3 spawnXYZ;
     public CommandPost parentCPost;
     float turningRate = 10f; 
     HoverController_AI driver;
@@ -45,7 +45,7 @@ public class NPC : GameUnit, IKillable
         h_current = h_max;
         sh_current = sh_max;
         hasShield = true;
-
+        spawnXYZ = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         primaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary);
         secondaryInstance = Instantiate<GameObject>(secondaryWep, mount_Secondary);
         InvokeRepeating("RefreshCurrentTarget", 0.5f, 0.5f);
@@ -150,10 +150,10 @@ public class NPC : GameUnit, IKillable
         tgtagt.inRange.Clear();
         tgtagt.hostiles.Clear();
 
-        if (spawn == null)
+        if (spawnXYZ == null)
             return;
         else
-            transform.position = spawn.position;
+            transform.position = spawnXYZ;
         
         if (!parentCPost.Equals(null))
             parentCPost.turretQ.Enqueue(gameObject);

@@ -104,10 +104,9 @@ public class HoverController : MonoBehaviour
             } // if there is a hit and that same hit distance is <= hover height
             else
             {
-                // Is on it's side
+                // this raycast is too high up off the ground
                 m_currThrust = 0;
                 m_body.drag = 0.1f;
-               
                 isBoosting = false;
             }
         }
