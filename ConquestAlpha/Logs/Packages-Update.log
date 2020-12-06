@@ -97,3 +97,12 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.ide.vscode from version 1.2.2 to 1.2.3
+
+=== Sat Dec  5 18:20:09 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.visualstudio from version 2.0.3 to 2.0.5
+  com.unity.test-framework from version 1.1.18 to 1.1.19

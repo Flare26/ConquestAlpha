@@ -6,25 +6,36 @@ using UnityEngine;
 public class CommandPost : MonoBehaviour
 {
     //public GameObject curr_builder;
+    LatticeLine lattice;
+    public bool isCappable;
     public string ownerName;
     public float completionTime; //seconds
     public float timeSpentBuilding = 0f;
     public bool isDocked;
     public bool producingUnits;
+    public GameObject[] spawnables;
+    public GameObject[] turrets;
     GameObject inProgress;
     TeamManager tm;
     //public string team;
     public Queue<GameObject> turretQ;
+    public Queue<GameObject> spawnableQ;
     // Start is called before the first frame update
     void Awake()
     {
         // Initialize
         turretQ = new Queue<GameObject>();
-        Transform [] allChildren = GetComponentsInChildren<Transform>();
+        spawnableQ = new Queue<GameObject>();
+ 
         tm = GetComponent<TeamManager>();
 
+        foreach (GameObject g in spawnables)
+        {
+            spawnableQ.Enqueue(g);
+        }
+
         //Enqueue all except for what base spawns with
-        foreach (Transform child in allChildren)
+        foreach (GameObject child in turrets)
         {
             if (child.CompareTag("Turret"))
             {
@@ -36,12 +47,14 @@ public class CommandPost : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // When there is a trigger enter, refresh the isCappable
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player is in a base");
             isDocked = true;
         }    
     }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -80,10 +93,17 @@ public class CommandPost : MonoBehaviour
         Debug.Log("Building From Q");
         GameObject buildNext = turretQ.Dequeue();
         buildNext.SetActive(true);
-        buildNext.GetComponent<TeamManager>().AssignTeam(tm.m_Team);
+        buildNext.GetComponent<TeamManager>().AssignTeam(tm.m_Team); // set team of the turret to the command post team
     }
 
     void BuildNextUnit()
-    { 
+    {
+        GameObject buildNext = spawnableQ.Dequeue();
+        buildNext.SetActive(true);
+        buildNext.GetComponent<TeamManager>().AssignTeam(tm.m_Team); // set team of the turret to the command post team
+    }
+    private void Update()
+    {
+        
     }
 }

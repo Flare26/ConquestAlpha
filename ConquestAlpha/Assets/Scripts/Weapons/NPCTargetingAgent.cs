@@ -74,7 +74,6 @@ public class NPCTargetingAgent : MonoBehaviour
                 }
             }
         }
-        hostiles.TrimExcess();
     }
 
     private void NPCRoutine()
@@ -95,7 +94,6 @@ public class NPCTargetingAgent : MonoBehaviour
                 }
             }
         }
-        hostiles.TrimExcess();
     }
 
     public Transform RequestClosestTarget()
@@ -111,7 +109,8 @@ public class NPCTargetingAgent : MonoBehaviour
                 NPCRoutine();
                 break;
         }
-
+        hostiles.TrimExcess();
+        inRange.TrimExcess();
         if (hostiles.Count == 0)
             return null;
 
@@ -121,6 +120,14 @@ public class NPCTargetingAgent : MonoBehaviour
             {
                 if (!hostiles[i].Equals(null))
                 {
+
+                    // if hostile is not active then remove it from list
+                    if (hostiles[i].activeSelf == false)
+                    {
+                    Debug.Log("Removing inactives from NPC Targeting Agent");
+                    hostiles.RemoveAt(i);
+                    inRange.RemoveAt(i);
+                    }
                     Transform t = hostiles[i].transform;
                     float dist_targ = Vector3.Distance(transform.position, t.transform.position);
                     if (dist_targ < dist_low )

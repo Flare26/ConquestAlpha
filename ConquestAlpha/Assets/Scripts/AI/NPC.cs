@@ -11,6 +11,8 @@ public class NPC : GameUnit, IKillable
 {
     // Nathan Frazier
     // these are going to be created and built with the team of the base
+    public Transform spawn;
+    public CommandPost parentCPost;
     float turningRate = 10f; 
     HoverController_AI driver;
     ParticlePlayer fxplayer;
@@ -19,6 +21,8 @@ public class NPC : GameUnit, IKillable
     private void Awake()
     {
         // Triggered when script is loaded into runtime
+        parentCPost = GetComponentInParent<CommandPost>();
+
         if (!TryGetComponent<HoverController_AI>(out driver))
             Debug.LogError("NPC Hover tank has no hover controller script! >" + gameObject.name );
 
@@ -127,6 +131,12 @@ public class NPC : GameUnit, IKillable
     {
         fxplayer.DeathFX();
         gameObject.SetActive(false);
+        if (spawn == null)
+            return;
+        else
+            transform.position = spawn.position;
+
+        parentCPost.turretQ.Enqueue(this.gameObject);
     }
     private void FixedUpdate()
     {
@@ -138,14 +148,12 @@ public class NPC : GameUnit, IKillable
 
         if (curr_targ != null)
         {
+            //If there is a current target
+            
             primaryInstance.GetComponent<WeaponCore>().CheckReload();
             secondaryInstance.GetComponent<WeaponCore>().CheckReload();
             primaryInstance.GetComponent<WeaponCore>().Fire();
             secondaryInstance.GetComponent<WeaponCore>().Fire();
-        }
-
-        if (!curr_targ.Equals(null))
-        {
             //Vector3 noY = new Vector3(transform.position.x, 0f, transform.position.z);
             Quaternion targetRotation = Quaternion.LookRotation(curr_targ.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turningRate * Time.deltaTime);

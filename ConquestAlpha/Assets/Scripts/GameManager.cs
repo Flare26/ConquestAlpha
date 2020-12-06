@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         Debug.Log("The Game Has Started!!");
+
     }
 
     public static Transform [] GetAllPlayerTforms()

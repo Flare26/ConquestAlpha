@@ -27,7 +27,7 @@ public class TurretAI : MonoBehaviour
     public float turnSpeed; // clamped 0-1
     public float range;
     public float fireRate; // shots per sec
-    public GameObject parentBase = null;
+    public CommandPost parentCPost;
     TeamManager m_TM;
     Transform currentTarget;
     public float shotVelocityMult;
@@ -47,6 +47,8 @@ public class TurretAI : MonoBehaviour
         secondaryBulletSpawn = secondaryInst.transform.Find("FP");
         primary = primaryInst.GetComponent<WeaponCore>();
         secondary = secondaryInst.GetComponent<WeaponCore>();
+        mytgtagt = GetComponent<NPCTargetingAgent>();
+        parentCPost = GetComponentInParent<CommandPost>();
     }
     private void OnEnable()
     {
@@ -102,14 +104,14 @@ public class TurretAI : MonoBehaviour
     {
         // On turret disable, set back to neutral and reset targeting information
         currentTarget = null;
-        parentBase.GetComponent<CommandPost>().turretQ.Enqueue(this.gameObject);
+        parentCPost.turretQ.Enqueue(this.gameObject);
     }
 
 
     void UpdateTarget()
     {
         // This method ALSO applies innacuracy range X2 (pos, neg coords) should modify components
-        var focus = mytgtagt.RequestClosestTarget();
+        Transform focus = mytgtagt.RequestClosestTarget();
         if (focus != null) {
             currentTarget = focus;
             aimOrb.position = currentTarget.position; // Set aim orb correctly
