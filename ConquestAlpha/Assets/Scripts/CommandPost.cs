@@ -11,10 +11,13 @@ public class CommandPost : MonoBehaviour
     public string ownerName;
     public float completionTime; //seconds
     public float timeSpentBuilding = 0f;
+    public float timeIdleBuilding = 0f;
     public bool isDocked;
     public bool producingUnits;
     public GameObject[] spawnables;
     public GameObject[] turrets;
+    public int turretQcount;
+    public int spawnableQcount;
     GameObject inProgress;
     TeamManager tm;
     //public string team;
@@ -104,6 +107,21 @@ public class CommandPost : MonoBehaviour
     }
     private void Update()
     {
-        
+        turretQcount = turretQ.Count;
+        spawnableQcount = spawnableQ.Count;
+
+        // Fuction for building spawnable units
+        if (spawnableQcount > 0)
+        {
+            if (turretQcount == 0)
+            {
+                timeIdleBuilding += Time.deltaTime;
+                if (timeIdleBuilding >= completionTime )
+                {
+                    timeIdleBuilding = 0f;
+                    BuildNextUnit();
+                }
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using UnityEngine;
 public class TurretAI : MonoBehaviour
 {
+    public CommandPost parentCPost;
     public GameObject weapon1Obj;
     public GameObject weapon2Obj;
     WeaponCore primary;
@@ -27,7 +28,7 @@ public class TurretAI : MonoBehaviour
     public float turnSpeed; // clamped 0-1
     public float range;
     public float fireRate; // shots per sec
-    public CommandPost parentCPost;
+
     TeamManager m_TM;
     Transform currentTarget;
     public float shotVelocityMult;
@@ -48,7 +49,7 @@ public class TurretAI : MonoBehaviour
         primary = primaryInst.GetComponent<WeaponCore>();
         secondary = secondaryInst.GetComponent<WeaponCore>();
         mytgtagt = GetComponent<NPCTargetingAgent>();
-        parentCPost = GetComponentInParent<CommandPost>();
+        
     }
     private void OnEnable()
     {
@@ -104,7 +105,7 @@ public class TurretAI : MonoBehaviour
     {
         // On turret disable, set back to neutral and reset targeting information
         currentTarget = null;
-        parentCPost.turretQ.Enqueue(this.gameObject);
+        parentCPost.turretQ.Enqueue(gameObject);
     }
 
 

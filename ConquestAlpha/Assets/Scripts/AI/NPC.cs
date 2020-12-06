@@ -45,10 +45,13 @@ public class NPC : GameUnit, IKillable
         primaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary);
         secondaryInstance = Instantiate<GameObject>(secondaryWep, mount_Secondary);
         InvokeRepeating("RefreshCurrentTarget", 0.5f, 0.5f);
+
+
     }
     void RefreshCurrentTarget()
     {
         curr_targ = ta.RequestClosestTarget();
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -60,8 +63,9 @@ public class NPC : GameUnit, IKillable
         {
             var enemyTargList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().inRange;
             var enemyHostileList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().hostiles;
-            var myTeam = GetComponent<TeamManager>().m_Team;
             var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
+            var myTeam = GetComponent<TeamManager>().m_Team;
+            
             if (enemyTargList.Contains(gameObject))
                 return;
 
@@ -70,6 +74,20 @@ public class NPC : GameUnit, IKillable
 
             if (!myTeam.Equals(eTeam))
                 enemyHostileList.Add(gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (name.Equals("TargetingArea"))
+        {
+
+            var enemyHostileList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().hostiles;
+            var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
+            var myTeam = GetComponent<TeamManager>().m_Team;
+
+            if (eTeam.Equals(myTeam))
+                enemyHostileList.Remove(gameObject);
         }
     }
 
@@ -88,11 +106,6 @@ public class NPC : GameUnit, IKillable
     {
         if (collision.gameObject.CompareTag("Bullet"))
             TakeDamage(collision.gameObject.GetComponent<Bullet>());
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
- 
     }
 
     public void TakeDamage(Bullet b)

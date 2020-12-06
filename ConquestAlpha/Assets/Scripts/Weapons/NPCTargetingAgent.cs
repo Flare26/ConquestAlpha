@@ -24,8 +24,7 @@ public class NPCTargetingAgent : MonoBehaviour
     private void OnEnable()
     {
         inRange = new List<GameObject>();
-        tm = GetComponentInParent<TeamManager>();
-        myTeam = tm.m_Team;
+        tm = GetComponent<TeamManager>();
 
         // Assess whether or not this agent will acquire targets for a turret, or NPC
         //Initialize based on what type of unit the target agent is on
