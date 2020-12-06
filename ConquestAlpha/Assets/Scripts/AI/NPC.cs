@@ -17,11 +17,15 @@ public class NPC : GameUnit, IKillable
     HoverController_AI driver;
     ParticlePlayer fxplayer;
     TeamManager tm;
-    NPCTargetingAgent ta;
+    NPCTargetingAgent tgtagt;
+    public Transform currNavpoint;
+    NavMeshAgent navAgent;
     private void Awake()
     {
         // Triggered when script is loaded into runtime
-        parentCPost = GetComponentInParent<CommandPost>();
+        TryGetComponent<CommandPost>(out parentCPost);
+        tgtagt = GetComponent<NPCTargetingAgent>();
+        navAgent = GetComponent<NavMeshAgent>();
 
         if (!TryGetComponent<HoverController_AI>(out driver))
             Debug.LogError("NPC Hover tank has no hover controller script! >" + gameObject.name );
@@ -31,7 +35,7 @@ public class NPC : GameUnit, IKillable
 
         if (!TryGetComponent<TeamManager>(out tm))
             Debug.LogError("NPC does not have a Team Manager! >" + gameObject.name);
-        if (!TryGetComponent<NPCTargetingAgent>(out ta))
+        if (!TryGetComponent<NPCTargetingAgent>(out tgtagt))
             Debug.LogError("NPC does not have a TargetingAgent! >" + gameObject.name);
     }
 
@@ -48,7 +52,7 @@ public class NPC : GameUnit, IKillable
     }
     void RefreshCurrentTarget()
     {
-        curr_targ = ta.RequestClosestTarget();
+        curr_targ = tgtagt.RequestClosestTarget();
         
     }
 
@@ -138,14 +142,21 @@ public class NPC : GameUnit, IKillable
 
     public void DeathRoutine()
     {
+        Debug.Log(name + " has died.");
         fxplayer.DeathFX();
         gameObject.SetActive(false);
+        // Clear targeting systems
+        //Debug.Log("Clearing tgtagt systems...");
+        tgtagt.inRange.Clear();
+        tgtagt.hostiles.Clear();
+
         if (spawn == null)
             return;
         else
             transform.position = spawn.position;
-
-        parentCPost.turretQ.Enqueue(this.gameObject);
+        
+        if (!parentCPost.Equals(null))
+            parentCPost.turretQ.Enqueue(gameObject);
     }
     private void FixedUpdate()
     {
@@ -154,11 +165,18 @@ public class NPC : GameUnit, IKillable
         {
             DeathRoutine();
         }
+        // Navigation
 
+        if (!currNavpoint.Equals(null))
+        {
+            navAgent.destination = currNavpoint.position;
+
+        }
         if (curr_targ != null)
         {
             //If there is a current target
-            
+            //navigation
+            navAgent.SetDestination(curr_targ.position);
             primaryInstance.GetComponent<WeaponCore>().CheckReload();
             secondaryInstance.GetComponent<WeaponCore>().CheckReload();
             primaryInstance.GetComponent<WeaponCore>().Fire();
@@ -167,5 +185,7 @@ public class NPC : GameUnit, IKillable
             Quaternion targetRotation = Quaternion.LookRotation(curr_targ.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turningRate * Time.deltaTime);
         }
+
+
     }
 }

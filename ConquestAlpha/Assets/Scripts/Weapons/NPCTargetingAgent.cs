@@ -66,7 +66,7 @@ public class NPCTargetingAgent : MonoBehaviour
             if (g.TryGetComponent<TeamManager>(out utm))
                 {
                 Team t = utm.m_Team;
-                Debug.Log("MY TEAM IS " + tm.m_Team + " THE inRange's TEAM IS " + t);
+                //Debug.Log("MY TEAM IS " + tm.m_Team + " THE inRange's TEAM IS " + t);
                     if (!utm.m_Team.Equals(tm.m_Team) && !hostiles.Contains(g))
                         hostiles.Add(g);
             }
@@ -117,19 +117,19 @@ public class NPCTargetingAgent : MonoBehaviour
 
             float dist_low = float.MaxValue;
             Transform close_targ = null;
+            List<int> idxs = new List<int>();
             for (int i = 0; i < hostiles.Count; i++)
             {
                 if (!hostiles[i].Equals(null))
                 {
-
-                    // if hostile is not active then remove it from list
-                    if (hostiles[i].activeSelf == false)
+                Transform t = hostiles[i].transform;
+                // if hostile is not active then remove it from list
+                if (hostiles[i].activeSelf == false)
                     {
                     Debug.Log("Removing inactives from NPC Targeting Agent");
-                    hostiles.RemoveAt(i);
-                    inRange.RemoveAt(i);
+                    idxs.Add(i);
                     }
-                    Transform t = hostiles[i].transform;
+                    
                     float dist_targ = Vector3.Distance(transform.position, t.transform.position);
                     if (dist_targ < dist_low )
                     {
@@ -139,6 +139,12 @@ public class NPCTargetingAgent : MonoBehaviour
 
                 }
             }
+
+            foreach (int idx in idxs)
+        {
+            hostiles.RemoveAt(idx);
+            inRange.RemoveAt(idx);
+        }
 
         return close_targ;
     }

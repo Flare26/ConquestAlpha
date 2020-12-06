@@ -12,8 +12,7 @@ public class CommandPost : MonoBehaviour
     public bool isCappable;
     
     public float completionTime; //seconds
-    public float timeSpentBuilding = 0f;
-    public float timeIdleBuilding = 0f;
+
     public bool isDocked;
     public bool producingUnits;
     public GameObject[] spawnables;
@@ -25,15 +24,17 @@ public class CommandPost : MonoBehaviour
     public int playersinme;
     public Queue<GameObject> turretQ;
     public Queue<GameObject> spawnableQ;
+    [Header("Live Timers")]
+    public float timeSpentBuilding = 0f;
+    public float timeIdleBuilding = 0f;
     // Start is called before the first frame update
     void Awake()
     {
         // Initialize
         turretQ = new Queue<GameObject>();
         spawnableQ = new Queue<GameObject>();
- 
         tm = GetComponent<TeamManager>();
-
+        isCappable = true;
         foreach (GameObject g in spawnables)
         {
             spawnableQ.Enqueue(g);
@@ -56,7 +57,7 @@ public class CommandPost : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //Debug.Log("Player is in a base");
-            playersinme++;
+           playersinme++;
            isDocked = true;
            isCappable = false; // Cannot capture a base when a player is inside it.
         }    
@@ -101,6 +102,8 @@ public class CommandPost : MonoBehaviour
         GameObject buildNext = turretQ.Dequeue();
         buildNext.SetActive(true);
         buildNext.GetComponent<TeamManager>().AssignTeam(tm.m_Team); // set team of the turret to the command post team
+        if (turretQ.Count == 0)
+            isCappable = true;
     }
 
     void BuildNextUnit()

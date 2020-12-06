@@ -140,7 +140,7 @@ public class PlayerManager : MonoBehaviour
         }
         else if (currentShield - indmg == 0)
         {
-            Debug.Log("Perfect Pop");
+            //Debug.Log("Perfect Pop");
             currentShield = 0;
             hasShield = false;
             particleManager.PopShield();

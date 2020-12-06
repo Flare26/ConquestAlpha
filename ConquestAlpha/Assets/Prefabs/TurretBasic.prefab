@@ -685,6 +685,7 @@ MonoBehaviour:
   teamLights:
   - {fileID: 2859555571122119461}
   m_Team: 2
+  isTgtable: 1
   mesh: {fileID: 0}
 --- !u!114 &570083334740291958
 MonoBehaviour:
@@ -701,6 +702,7 @@ MonoBehaviour:
   hostiles: []
   inRange: []
   targetingArea: {fileID: 6484167983645587215}
+  mode: 0
 --- !u!114 &7191052010400315699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,6 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b27f74b0c64bfd4590606d53338b4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCPost: {fileID: 0}
   weapon1Obj: {fileID: 5453322046799446820, guid: 8b14a43bf9c2ee74085029b8e1f81343,
     type: 3}
   weapon2Obj: {fileID: 5453322046799446820, guid: 8b14a43bf9c2ee74085029b8e1f81343,
@@ -726,9 +729,8 @@ MonoBehaviour:
   turretHP: 50
   dmg_Mod: 0
   turnSpeed: 1.5
-  range: 30
+  range: 60
   fireRate: 0.42
-  parentBase: {fileID: 0}
   shotVelocityMult: 1
 --- !u!65 &8565364514762616441
 BoxCollider:

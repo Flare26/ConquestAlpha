@@ -164,10 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869daac0bf6856a4ebbed345e8d4df76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCappable: 0
-  ownerName: 
-  completionTime: 1
-  timeSpentBuilding: 0
+  owner: {fileID: 0}
+  isCappable: 1
+  completionTime: 4
   isDocked: 0
   producingUnits: 0
   spawnables:
@@ -180,6 +179,9 @@ MonoBehaviour:
   - {fileID: 2725621653135211631}
   turretQcount: 0
   spawnableQcount: 0
+  playersinme: 0
+  timeSpentBuilding: 0
+  timeIdleBuilding: 0
 --- !u!1 &4978010960449287216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1058,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5726731593887544429, guid: 7bb8df36ebaf7e4409d6a91b105a6a7b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5726731593887544432, guid: 7bb8df36ebaf7e4409d6a91b105a6a7b,
         type: 3}
