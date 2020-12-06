@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms;
 // CURRENTLY CRASHES BECUASE ITS COUNTING BULLETS AS HOSTILES FOR SOME REASON
 public class NPCTargetingAgent : MonoBehaviour
 {
-    enum Mode
+    public enum Mode
     {
         NPC,
         Turret
@@ -18,8 +18,7 @@ public class NPCTargetingAgent : MonoBehaviour
     [SerializeField] public List<GameObject> inRange;
     [SerializeField] SphereCollider targetingArea;
     TeamManager tm;
-    Team myTeam = Team.Neutral;
-    Mode mode;
+    public Mode mode;
 
     private void OnEnable()
     {
@@ -52,7 +51,7 @@ public class NPCTargetingAgent : MonoBehaviour
 
     public void SetTeam(Team t)
     {
-        t = myTeam;
+        tm.m_Team = t;
     }
     // TurretRoutine and NPCRoutine both populate the hostiles list however they filter what gets added to it differently.
     private void TurretRoutine()
@@ -64,13 +63,16 @@ public class NPCTargetingAgent : MonoBehaviour
                 return;
 
             TeamManager utm;
-            if (g.tag.Equals("NPC") || g.tag.Equals("Player"))
-            {
-                if (g.TryGetComponent<TeamManager>(out utm))
+            if (g.TryGetComponent<TeamManager>(out utm))
                 {
-                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g))
+                Team t = utm.m_Team;
+                Debug.Log("MY TEAM IS " + tm.m_Team + " THE inRange's TEAM IS " + t);
+                    if (!utm.m_Team.Equals(tm.m_Team) && !hostiles.Contains(g))
                         hostiles.Add(g);
-                }
+            }
+            else
+            {
+                Debug.Log("No Team manager found on the inRange");
             }
         }
     }
@@ -88,7 +90,7 @@ public class NPCTargetingAgent : MonoBehaviour
             {
                 if ( g.TryGetComponent<TeamManager>(out utm) )
                 {
-                    if (!utm.m_Team.Equals(myTeam) && !hostiles.Contains(g))
+                    if (!utm.m_Team.Equals(tm.m_Team) && !hostiles.Contains(g))
                         hostiles.Add(g);
                 }
             }

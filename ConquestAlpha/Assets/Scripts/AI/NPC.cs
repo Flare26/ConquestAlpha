@@ -45,8 +45,6 @@ public class NPC : GameUnit, IKillable
         primaryInstance = Instantiate<GameObject>(primaryWep, mount_Primary);
         secondaryInstance = Instantiate<GameObject>(secondaryWep, mount_Secondary);
         InvokeRepeating("RefreshCurrentTarget", 0.5f, 0.5f);
-
-
     }
     void RefreshCurrentTarget()
     {
@@ -61,19 +59,17 @@ public class NPC : GameUnit, IKillable
 
         if (name.Equals("TargetingArea"))
         {
-            var enemyTargList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().inRange;
+            // modify the in range
+            var inrange = other.gameObject.GetComponentInParent<NPCTargetingAgent>().inRange;
             var enemyHostileList = other.gameObject.GetComponentInParent<NPCTargetingAgent>().hostiles;
             var eTeam = other.gameObject.GetComponentInParent<TeamManager>().m_Team;
-            var myTeam = GetComponent<TeamManager>().m_Team;
             
-            if (enemyTargList.Contains(gameObject))
+            if (inrange.Contains(gameObject))
                 return;
 
-            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + other.gameObject.name);
-            enemyTargList.Add(gameObject);
+            Debug.Log("Unit " + gameObject.name + " has moved into the targeting area of " + other.gameObject.transform.parent.name);
+            inrange.Add(gameObject);
 
-            if (!myTeam.Equals(eTeam))
-                enemyHostileList.Add(gameObject);
         }
     }
 

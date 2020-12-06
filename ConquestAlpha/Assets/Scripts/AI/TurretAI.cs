@@ -49,7 +49,7 @@ public class TurretAI : MonoBehaviour
         primary = primaryInst.GetComponent<WeaponCore>();
         secondary = secondaryInst.GetComponent<WeaponCore>();
         mytgtagt = GetComponent<NPCTargetingAgent>();
-        
+        mytgtagt.mode = NPCTargetingAgent.Mode.Turret;
     }
     private void OnEnable()
     {

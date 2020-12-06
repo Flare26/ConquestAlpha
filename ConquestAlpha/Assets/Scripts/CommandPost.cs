@@ -5,10 +5,12 @@ using UnityEngine;
 //Nathan Frazier
 public class CommandPost : MonoBehaviour
 {
+    public GameObject owner = null;
+
     //public GameObject curr_builder;
     LatticeLine lattice;
     public bool isCappable;
-    public string ownerName;
+    
     public float completionTime; //seconds
     public float timeSpentBuilding = 0f;
     public float timeIdleBuilding = 0f;
@@ -20,7 +22,7 @@ public class CommandPost : MonoBehaviour
     public int spawnableQcount;
     GameObject inProgress;
     TeamManager tm;
-    //public string team;
+    public int playersinme;
     public Queue<GameObject> turretQ;
     public Queue<GameObject> spawnableQ;
     // Start is called before the first frame update
@@ -53,8 +55,10 @@ public class CommandPost : MonoBehaviour
         // When there is a trigger enter, refresh the isCappable
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player is in a base");
-            isDocked = true;
+            //Debug.Log("Player is in a base");
+            playersinme++;
+           isDocked = true;
+           isCappable = false; // Cannot capture a base when a player is inside it.
         }    
     }
 
@@ -77,7 +81,7 @@ public class CommandPost : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-
+        playersinme--;
         if (!other.CompareTag("Player"))
             return;
 

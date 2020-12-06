@@ -43,14 +43,15 @@ public abstract class GameUnit : MonoBehaviour
     public List<GameObject> targetedBy;
     public bool hasShield;
     public float sinceLastDMG = 0f;
+    TeamManager TeamManager;
+
+    private void Awake()
+    {
+        TeamManager = GetComponent<TeamManager>();
+    }
     private void OnEnable()
     {
         // On enable set the correct team color
-        targetedBy = new List<GameObject>();
-
-
-        mount_Primary = transform.GetChild(0).transform;
-        mount_Secondary = transform.GetChild(2).transform;
 
         if (primaryWep != null)
         {

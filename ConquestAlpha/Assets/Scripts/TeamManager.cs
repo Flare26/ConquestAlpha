@@ -12,17 +12,12 @@ public enum Team
 public class TeamManager : MonoBehaviour
 {
 
-    public static List<GameObject> redTeam;
-    public static List<GameObject> blueTeam;
     public Light[] teamLights;
     public Team m_Team;
     [SerializeField] public bool isTgtable = true;
     [HideInInspector]public Renderer mesh = null;
     void Awake()
     {
-        //Initialize static lists
-        redTeam = new List<GameObject>();
-        blueTeam = new List<GameObject>();
     }
 
     private void OnEnable()
@@ -33,24 +28,6 @@ public class TeamManager : MonoBehaviour
     {
         Debug.Log("AssignTeam --> " + t);
         // Each time a team is assigned, it will check the static list
-        switch (m_Team)
-        {
-            case Team.Red:
-                if (blueTeam.Contains(this.gameObject))
-                {
-                    blueTeam.Remove(this.gameObject);
-                    redTeam.Add(this.gameObject);
-                }
-                break;
-
-            case Team.Blue:
-                if (redTeam.Contains(this.gameObject))
-                {
-                    redTeam.Remove(this.gameObject);
-                    blueTeam.Add(this.gameObject);
-                }
-                break;
-        }
 
         m_Team = t;
         NPCTargetingAgent agt;
