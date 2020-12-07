@@ -155,7 +155,7 @@ public class NPC : GameUnit, IKillable
         else
             transform.position = spawnXYZ;
         
-        if (!parentCPost.Equals(null))
+        if (parentCPost != null)
             parentCPost.turretQ.Enqueue(gameObject);
     }
     private void FixedUpdate()

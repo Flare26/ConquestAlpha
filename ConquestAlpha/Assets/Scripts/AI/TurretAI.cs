@@ -66,6 +66,7 @@ public class TurretAI : MonoBehaviour
         }
 
         InvokeRepeating("UpdateTarget", 0f, 0.42f); // This is called when the turret is "Built"
+        
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -6,7 +6,7 @@ using UnityEngine;
 public class CommandPost : MonoBehaviour
 {
     public GameObject owner = null;
-
+    TeamManager tm;
     //public GameObject curr_builder;
     LatticeLine lattice;
     public bool isCappable;
@@ -15,16 +15,18 @@ public class CommandPost : MonoBehaviour
 
     public bool isDocked;
     public bool producingUnits;
+
+    [Header("Loadout")]
     public GameObject[] spawnables;
     public GameObject[] turrets;
+
+    [Header("-Live Build Queues-")]
     public int turretQcount;
     public int spawnableQcount;
-    GameObject inProgress;
-    TeamManager tm;
-    public int playersinme;
     public Queue<GameObject> turretQ;
     public Queue<GameObject> spawnableQ;
-    [Header("Live Timers")]
+
+    [Header("-Live Timers-")]
     public float timeSpentBuilding = 0f;
     public float timeIdleBuilding = 0f;
     // Start is called before the first frame update
@@ -46,7 +48,7 @@ public class CommandPost : MonoBehaviour
             if (child.CompareTag("Turret"))
             {
                 child.gameObject.SetActive(false);
-                turretQ.Enqueue(child.gameObject);
+                //turretQ.Enqueue(child.gameObject);
             }
         }
     }
@@ -57,9 +59,8 @@ public class CommandPost : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //Debug.Log("Player is in a base");
-           playersinme++;
+
            isDocked = true;
-           isCappable = false; // Cannot capture a base when a player is inside it.
         }    
     }
 
@@ -71,18 +72,27 @@ public class CommandPost : MonoBehaviour
         {
             timeSpentBuilding += Time.deltaTime;
 
-            if (timeSpentBuilding >= completionTime && turretQ.Count > 0)
+            if (timeSpentBuilding >= completionTime && turretQ.Count > 0 && owner == null)
             {
+                // if the last turret was built and there are still turrets && NO OWNER (was neutral last frame)
+                owner = other.gameObject;
                 tm.m_Team = ptm.m_Team; // set the team for the command post equal to the team which the player is on, should they stay to build something
                 timeSpentBuilding = 0;
                 BuildNextTurret(ptm);
+                //if there's not already an owner, the other becomes the new owner.
+            } else if (timeSpentBuilding >= completionTime && turretQ.Count > 0 && owner != null)
+            {
+                if (owner.Equals(other.gameObject))
+                {
+                    timeSpentBuilding = 0;
+                    BuildNextTurret(ptm);
+                }
             }
 
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        playersinme--;
         if (!other.CompareTag("Player"))
             return;
 
@@ -95,7 +105,6 @@ public class CommandPost : MonoBehaviour
         isDocked = false;
 
     }
-
     void BuildNextTurret(TeamManager ptm)
     {
         Debug.Log("Building From Q");
@@ -114,6 +123,7 @@ public class CommandPost : MonoBehaviour
     }
     private void Update()
     {
+        //Refresh values
         turretQcount = turretQ.Count;
         spawnableQcount = spawnableQ.Count;
 
@@ -129,6 +139,16 @@ public class CommandPost : MonoBehaviour
                     BuildNextUnit();
                 }
             }
+        }
+
+        //Any frame that all 4 turrets are in queue means the base is open for capture.
+        if (turretQcount == 4)
+        {
+            owner = null;
+            isCappable = true;
+        } else
+        {
+            isCappable = false;
         }
     }
 }
