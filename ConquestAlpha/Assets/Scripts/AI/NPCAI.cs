@@ -41,11 +41,17 @@ public class NPCAI : MonoBehaviour
     public float rldTime = 1; // reload time in seconds
     public float rrld; // remainder reload time
     public float fireRate;
+    GameManager.UnitState state;
+
     private void OnEnable()
     {
+        // Hard code the state to following for testing purpose
+        state = GameManager.UnitState.Following;
+
         // On enable set the correct team color
         targetedBy = new List<GameObject>();
 
+        state = GameManager.UnitState.Attacking;
 
         mount_Primary = transform.GetChild(0).transform;
         mount_Secondary = transform.GetChild(2).transform;
@@ -65,8 +71,9 @@ public class NPCAI : MonoBehaviour
             Debug.Log("NAV ERROR: Please attach NavMeshAgent to " + gameObject.name);
         }
         else
-            SetDestination();
+            UpdateDestination();
         InvokeRepeating("UpdateTarget", 0, 0.42f);
+        InvokeRepeating("UpdateDestination", 0, 0.42f);
     }
 
     void RefreshMeshColor()
@@ -179,7 +186,7 @@ public class NPCAI : MonoBehaviour
         //Debug.Log(gameObject.name + " took dmg " + b.dmg);
     }
 
-    private void SetDestination()
+    private void UpdateDestination()
     {
         if (destination != null)
         {
@@ -188,6 +195,10 @@ public class NPCAI : MonoBehaviour
             navAgent.Warp(transform.position);
             //navAgent.SetDestination(targetVector);
         }
+        
+            navAgent.stoppingDistance = 3;
+            navAgent.SetDestination(GameManager.GetPlayerPos(0));
+
     }
 
     void RegenShield()
@@ -235,6 +246,14 @@ public class NPCAI : MonoBehaviour
         tm -= Time.deltaTime; // fire rate will decrement regardless of having a target
     }
 
+    private void AttackRoutine()
+    {
+        // each lane should have an array of turrets for each team. 2d array, left lane team 1 turrets are found under lane0[0][x] team 2 turrets are found lane0[1][x]
+        // these are static turrets not including base turrets
+
+        // set target to this.lane
+    }
+
     private void DeathRoutine()
     {
 
@@ -263,6 +282,9 @@ public class NPCAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        
+
         if (primaryInstance != null)
         {
             primaryInstance.transform.position = p_FP.position;
@@ -273,5 +295,12 @@ public class NPCAI : MonoBehaviour
         {
             shieldFX.transform.position = this.transform.position;
         }
+
+        switch (state)
+        {
+            case GameManager.UnitState.Attacking:
+                break;
+        }
+ 
     }
 }

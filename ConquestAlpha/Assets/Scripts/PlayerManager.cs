@@ -31,6 +31,7 @@ public class PlayerManager : MonoBehaviour
     public float sinceLastDMG = 0f;
     bool hasShield = false;
     // Start is called before the first frame update
+
     void OnEnable()
     {
         hasShield = true;
