@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
-        
+
     }
     private void Awake()
     {
@@ -32,13 +32,13 @@ public class GameManager : MonoBehaviour
     {
         int slot = 1;
 
-        GameObject [] s = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] s = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (GameObject player in s)
         {
             var pm = player.GetComponent<PlayerManager>();
             pm.playerNumber = slot;
-            slot ++;
+            slot++;
         }
 
         int playerCount = s.Length;
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("The Game Has Started!!");
 
         //eventually have the 2d players array represent each team but for now hard coede
-        
+
 
     }
 
