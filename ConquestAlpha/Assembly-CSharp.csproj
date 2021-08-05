@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Projectiles\SniperBullet.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCamController.cs" />
     <Compile Include="Assets\Scripts\Weapons\PlayerTA.cs" />
+    <Compile Include="Assets\Scripts\GameManager_DEMO.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RepeaterBullet.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\IBuildable.cs" />
@@ -85,7 +86,8 @@
     <Compile Include="Assets\Scripts\IKillable.cs" />
     <Compile Include="Assets\Scripts\Classes\RepeaterClass.cs" />
     <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
-    <Compile Include="Assets\Scripts\GameManager_DEMO.cs" />
+    <Compile Include="Assets\Scripts\Weapons\v2\WepV2.cs" />
+    <Compile Include="Assets\Scripts\Weapons\v2\WepStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sample Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
