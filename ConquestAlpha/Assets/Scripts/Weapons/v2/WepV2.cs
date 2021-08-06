@@ -10,16 +10,17 @@ public class WepV2 : MonoBehaviour
 
     public WepSpec stats; // Scriptable Object!
     public GameObject projectile;
-    public float reloadTime;
-    public int clipSize;
-    public int clipCurrent;
-    public int dps; //damage per shot
-    public float timeBetweenShot;
+    
+    private float reloadTime;
+    private int clipSize;
+    private int clipCurrent;
+    private int dps; //damage per shot
+    private float timeBetweenShot;
     public bool reloading = false;
     public Transform[] firePoints;
-    public bool holdToShoot;
-    public bool readyToShoot;
-    public bool shooting;
+    private bool holdToShoot;
+    private bool readyToShoot;
+    private bool shooting;
     private int bulletsShot;
     private int bulletsPerTap;
     private int activeFP;
@@ -30,6 +31,7 @@ public class WepV2 : MonoBehaviour
         Debug.Log("Loaded weapon prefab: " + stats.wepName);
         ammo = GameObject.Find("AmmoTXT").GetComponent<Text>();
         rld = GameObject.Find("RldTXT").GetComponent<Text>();
+        
     }
     private void OnEnable()
     {
@@ -39,6 +41,7 @@ public class WepV2 : MonoBehaviour
         dps = stats.dps;
         timeBetweenShot = stats.timeBetweenShot;
         holdToShoot = stats.allowHoldToShoot;
+        name = stats.wepName;
         readyToShoot = true;
     }
 
@@ -77,13 +80,16 @@ public class WepV2 : MonoBehaviour
             Shoot();
             Debug.Log("Pew!");
         }
-        
+        // Auto Reload
+        if (shooting && clipCurrent == 0 && !reloading)
+            Reload();
+
     }
 
     private void Shoot()
     {
 
-        
+        readyToShoot = false;
         // Rotate through multiple firepoints
         if ( activeFP < firePoints.Length - 1)
         {

@@ -10,7 +10,8 @@ public class HoverController : MonoBehaviour
     float m_deadZone = 0.1f;
 
     [SerializeField] public float m_fwardAcl = 100.0f;
-    
+    public bool isBoosting = false;
+    public bool canBoost = true;
     public float m_bwardAcl = 25.0f;
     float m_currThrust = 0.0f;
     float m_baseAclFWD;
@@ -26,7 +27,6 @@ public class HoverController : MonoBehaviour
     public float m_hoverHeight = 2.0f;
     public GameObject[] m_hoverPoints;
     private int m_currStrafe;
-    bool isBoosting = false;
     private void Awake()
     {
         GetComponent<Rigidbody>().centerOfMass = centerOMass;
@@ -75,7 +75,7 @@ public class HoverController : MonoBehaviour
 
         // Boosting
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && canBoost)
         {
             //Debug.Log("Boostio!");
             isBoosting = true;

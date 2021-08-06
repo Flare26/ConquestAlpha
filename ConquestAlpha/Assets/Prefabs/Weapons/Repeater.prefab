@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_WepName: 
-  projectile: {fileID: 1667101032445687302, guid: 6917b53378aed7a4aa34a620de9b3d24,
+  projectile: {fileID: 1667101032445687302, guid: 8c2c7c3b08aadeb45880adf021eb98cf,
     type: 3}
   firepoint: {fileID: 738832683668842509}
   shotVelocityMult: 1
@@ -274,9 +274,7 @@ MonoBehaviour:
   firePoints:
   - {fileID: 738832683668842509}
   - {fileID: 7634980169405123062}
-  holdToShoot: 0
   readyToShoot: 0
-  shooting: 0
 --- !u!1 &6017542124942454084
 GameObject:
   m_ObjectHideFlags: 0

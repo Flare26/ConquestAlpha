@@ -6,7 +6,20 @@ using UnityEngine.UI;
 //Nathan Frazier
 public class PlayerManager : MonoBehaviour
 {
+    // UI
+    [Header("UI References")]
+    // Sliders
     [SerializeField] Slider hpSlider;
+    [SerializeField] Slider shSlider;
+    [SerializeField] Slider boostSlider;
+    // Texts
+    [SerializeField] Text speedometer;
+    [SerializeField] Text hpPrintout;
+    [SerializeField] Text shPrintout;
+    [SerializeField] Text boostPrintout;
+    [SerializeField] Text wep0Name;
+    [SerializeField] Text wep1Name;
+    [Header("Other")]
     public int playerNumber = 0;
     public int currentHull;
     public float currentShield;
@@ -21,7 +34,19 @@ public class PlayerManager : MonoBehaviour
     public Transform wep1Mount;
     public static Quaternion defaultAim;
     PlayerParticles particleManager;
+    HoverController hvcon;
     public float sinceLastDMG = 0f;
+    Rigidbody rb;
+
+
+
+    // Boost
+    public float sinceLastBoost = 0f;
+    public float boostRechargeRate;
+    public float boostChargeDelay;
+    public float currentBoostEnergy;
+    public float maxBoostEnergy;
+
     bool hasShield = false;
     // weapon instances
     GameObject i0;
@@ -37,12 +62,17 @@ public class PlayerManager : MonoBehaviour
         currentShield = maxShield;
         hpSlider.maxValue = maxHull;
         hpSlider.value = currentHull;
-
+        shSlider.maxValue = maxShield;
+        shSlider.value = currentShield;
+        boostSlider.value = currentBoostEnergy;
+        boostSlider.maxValue = maxBoostEnergy;
         //give the proper stats based on the class script this player is using
         //Change the glow color of your hitbox
         var glowLight = transform.Find("TeamLight");
         Light glowColor = glowLight.GetComponent<Light>();
         particleManager = GetComponent<PlayerParticles>();
+        hvcon = GetComponent<HoverController>();
+        rb = GetComponent<Rigidbody>();
         switch (GetComponent<TeamManager>().m_Team)
         {
             //assign by team
@@ -61,9 +91,17 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (weapon0)
+        {
             i0 = Instantiate(weapon0, wep0Mount);
+            wep0Name.text = i0.GetComponent<WepV2>().name;
+        }
+
         if (weapon1)
+        {
             i1 = Instantiate(weapon1, wep1Mount);
+            wep1Name.text = i1.GetComponent<WepV2>().name;
+        }
+            
         //defaultAim = primaryBulletSpawn.transform.rotation;
     }
 
@@ -114,7 +152,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Bullet b)
+    private void TakeDamage(Bullet b)
     {
         var indmg = b.m_dmg;
         sinceLastDMG = 0;
@@ -174,8 +212,41 @@ public class PlayerManager : MonoBehaviour
             hasShield = true;
         }
     }
+    private void UpdateUI()
+    {
+        speedometer.text = rb.velocity.ToString();
+        hpSlider.value = currentHull;
+        shSlider.value = currentShield;
+        boostSlider.value = currentBoostEnergy;
+        shPrintout.text = "["+Mathf.RoundToInt(shSlider.value)+"/"+maxShield+"]";
+        hpPrintout.text = "[" + Mathf.RoundToInt(hpSlider.value) + "/" + maxHull + "]";
+        boostPrintout.text = "[" + Mathf.RoundToInt(currentBoostEnergy) + "/" + boostSlider.maxValue + "]";
+    }
     private void Update()
     {
+        // Methods dependant on delta time
+        CheckBoostEnergy();
         CheckShieldCharge();
+        UpdateUI();
+    }
+
+    private void CheckBoostEnergy()
+    {
+        if (!hvcon.isBoosting)
+        {
+            sinceLastBoost += Time.deltaTime;
+            if (currentBoostEnergy < maxBoostEnergy && sinceLastBoost > boostChargeDelay)
+                currentBoostEnergy += Time.deltaTime * boostRechargeRate;
+        }
+        else
+        {
+            sinceLastBoost = 0;
+            currentBoostEnergy -= Time.deltaTime;
+        }
+
+        if (currentBoostEnergy <= 0)
+            hvcon.canBoost = false;
+        else if (currentBoostEnergy > 0)
+            hvcon.canBoost = true;
     }
 }
