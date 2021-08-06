@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WepV2 : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public WepStats stats; // Scriptable Object!
+    public WepSpec stats; // Scriptable Object!
     public GameObject projectile;
     public float reloadTime;
     public int clipSize;
@@ -22,8 +23,15 @@ public class WepV2 : MonoBehaviour
     private int bulletsShot;
     private int bulletsPerTap;
     private int activeFP;
-
+    private Text ammo;
+    private Text rld;
     private void Start()
+    {
+        Debug.Log("Loaded weapon prefab: " + stats.wepName);
+        ammo = GameObject.Find("AmmoTXT").GetComponent<Text>();
+        rld = GameObject.Find("RldTXT").GetComponent<Text>();
+    }
+    private void OnEnable()
     {
         reloadTime = stats.reloadTime;
         clipSize = stats.ammo_clipSize;
@@ -31,9 +39,8 @@ public class WepV2 : MonoBehaviour
         dps = stats.dps;
         timeBetweenShot = stats.timeBetweenShot;
         holdToShoot = stats.allowHoldToShoot;
-        Debug.Log("Loaded weapon prefab: " + stats.wepName);
+        readyToShoot = true;
     }
-
 
     public bool Reload()
     {
@@ -55,9 +62,12 @@ public class WepV2 : MonoBehaviour
     void WepControls()
     {
         // Weapon controls
-        if (holdToShoot) shooting = Input.GetKey(KeyCode.Mouse0);
-        else shooting = Input.GetKeyDown(KeyCode.Mouse0);
-
+        if (holdToShoot)
+            shooting = Input.GetKey(KeyCode.Mouse0);
+          
+        else 
+            shooting = Input.GetKeyDown(KeyCode.Mouse0);
+        Debug.Log(shooting);
         if (Input.GetKeyDown(KeyCode.R) && clipCurrent < clipSize && !reloading) Reload();
 
         //Shoot
@@ -65,8 +75,9 @@ public class WepV2 : MonoBehaviour
         {
             bulletsShot = bulletsPerTap;
             Shoot();
+            Debug.Log("Pew!");
         }
-
+        
     }
 
     private void Shoot()
@@ -74,7 +85,7 @@ public class WepV2 : MonoBehaviour
 
         
         // Rotate through multiple firepoints
-        if ( activeFP < firePoints.Length)
+        if ( activeFP < firePoints.Length - 1)
         {
             activeFP++;
         } else
@@ -85,15 +96,32 @@ public class WepV2 : MonoBehaviour
         // Instantiate bullet at the active firepoint
         Instantiate(projectile, firePoints[activeFP].position, transform.rotation);
 
-        clipSize--;
-
+        clipCurrent--;
+        bulletsShot--;
         Invoke("ResetShot", timeBetweenShot);
         if (bulletsShot > 0 && clipCurrent > 0)
             Invoke("Shoot", timeBetweenShot);
     }
 
+    public void ResetShot()
+    {
+        readyToShoot = true;
+    }
     void Update()
     {
+        ammo.text = "[" +clipCurrent+"/"+ clipSize+"]";
+        if (reloading)
+        {
+            rld.enabled = true;
+            ammo.enabled = false;
+        } else
+        {
+            rld.enabled = false;
+            ammo.enabled = true;
+        }
+            
+
+
             WepControls();
     }
 }

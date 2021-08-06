@@ -263,18 +263,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: f7a10c22416b5354298cad3db828ad98, type: 2}
-  projectile: {fileID: 0}
-  reloadTime: 0
-  clipSize: 0
-  clipCurrent: 0
-  dps: 0
-  timeBetweenShot: 0
+  projectile: {fileID: 1667101032445687302, guid: 6917b53378aed7a4aa34a620de9b3d24,
+    type: 3}
+  reloadTime: 2
+  clipSize: 30
+  clipCurrent: 30
+  dps: 1
+  timeBetweenShot: 0.5
   reloading: 0
   firePoints:
   - {fileID: 738832683668842509}
   - {fileID: 7634980169405123062}
   holdToShoot: 0
-  readyToShoot: 1
+  readyToShoot: 0
   shooting: 0
 --- !u!1 &6017542124942454084
 GameObject:

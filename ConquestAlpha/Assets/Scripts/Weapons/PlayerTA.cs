@@ -127,7 +127,7 @@ public class PlayerTA : MonoBehaviour
             }
             else
         {
-            Debug.Log("Lock is null!");
+            //Debug.Log("Lock is null!");
             trackingReticle.enabled = false;
         }
 
