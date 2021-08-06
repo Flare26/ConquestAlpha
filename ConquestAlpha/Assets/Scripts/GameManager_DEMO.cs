@@ -9,7 +9,7 @@ public class GameManager_DEMO : MonoBehaviour
     public int preptime;
     public int maxtime;
     public float matchtime = 0f;
-
+    bool started = false;
     // Start is called before the first frame update
 
     public enum UnitState
@@ -49,6 +49,7 @@ public class GameManager_DEMO : MonoBehaviour
 
     void StartGame()
     {
+        started = true;
         Debug.Log("The Game Has Started!!");
 
         //eventually have the 2d players array represent each team but for now hard coede
@@ -65,7 +66,7 @@ public class GameManager_DEMO : MonoBehaviour
     private void Update()
     {
         matchtime += Time.deltaTime;
-        if (matchtime > 0)
+        if (matchtime > 0 && !started)
         {
             StartGame();
         }

@@ -31,8 +31,6 @@ public class PlayerTA : MonoBehaviour
         inRange = new List<GameObject>();
         InvokeRepeating("TargetingTick", 0.25f, 0.25f);
         trackingReticle.enabled = false;
-        pbs = GetComponent<PlayerManager>().primaryBulletSpawn;
-        sbs = GetComponent<PlayerManager>().secondaryBulletSpawn;
     }
 
 
@@ -131,8 +129,6 @@ public class PlayerTA : MonoBehaviour
         {
             Debug.Log("Lock is null!");
             trackingReticle.enabled = false;
-            GetComponent<PlayerManager>().primaryBulletSpawn.rotation = gameObject.transform.rotation;
-            GetComponent<PlayerManager>().secondaryBulletSpawn.rotation = gameObject.transform.rotation;
         }
 
             

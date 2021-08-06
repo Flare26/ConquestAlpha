@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee71ded3556955b4c98b8a72fb0682fb, type: 3}
   m_Name: Repeater
   m_EditorClassIdentifier: 
+  wepName: Repeater
+  projectile: {fileID: 1667101032445687302, guid: 6917b53378aed7a4aa34a620de9b3d24,
+    type: 3}
   reloadTime: 0
   timeBetweenShot: 0
-  ammo_max: 0
-  ammo_current: 0
+  ammo_clipSize: 0
+  ammo_clipCurrent: 0
   dps: 0
   reloading: 0
+  allowHoldToShoot: 0

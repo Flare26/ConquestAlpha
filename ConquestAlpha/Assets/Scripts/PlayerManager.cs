@@ -14,22 +14,18 @@ public class PlayerManager : MonoBehaviour
     public int maxShield;
     public float shieldRate;
     public float shieldDelay;
-    public int pps; // projectile per second
-    public GameObject weapon1Obj;
-    public GameObject weapon2Obj;
-    
-    public Transform primaryBulletSpawn;
-    public Transform secondaryBulletSpawn;
-    GameObject primaryInst;
-    GameObject secondaryInst;
-    
+    public GameObject weapon0;
+    public GameObject weapon1;
     public List<GameObject> targetedBy = new List<GameObject>();
-    public Transform primaryMount;
-    public Transform secondaryMount;
+    public Transform wep0Mount;
+    public Transform wep1Mount;
     public static Quaternion defaultAim;
     PlayerParticles particleManager;
     public float sinceLastDMG = 0f;
     bool hasShield = false;
+    // weapon instances
+    GameObject i0;
+    GameObject i1;
     // Start is called before the first frame update
 
     void OnEnable()
@@ -64,10 +60,10 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
 
-        primaryInst = Instantiate<GameObject>(weapon1Obj, primaryMount);
-        secondaryInst = Instantiate<GameObject>(weapon2Obj, secondaryMount);
-        primaryBulletSpawn = primaryInst.transform.Find("FP"); // find firepoints inside the instance
-        secondaryBulletSpawn = secondaryInst.transform.Find("FP");
+        if (weapon0)
+            i0 = Instantiate(weapon0, wep0Mount);
+        if (weapon1)
+            i1 = Instantiate(weapon1, wep1Mount);
         //defaultAim = primaryBulletSpawn.transform.rotation;
     }
 
@@ -181,13 +177,5 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         CheckShieldCharge();
-
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            primaryInst.GetComponent<WeaponCore>().CheckReload();
-            secondaryInst.GetComponent<WeaponCore>().CheckReload();
-            primaryInst.GetComponent<WeaponCore>().Fire();
-            secondaryInst.GetComponent<WeaponCore>().Fire();
-        }
     }
 }
