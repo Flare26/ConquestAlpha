@@ -15,17 +15,21 @@ public class WepV2 : MonoBehaviour
     private int clipSize;
     private int clipCurrent;
     private int dps; //damage per shot
-    private float timeBetweenShot;
+    private float curr_fireRate;
     public bool reloading = false;
     public Transform[] firePoints;
     private bool holdToShoot;
     private bool readyToShoot;
-    private bool shooting;
+    private bool shooting0;
+    private bool shooting1;
     private int bulletsShot;
     private int bulletsPerTap;
     private int activeFP;
     private Text ammo;
     private Text rld;
+    public float spinupTime;
+    public float maxFireRate;
+    private float curr_spinup;
     private void Start()
     {
         Debug.Log("Loaded weapon prefab: " + stats.wepName);
@@ -39,7 +43,7 @@ public class WepV2 : MonoBehaviour
         clipSize = stats.ammo_clipSize;
         clipCurrent = clipSize;
         dps = stats.dps;
-        timeBetweenShot = stats.timeBetweenShot;
+        curr_fireRate = stats.timeBetweenShot;
         holdToShoot = stats.allowHoldToShoot;
         name = stats.wepName;
         readyToShoot = true;
@@ -60,28 +64,37 @@ public class WepV2 : MonoBehaviour
     {
         clipCurrent = clipSize;
         reloading = false;
+        curr_spinup = spinupTime;
     }
 
     void WepControls()
     {
-        // Weapon controls
+        // MOVE this over to player manager and make it work
+        // Weapon controls is called within update
         if (holdToShoot)
-            shooting = Input.GetKey(KeyCode.Mouse0);
+        {
+            shooting0 = Input.GetKey(KeyCode.Mouse0);
+            shooting1 = Input.GetKey(KeyCode.Mouse1);
+        }
+
           
-        else 
-            shooting = Input.GetKeyDown(KeyCode.Mouse0);
-        Debug.Log(shooting);
+        else
+        {
+            shooting0 = Input.GetKeyDown(KeyCode.Mouse0);
+            shooting1 = Input.GetKeyDown(KeyCode.Mouse1);
+        }
+        //Debug.Log(shooting0);
         if (Input.GetKeyDown(KeyCode.R) && clipCurrent < clipSize && !reloading) Reload();
 
         //Shoot
-        if (readyToShoot && shooting && !reloading && clipCurrent > 0)
+        if (readyToShoot && shooting0 && !reloading && clipCurrent > 0)
         {
             bulletsShot = bulletsPerTap;
             Shoot();
             Debug.Log("Pew!");
         }
         // Auto Reload
-        if (shooting && clipCurrent == 0 && !reloading)
+        if (shooting0 && clipCurrent == 0 && !reloading)
             Reload();
 
     }
@@ -104,9 +117,9 @@ public class WepV2 : MonoBehaviour
 
         clipCurrent--;
         bulletsShot--;
-        Invoke("ResetShot", timeBetweenShot);
+        Invoke("ResetShot", curr_fireRate);
         if (bulletsShot > 0 && clipCurrent > 0)
-            Invoke("Shoot", timeBetweenShot);
+            Invoke("Shoot", curr_fireRate);
     }
 
     public void ResetShot()

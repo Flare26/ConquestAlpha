@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wepName: E-LMG
   reloadTime: 4
-  timeBetweenShot: 0.3
-  ammo_clipSize: 120
+  timeBetweenShot: 0.2
+  ammo_clipSize: 60
   ammo_clipCurrent: 0
   dps: 1
   reloading: 0
