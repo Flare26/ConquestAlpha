@@ -53,79 +53,54 @@
     <UnityVersion>2020.3.15f2</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AI\HoverController_AI.cs" />
-    <Compile Include="Assets\Scripts\Classes\GameUnit.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\Volume Clouds\Camera2WorldSM.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\SetRenderQueue.cs" />
     <Compile Include="Assets\Scripts\CamController2.cs" />
     <Compile Include="Assets\Scripts\Weapons\v2\WepSpec.cs" />
     <Compile Include="Assets\Scripts\Weapons\RepeaterWEP.cs" />
-    <Compile Include="Assets\Scripts\Classes\LatticeLine.cs" />
-    <Compile Include="Assets\Scripts\HQManager.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V4.9.2 Scripts\infiniteParticleLifeSM.cs" />
     <Compile Include="Assets\Scripts\ParticlePlayer.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\PlayerParticles.cs" />
-    <Compile Include="Assets\Scripts\Projectiles\Bullet.cs" />
     <Compile Include="Assets\Scripts\Projectiles\SniperBullet.cs" />
     <Compile Include="Assets\Scripts\ThirdpersonCamController.cs" />
-    <Compile Include="Assets\Scripts\Weapons\v2\WepV2.cs" />
-    <Compile Include="Assets\Scripts\Weapons\PlayerTA.cs" />
     <Compile Include="Assets\Scripts\GameManager_DEMO.cs" />
-    <Compile Include="Assets\Scripts\Projectiles\RepeaterBullet.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
-    <Compile Include="Assets\Scripts\IBuildable.cs" />
     <Compile Include="Assets\Scripts\AI\NPCAI.cs" />
     <Compile Include="Assets\Scripts\AI\AttackState.cs" />
     <Compile Include="Assets\Scripts\CommandPost.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
-    <Compile Include="Assets\Scripts\ParticleAgent.cs" />
     <Compile Include="Assets\Scripts\HoverControl\HoverController.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\offsetUVsSM.cs" />
     <Compile Include="Assets\Scripts\AI\NPC.cs" />
-    <Compile Include="Assets\Scripts\Classes\PlayerUnit.cs" />
     <Compile Include="Assets\Scripts\UIComponent.cs" />
-    <Compile Include="Assets\Scripts\Classes\IRespawnable.cs" />
-    <Compile Include="Assets\Scripts\AI\TurretAI.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V1.0 Scripts\Particle Dynamics\PerlinSKYMASTER.cs" />
     <Compile Include="Assets\Scripts\Weapons\WeaponCore.cs" />
-    <Compile Include="Assets\Scripts\Weapons\NPCTargetingAgent.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V1.0 Scripts\ChainLightning_SKYMASTER.cs" />
     <Compile Include="Assets\Scripts\IKillable.cs" />
     <Compile Include="Assets\Scripts\Classes\RepeaterClass.cs" />
-    <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetUtils.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetEndPoint.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetThread.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetDataWriter.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetPacket.cs" />
-    <Compile Include="Assets\ConsolePro\ConsoleProDebug.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\ReliableChannel.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetManager.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetDataReader.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NatPunchModule.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\SimpleChannel.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\INetEventListener.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetPacketPool.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetPeerCollection.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetSerializer.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NtpSyncModule.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\FastBitConverter.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\SequencedChannel.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetPeer.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetDebug.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\ConsoleProRemoteServer.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetConstants.cs" />
-    <Compile Include="Assets\ConsolePro\Remote\LiteNetLib\NetSocket.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\Volume Clouds\Camera2WorldSM.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V3.5 Scripts\Chain Lightning\ChainLightningShuriken_SM.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\SetRenderQueue.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\Volume Clouds\VolumeParticleShadePDM.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V1.0 Scripts\Particle Dynamics\PerlinSKYMASTER.cs" />
     <Compile Include="Assets\SkyMaster\Scripts\V1.0 Scripts\Helper scripts\MouseLookSKYMASTER.cs" />
-    <Compile Include="Assets\Samples\High Definition RP\7.3.1\Procedural Sky\Runtime\ProceduralSky\ProceduralSky.cs" />
-    <Compile Include="Assets\Samples\High Definition RP\7.3.1\Procedural Sky\Runtime\ProceduralSky\ProceduralSkyRenderer.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\offsetUVsSM.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V1.0 Scripts\ChainLightning_SKYMASTER.cs" />
     <Compile Include="Assets\SkyMaster\Scripts\V3.4 Scripts\CloudHandlerSM_SRP.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\VolumeCloudsScriptingTemplate.cs" />
-    <Compile Include="Assets\SkyMaster\Scripts\V4.9.2 Scripts\infiniteParticleLifeSM.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Loadout.cs" />
     <Compile Include="Assets\SkyMaster\Scripts\V1.0 Scripts\Helper scripts\Circle_Around_ParticleSKYMASTER.cs" />
+    <Compile Include="Assets\Scripts\AI\HoverController_AI.cs" />
+    <Compile Include="Assets\Scripts\Classes\GameUnit.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\Volume Clouds\VolumeParticleShadePDM.cs" />
+    <Compile Include="Assets\Scripts\Classes\LatticeLine.cs" />
+    <Compile Include="Assets\Scripts\HQManager.cs" />
+    <Compile Include="Assets\Scripts\Projectiles\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Weapons\v2\WepV2.cs" />
+    <Compile Include="Assets\Scripts\Weapons\PlayerTA.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\V3.5 Scripts\Chain Lightning\ChainLightningShuriken_SM.cs" />
+    <Compile Include="Assets\Scripts\Projectiles\RepeaterBullet.cs" />
+    <Compile Include="Assets\Scripts\IBuildable.cs" />
     <Compile Include="Assets\SkyMaster\Scripts\V3.0 Scripts\ParticleShadows\ParticleShadowsSM.cs" />
+    <Compile Include="Assets\Scripts\ParticleAgent.cs" />
+    <Compile Include="Assets\Scripts\Classes\PlayerUnit.cs" />
+    <Compile Include="Assets\SkyMaster\Scripts\VolumeCloudsScriptingTemplate.cs" />
+    <Compile Include="Assets\Scripts\Classes\IRespawnable.cs" />
+    <Compile Include="Assets\Scripts\AI\TurretAI.cs" />
+    <Compile Include="Assets\Scripts\Weapons\NPCTargetingAgent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\SkyMaster\Scripts\V3.4 Scripts\ShaderVolumeClouds\ShaderVolumeCloudsSMV3.4b SM30 v3.4.4_VORTEX.shader" />
@@ -138,8 +113,6 @@
     <None Include="Assets\SkyMaster\Scripts\V3.4 Scripts\ShaderVolumeClouds\ShaderVolumeCloudsSMV3.4b SM30 v3.4.4 VORTEX Shader Only Mode.shader" />
     <None Include="Assets\SkyMaster\README.txt" />
     <None Include="Assets\SkyMaster\Scripts\V3.4 Scripts\ShaderVolumeClouds\ShaderVolumeCloudsSMV3.4b SM30 v3.4.4_CURVED.shader" />
-    <None Include="Assets\ARTnGAME\SkyMasterHDRP\Assets\Version 2.0\Shaders\Water\Refraction 2_FADE SM.shader" />
-    <None Include="Assets\Samples\High Definition RP\7.3.1\Procedural Sky\Runtime\ProceduralSky\Resources\ProceduralSky.shader" />
     <None Include="Assets\SkyMaster\Assets\HDRP SHADOWS\SHADOWS_TRANSP_UNLIT_CLOUDS_VORTEX.shader" />
     <None Include="Assets\Sample Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
   </ItemGroup>
@@ -714,14 +687,14 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.15f2\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
@@ -729,14 +702,17 @@
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Searcher.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
@@ -747,8 +723,41 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
